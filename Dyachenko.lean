@@ -323,6 +323,65 @@ def type3_x (p offset : ℕ) : ℕ := (p + offset) / 4
 
     Reference: arXiv:2511.07465, Theorems 9.21 and 10.21
 -/
+/-! ### Auxiliary lemmas for the main theorem -/
+
+/-- For p ≡ 1 (mod 4), there exists α such that (α+1) is a unit mod g(p,α).
+    This uses the existence of a square root of -1 mod p. -/
+lemma exists_alpha_unit (p : ℕ) (hp : Nat.Prime p) (hp_mod : p % 4 = 1) (hp_ge : p ≥ 5) :
+    ∃ α : ℤ, IsUnit (((α + 1 : ℤ) : ZMod (g p α))) := by
+  -- For p ≡ 1 (mod 4), -1 is a quadratic residue mod p.
+  -- Choose α = i where i² ≡ -1 (mod p).
+  -- Then g(p, α) = gcd(p, |α² + 1|) = gcd(p, 0) = p or a divisor.
+  -- The key is that (α + 1) ≢ 0 (mod g(p, α)).
+  sorry
+
+/-- The diagonal (d,d) lies in L(p,α) when d = g(p,α). -/
+lemma diag_in_lattice (p : ℕ) (α : ℤ) :
+    ((g p α : ℤ), (g p α : ℤ)) ∈ Lattice p α := by
+  simp only [Lattice, AddSubgroup.mem_mk, Set.mem_setOf_eq, linForm]
+  -- Need: g(p,α) | α * g(p,α) + g(p,α) = g(p,α) * (α + 1)
+  exact dvd_mul_right (g p α : ℤ) (α + 1)
+
+/-- Build the QuotientCyclicOfDiag structure from our infrastructure. -/
+lemma quotient_cyclic_of_lattice (p : ℕ) (α : ℤ) (hp : Nat.Prime p)
+    (hunit : IsUnit (((α + 1 : ℤ) : ZMod (g p α)))) :
+    QuotientCyclicOfDiag (Lattice p α) (g p α) := by
+  refine ⟨?d_pos, ?diag_mem, ?order_eq, ?card_eq⟩
+  case d_pos =>
+    -- g(p, α) = gcd(p, |α²+1|) > 0 since p > 0
+    exact Nat.gcd_pos_left p (Int.natAbs (α^2 + 1))
+  case diag_mem =>
+    exact diag_in_lattice p α
+  case card_eq =>
+    exact card_quotient p α
+  case order_eq =>
+    -- From hunit and diag_generates_of_isUnit, diagQuot generates the quotient.
+    -- In a finite cyclic group, a generator has order = card.
+    have hgen := diag_generates_of_isUnit p α hunit
+    -- diagElem (Lattice p α) = diagQuot p α by definition
+    have hcard : Nat.card (Q (Lattice p α)) = g p α := card_quotient p α
+    -- If zmultiples x = ⊤ in a finite group, then addOrderOf x = card
+    sorry
+
+/-- Decode a lattice point to Type III parameters.
+    Given (u, v) ∈ L(p,α) with 1 ≤ u, v ≤ (p+3)/4, produce valid (offset, c). -/
+lemma decode_lattice_point_to_type3 (p : ℕ) (hp : Nat.Prime p)
+    (hp_mod : p % 4 = 1) (hp_ge : p ≥ 5)
+    (u v : ℤ) (hu_pos : 1 ≤ u) (hv_pos : 1 ≤ v)
+    (hu_bound : u ≤ (p + 3) / 4) (hv_bound : v ≤ (p + 3) / 4) :
+    ∃ offset c : ℕ,
+      offset % 4 = 3 ∧
+      c > 0 ∧
+      (4 * c - 1) * offset > p ∧
+      ((4 * c - 1) * offset - p) ∣ (4 * type3_x p offset * c * p) := by
+  -- The decoding follows Dyachenko's ED2 construction:
+  -- b = 4u - 1, c = 4v - 1
+  -- δ = ((4u-1)(4v-1) - 1) / (4p)
+  -- A = bc/δ
+  -- offset = 4A - p
+  -- The divisibility condition follows from ED2_identity.
+  sorry
+
 theorem dyachenko_type3_existence (p : ℕ) (hp : Nat.Prime p)
     (hp_mod : p % 4 = 1) (hp_ge : p ≥ 5) :
     ∃ offset c : ℕ,
@@ -331,17 +390,40 @@ theorem dyachenko_type3_existence (p : ℕ) (hp : Nat.Prime p)
       (4 * c - 1) * offset > p ∧
       ((4 * c - 1) * offset - p) ∣ (4 * type3_x p offset * c * p) := by
   classical
-  -- The full proof requires choosing α as a quadratic non-residue mod p
-  -- and showing that the rectangle [1, (p+3)/4] × [1, (p+3)/4] intersects L(p,α).
-  -- The decoded (b, c) from the intersection point give valid Type III parameters.
-  --
-  -- This is proven in Dyachenko (2025), Theorems 9.21 and 10.21.
-  -- The formal proof requires additional infrastructure for:
-  -- - Quadratic residues and non-residues
-  -- - Fintype instances for quotient groups
-  -- - Careful bookkeeping of positivity and bounds
-  --
-  -- We leave this as sorry, citing the published result.
-  sorry
+
+  /- STEP 1: Choose α with the unit property -/
+  obtain ⟨α, hunit⟩ := exists_alpha_unit p hp hp_mod hp_ge
+
+  /- STEP 2: Build the Fintype instance for the quotient -/
+  haveI : Fintype ((ℤ × ℤ) ⧸ Lattice p α) :=
+    Fintype.ofEquiv (ZMod (g p α)) (quotientEquivZMod p α).symm.toEquiv
+
+  /- STEP 3: Build the QuotientCyclicOfDiag structure -/
+  have hcyc : QuotientCyclicOfDiag (Lattice p α) (g p α) :=
+    quotient_cyclic_of_lattice p α hp hunit
+
+  /- STEP 4: Apply rectangle intersection -/
+  -- The rectangle [1, (p+3)/4] × [1, (p+3)/4] has side length ≥ g(p,α)
+  -- since g(p,α) ≤ p and (p+3)/4 > p/4 for large enough p.
+  let d := g p α
+  let boxSize := (p + 3) / 4
+
+  -- For the rectangle theorem, we need boxSize ≥ d
+  have hbox_ge : boxSize ≥ d := by
+    -- This requires showing g(p,α) ≤ (p+3)/4
+    -- Since g(p,α) | p and p is prime, g(p,α) ∈ {1, p}
+    -- If g(p,α) = p, we need p ≤ (p+3)/4, false for p ≥ 5
+    -- So we need g(p,α) = 1 or careful case analysis
+    sorry
+
+  obtain ⟨pt, hptL, hx0, hx1, hy0, hy1⟩ :=
+    rectangle_hits_diagonal_lattice (Lattice p α) d hcyc
+      (x₀ := 1) (y₀ := 1) (w := boxSize) (h := boxSize)
+      hbox_ge hbox_ge
+
+  /- STEP 5: Decode the lattice point to Type III parameters -/
+  exact decode_lattice_point_to_type3 p hp hp_mod hp_ge pt.1 pt.2 hx0 hy0
+    (by linarith : pt.1 ≤ (p + 3) / 4)
+    (by linarith : pt.2 ≤ (p + 3) / 4)
 
 end Dyachenko
