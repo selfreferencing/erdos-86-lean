@@ -320,18 +320,19 @@ theorem ED2_identity {P A b c δ : ℚ}
 /-- Type III x formula -/
 def type3_x (p offset : ℕ) : ℕ := (p + offset) / 4
 
-/-- Dyachenko (2025): For every prime p ≡ 1 (mod 4), Type III parameters exist.
+/-
+  Dyachenko (2025): For every prime p ≡ 1 (mod 4), Type III parameters exist.
 
-    This is the main theorem that eliminates the axiom. The proof uses:
-    1. Lattice L(p, α) with quotient isomorphic to ZMod(g(p,α))
-    2. Rectangle intersection to find a lattice point
-    3. Decoding to ED2 parameters
-    4. ED2 algebraic identity
+  This is the main theorem that eliminates the axiom. The proof uses:
+  1. Lattice L(p, α) with quotient isomorphic to ZMod(g(p,α))
+  2. Rectangle intersection to find a lattice point
+  3. Decoding to ED2 parameters
+  4. ED2 algebraic identity
 
-    Reference: arXiv:2511.07465, Theorems 9.21 and 10.21
+  Reference: arXiv:2511.07465, Theorems 9.21 and 10.21
+
+  ### Auxiliary lemmas for the main theorem ###
 -/
-
--- ### Auxiliary lemmas for the main theorem ###
 
 /-- For p ≡ 1 (mod 4), there exists α such that (α+1) is a unit mod g(p,α).
     This uses the existence of a square root of -1 mod p. -/
