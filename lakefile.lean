@@ -14,3 +14,6 @@ lean_lib ErdosStraus where
 
 lean_lib Zeroless where
   roots := #[`Zeroless]
+
+lean_lib Dyachenko where
+  roots := #[`Dyachenko]
