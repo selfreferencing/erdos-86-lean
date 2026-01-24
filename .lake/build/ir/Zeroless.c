@@ -1,6 +1,6 @@
 // Lean compiler output
 // Module: Zeroless
-// Imports: public import Init public import Mathlib.NumberTheory.Padics.PadicVal.Basic public import Mathlib.NumberTheory.Padics.PadicVal.Defs public import Mathlib.Data.ZMod.Basic public import Mathlib.Tactic
+// Imports: public import Init public import Mathlib.NumberTheory.Padics.PadicVal.Basic public import Mathlib.NumberTheory.Padics.PadicVal.Defs public import Mathlib.Data.ZMod.Basic public import Mathlib.Data.Nat.Totient public import Mathlib.FieldTheory.Finite.Basic public import Mathlib.Tactic
 #include <lean/lean.h>
 #if defined(__clang__)
 #pragma clang diagnostic ignored "-Wunused-parameter"
@@ -119,10 +119,8 @@ lean_object* lp_mathlib_ZMod_commRing(lean_object*);
 static uint8_t lp_erdos__straus__stage5_Zeroless_range__201__300___nativeDecide__1__1___closed__0;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__341;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__100___closed__0;
-LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__6;
 static lean_object* lp_erdos__straus__stage5_Zeroless_instReprState_repr___closed__5;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__96;
-LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__5;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__101;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__62___closed__0;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__395;
@@ -238,7 +236,6 @@ LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__ze
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__30___closed__0;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__371;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__316;
-static lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__0;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__352___closed__0;
 uint8_t lp_mathlib_ZMod_decidableEq(lean_object*, lean_object*, lean_object*);
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__127;
@@ -410,7 +407,6 @@ static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_has__zero__10___nativeDecide__1__1;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__29;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__237___closed__0;
-LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0(lean_object*);
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__89;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__221___closed__0;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__244___closed__0;
@@ -691,7 +687,6 @@ static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__18___closed__0;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__106;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__251;
-LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0(lean_object*);
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__218;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__48;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__185___closed__0;
@@ -738,7 +733,6 @@ LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Zeroless_period___boxed(lean_o
 static lean_object* lp_erdos__straus__stage5_Zeroless_instReprState_repr___closed__1;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__22___closed__0;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__165;
-static lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__0;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_zeroless__86___nativeDecide__1__1;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__198;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__390;
@@ -752,7 +746,6 @@ LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Zeroless_State_s1_elim(lean_ob
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__168___closed__0;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__196;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__232;
-LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__7;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__270;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__363___closed__0;
 LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Zeroless_State_toCtorIdx___boxed(lean_object*);
@@ -772,7 +765,6 @@ static lean_object* lp_erdos__straus__stage5_Zeroless_instReprState_repr___close
 uint8_t lean_nat_dec_eq(lean_object*, lean_object*);
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__50___closed__0;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__263___closed__0;
-static lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__1;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__81___closed__0;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__77___closed__0;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__352;
@@ -881,7 +873,6 @@ static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__321;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__141;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__211___closed__0;
-static lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__1;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__214;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__119;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__343;
@@ -959,11 +950,9 @@ LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__ze
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__212;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__385___closed__0;
 LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Zeroless_verifyRange___boxed(lean_object*, lean_object*);
-static lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__0;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__132___closed__0;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__365___closed__0;
 static lean_object* lp_erdos__straus__stage5_Zeroless_instReprState___closed__0;
-LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__8;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__52___closed__0;
 lean_object* l_instDecidableEqNat___boxed(lean_object*, lean_object*);
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__314___closed__0;
@@ -978,7 +967,6 @@ static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___
 static lean_object* lp_erdos__straus__stage5_Zeroless_zerolessList___closed__13;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__262;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__104___closed__0;
-static lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__1;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__333___closed__0;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__278;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__272___closed__0;
@@ -1026,7 +1014,6 @@ static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__385;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__121___closed__0;
 static uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__259___closed__0;
-LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0(lean_object*);
 static lean_object* lp_erdos__straus__stage5_Zeroless_zerolessList___closed__28;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_all__87__to__500__have__zero___nativeDecide__1__407;
 LEAN_EXPORT uint8_t lp_erdos__straus__stage5_Zeroless_isZerolessResidue(lean_object*);
@@ -10726,209 +10713,6 @@ lean_dec(x_1);
 return x_3;
 }
 }
-static uint8_t _init_lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__5() {
-_start:
-{
-lean_object* x_1; lean_object* x_2; lean_object* x_3; lean_object* x_4; lean_object* x_5; lean_object* x_6; lean_object* x_7; lean_object* x_8; lean_object* x_9; lean_object* x_10; uint8_t x_11; 
-x_1 = lean_unsigned_to_nat(5u);
-x_2 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__2__mod__5__ne__one___nativeDecide__1__1_spec__0___closed__0;
-x_3 = lean_ctor_get(x_2, 0);
-lean_inc_ref(x_3);
-x_4 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__2__mod__5__ne__one___nativeDecide__1__1_spec__0___closed__1;
-x_5 = lean_ctor_get(x_4, 1);
-lean_inc_ref(x_5);
-x_6 = lean_ctor_get(x_3, 3);
-lean_inc(x_6);
-lean_dec_ref(x_3);
-x_7 = lean_ctor_get(x_5, 2);
-lean_inc(x_7);
-lean_dec_ref(x_5);
-x_8 = lp_erdos__straus__stage5_Zeroless_pow2__1__mod__5__ne__one___nativeDecide__1__1___closed__0;
-x_9 = lean_unsigned_to_nat(4u);
-x_10 = lean_apply_2(x_6, x_9, x_8);
-x_11 = lp_mathlib_ZMod_decidableEq(x_1, x_10, x_7);
-lean_dec(x_7);
-lean_dec(x_10);
-return x_11;
-}
-}
-static lean_object* _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__0() {
-_start:
-{
-lean_object* x_1; lean_object* x_2; 
-x_1 = lean_unsigned_to_nat(25u);
-x_2 = lp_mathlib_ZMod_commRing(x_1);
-return x_2;
-}
-}
-static lean_object* _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__1() {
-_start:
-{
-lean_object* x_1; lean_object* x_2; 
-x_1 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__0;
-x_2 = lp_mathlib_Ring_toAddGroupWithOne___redArg(x_1);
-return x_2;
-}
-}
-LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0(lean_object* x_1) {
-_start:
-{
-lean_object* x_2; lean_object* x_3; lean_object* x_4; lean_object* x_5; 
-x_2 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__1;
-x_3 = lean_ctor_get(x_2, 1);
-lean_inc_ref(x_3);
-x_4 = lean_ctor_get(x_3, 0);
-lean_inc(x_4);
-lean_dec_ref(x_3);
-x_5 = lean_apply_1(x_4, x_1);
-return x_5;
-}
-}
-static uint8_t _init_lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__6() {
-_start:
-{
-lean_object* x_1; lean_object* x_2; lean_object* x_3; lean_object* x_4; lean_object* x_5; lean_object* x_6; lean_object* x_7; lean_object* x_8; lean_object* x_9; lean_object* x_10; lean_object* x_11; uint8_t x_12; 
-x_1 = lean_unsigned_to_nat(25u);
-x_2 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__0;
-x_3 = lean_ctor_get(x_2, 0);
-lean_inc_ref(x_3);
-x_4 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__1;
-x_5 = lean_ctor_get(x_4, 1);
-lean_inc_ref(x_5);
-x_6 = lean_ctor_get(x_3, 3);
-lean_inc(x_6);
-lean_dec_ref(x_3);
-x_7 = lean_ctor_get(x_5, 2);
-lean_inc(x_7);
-lean_dec_ref(x_5);
-x_8 = lean_unsigned_to_nat(2u);
-x_9 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0(x_8);
-x_10 = lean_unsigned_to_nat(20u);
-x_11 = lean_apply_2(x_6, x_10, x_9);
-x_12 = lp_mathlib_ZMod_decidableEq(x_1, x_11, x_7);
-lean_dec(x_7);
-lean_dec(x_11);
-return x_12;
-}
-}
-static lean_object* _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__0() {
-_start:
-{
-lean_object* x_1; lean_object* x_2; 
-x_1 = lean_unsigned_to_nat(125u);
-x_2 = lp_mathlib_ZMod_commRing(x_1);
-return x_2;
-}
-}
-static lean_object* _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__1() {
-_start:
-{
-lean_object* x_1; lean_object* x_2; 
-x_1 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__0;
-x_2 = lp_mathlib_Ring_toAddGroupWithOne___redArg(x_1);
-return x_2;
-}
-}
-LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0(lean_object* x_1) {
-_start:
-{
-lean_object* x_2; lean_object* x_3; lean_object* x_4; lean_object* x_5; 
-x_2 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__1;
-x_3 = lean_ctor_get(x_2, 1);
-lean_inc_ref(x_3);
-x_4 = lean_ctor_get(x_3, 0);
-lean_inc(x_4);
-lean_dec_ref(x_3);
-x_5 = lean_apply_1(x_4, x_1);
-return x_5;
-}
-}
-static uint8_t _init_lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__7() {
-_start:
-{
-lean_object* x_1; lean_object* x_2; lean_object* x_3; lean_object* x_4; lean_object* x_5; lean_object* x_6; lean_object* x_7; lean_object* x_8; lean_object* x_9; lean_object* x_10; lean_object* x_11; uint8_t x_12; 
-x_1 = lean_unsigned_to_nat(125u);
-x_2 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__0;
-x_3 = lean_ctor_get(x_2, 0);
-lean_inc_ref(x_3);
-x_4 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__1;
-x_5 = lean_ctor_get(x_4, 1);
-lean_inc_ref(x_5);
-x_6 = lean_ctor_get(x_3, 3);
-lean_inc(x_6);
-lean_dec_ref(x_3);
-x_7 = lean_ctor_get(x_5, 2);
-lean_inc(x_7);
-lean_dec_ref(x_5);
-x_8 = lean_unsigned_to_nat(2u);
-x_9 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0(x_8);
-x_10 = lean_unsigned_to_nat(100u);
-x_11 = lean_apply_2(x_6, x_10, x_9);
-x_12 = lp_mathlib_ZMod_decidableEq(x_1, x_11, x_7);
-lean_dec(x_7);
-lean_dec(x_11);
-return x_12;
-}
-}
-static lean_object* _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__0() {
-_start:
-{
-lean_object* x_1; lean_object* x_2; 
-x_1 = lean_unsigned_to_nat(625u);
-x_2 = lp_mathlib_ZMod_commRing(x_1);
-return x_2;
-}
-}
-static lean_object* _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__1() {
-_start:
-{
-lean_object* x_1; lean_object* x_2; 
-x_1 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__0;
-x_2 = lp_mathlib_Ring_toAddGroupWithOne___redArg(x_1);
-return x_2;
-}
-}
-LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0(lean_object* x_1) {
-_start:
-{
-lean_object* x_2; lean_object* x_3; lean_object* x_4; lean_object* x_5; 
-x_2 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__1;
-x_3 = lean_ctor_get(x_2, 1);
-lean_inc_ref(x_3);
-x_4 = lean_ctor_get(x_3, 0);
-lean_inc(x_4);
-lean_dec_ref(x_3);
-x_5 = lean_apply_1(x_4, x_1);
-return x_5;
-}
-}
-static uint8_t _init_lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__8() {
-_start:
-{
-lean_object* x_1; lean_object* x_2; lean_object* x_3; lean_object* x_4; lean_object* x_5; lean_object* x_6; lean_object* x_7; lean_object* x_8; lean_object* x_9; lean_object* x_10; lean_object* x_11; uint8_t x_12; 
-x_1 = lean_unsigned_to_nat(625u);
-x_2 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__0;
-x_3 = lean_ctor_get(x_2, 0);
-lean_inc_ref(x_3);
-x_4 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__1;
-x_5 = lean_ctor_get(x_4, 1);
-lean_inc_ref(x_5);
-x_6 = lean_ctor_get(x_3, 3);
-lean_inc(x_6);
-lean_dec_ref(x_3);
-x_7 = lean_ctor_get(x_5, 2);
-lean_inc(x_7);
-lean_dec_ref(x_5);
-x_8 = lean_unsigned_to_nat(2u);
-x_9 = lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0(x_8);
-x_10 = lean_unsigned_to_nat(500u);
-x_11 = lean_apply_2(x_6, x_10, x_9);
-x_12 = lp_mathlib_ZMod_decidableEq(x_1, x_11, x_7);
-lean_dec(x_7);
-lean_dec(x_11);
-return x_12;
-}
-}
 LEAN_EXPORT lean_object* lp_erdos__straus__stage5_Zeroless_maxRejectionLevel(lean_object* x_1) {
 _start:
 {
@@ -11157,6 +10941,8 @@ lean_object* initialize_Init(uint8_t builtin);
 lean_object* initialize_mathlib_Mathlib_NumberTheory_Padics_PadicVal_Basic(uint8_t builtin);
 lean_object* initialize_mathlib_Mathlib_NumberTheory_Padics_PadicVal_Defs(uint8_t builtin);
 lean_object* initialize_mathlib_Mathlib_Data_ZMod_Basic(uint8_t builtin);
+lean_object* initialize_mathlib_Mathlib_Data_Nat_Totient(uint8_t builtin);
+lean_object* initialize_mathlib_Mathlib_FieldTheory_Finite_Basic(uint8_t builtin);
 lean_object* initialize_mathlib_Mathlib_Tactic(uint8_t builtin);
 static bool _G_initialized = false;
 LEAN_EXPORT lean_object* initialize_erdos__straus__stage5_Zeroless(uint8_t builtin) {
@@ -11173,6 +10959,12 @@ res = initialize_mathlib_Mathlib_NumberTheory_Padics_PadicVal_Defs(builtin);
 if (lean_io_result_is_error(res)) return res;
 lean_dec_ref(res);
 res = initialize_mathlib_Mathlib_Data_ZMod_Basic(builtin);
+if (lean_io_result_is_error(res)) return res;
+lean_dec_ref(res);
+res = initialize_mathlib_Mathlib_Data_Nat_Totient(builtin);
+if (lean_io_result_is_error(res)) return res;
+lean_dec_ref(res);
+res = initialize_mathlib_Mathlib_FieldTheory_Finite_Basic(builtin);
 if (lean_io_result_is_error(res)) return res;
 lean_dec_ref(res);
 res = initialize_mathlib_Mathlib_Tactic(builtin);
@@ -12169,22 +11961,6 @@ lp_erdos__straus__stage5_Zeroless_second__level__check___nativeDecide__1__1 = _i
 lp_erdos__straus__stage5_Zeroless_third__level__check___nativeDecide__1__1___closed__0 = _init_lp_erdos__straus__stage5_Zeroless_third__level__check___nativeDecide__1__1___closed__0();
 lean_mark_persistent(lp_erdos__straus__stage5_Zeroless_third__level__check___nativeDecide__1__1___closed__0);
 lp_erdos__straus__stage5_Zeroless_third__level__check___nativeDecide__1__1 = _init_lp_erdos__straus__stage5_Zeroless_third__level__check___nativeDecide__1__1();
-lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__5 = _init_lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__5();
-lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__0 = _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__0();
-lean_mark_persistent(lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__0);
-lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__1 = _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__1();
-lean_mark_persistent(lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__6_spec__0___closed__1);
-lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__6 = _init_lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__6();
-lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__0 = _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__0();
-lean_mark_persistent(lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__0);
-lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__1 = _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__1();
-lean_mark_persistent(lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__7_spec__0___closed__1);
-lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__7 = _init_lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__7();
-lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__0 = _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__0();
-lean_mark_persistent(lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__0);
-lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__1 = _init_lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__1();
-lean_mark_persistent(lp_erdos__straus__stage5_Nat_cast___at___00Zeroless_pow2__period__mod__5k___nativeDecide__1__8_spec__0___closed__1);
-lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__8 = _init_lp_erdos__straus__stage5_Zeroless_pow2__period__mod__5k___nativeDecide__1__8();
 lp_erdos__straus__stage5_Zeroless_all__covered__500___nativeDecide__1__1___closed__0 = _init_lp_erdos__straus__stage5_Zeroless_all__covered__500___nativeDecide__1__1___closed__0();
 lp_erdos__straus__stage5_Zeroless_all__covered__500___nativeDecide__1__1 = _init_lp_erdos__straus__stage5_Zeroless_all__covered__500___nativeDecide__1__1();
 return lean_io_result_mk_ok(lean_box(0));

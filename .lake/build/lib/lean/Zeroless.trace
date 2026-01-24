@@ -1,15 +1,13 @@
 {"synthetic": false,
  "schemaVersion": "2025-09-10",
  "outputs":
- {"o": ["4f97edb096bebedf.olean"],
-  "i": "75101bd0a8187f88.ilean",
-  "c": "daadaecf565ab831.c"},
+ {"o": ["e7e743f44c13ad93.olean"],
+  "i": "eebb6a5411c5867f.ilean",
+  "c": "21923e54625c1138.c"},
  "log":
  [{"message":
    ".> LEAN_PATH=/Users/kvallie2/Desktop/esc_stage8/.lake/packages/Cli/.lake/build/lib/lean:/Users/kvallie2/Desktop/esc_stage8/.lake/packages/batteries/.lake/build/lib/lean:/Users/kvallie2/Desktop/esc_stage8/.lake/packages/Qq/.lake/build/lib/lean:/Users/kvallie2/Desktop/esc_stage8/.lake/packages/aesop/.lake/build/lib/lean:/Users/kvallie2/Desktop/esc_stage8/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/kvallie2/Desktop/esc_stage8/.lake/packages/importGraph/.lake/build/lib/lean:/Users/kvallie2/Desktop/esc_stage8/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/Users/kvallie2/Desktop/esc_stage8/.lake/packages/plausible/.lake/build/lib/lean:/Users/kvallie2/Desktop/esc_stage8/.lake/packages/mathlib/.lake/build/lib/lean:/Users/kvallie2/Desktop/esc_stage8/.lake/build/lib/lean /Users/kvallie2/.elan/toolchains/leanprover--lean4---v4.27.0-rc1/bin/lean /Users/kvallie2/Desktop/esc_stage8/Zeroless.lean -o /Users/kvallie2/Desktop/esc_stage8/.lake/build/lib/lean/Zeroless.olean -i /Users/kvallie2/Desktop/esc_stage8/.lake/build/lib/lean/Zeroless.ilean -c /Users/kvallie2/Desktop/esc_stage8/.lake/build/ir/Zeroless.c --setup /Users/kvallie2/Desktop/esc_stage8/.lake/build/ir/Zeroless.setup.json --json",
-   "level": "trace"},
-  {"message": "Zeroless.lean:346:8: declaration uses 'sorry'",
-   "level": "warning"}],
+   "level": "trace"}],
  "inputs":
  [["Zeroless:deps",
    [["deps",
@@ -27,6 +25,12 @@
         ["Mathlib.Data.ZMod.Basic transitive imports (legacy)",
          "e126e4d1beb30a7f"],
         ["Mathlib.Data.ZMod.Basic:importAllArts", "49e0f1f352f20878"],
+        ["Mathlib.Data.Nat.Totient transitive imports (legacy)",
+         "8806426be14c11f0"],
+        ["Mathlib.Data.Nat.Totient:importAllArts", "68aa3896340ab2a4"],
+        ["Mathlib.FieldTheory.Finite.Basic transitive imports (legacy)",
+         "dbc29c268bea412b"],
+        ["Mathlib.FieldTheory.Finite.Basic:importAllArts", "4cc57b9d5f5d3ae4"],
         ["Mathlib.Tactic transitive imports (legacy)", "9cb1866122e88a7b"],
         ["Mathlib.Tactic:importAllArts", "0209ac24249486bd"]]]]],
     ["libs",
@@ -36,7 +40,7 @@
       ["module plugins", "00000000000006bb"]]]]],
   ["Lean 4.27.0, commit 2fcce7258eeb6e324366bc25f9058293b04b7547",
    "6f43b597efea5d4c"],
-  ["/Users/kvallie2/Desktop/esc_stage8/Zeroless.lean", "2964814cf81d1875"],
+  ["/Users/kvallie2/Desktop/esc_stage8/Zeroless.lean", "105d7d0e6231ebc4"],
   ["options", "00000000000006bb"],
   ["Module.leanArgs: #[]", "00000000000006bb"]],
- "depHash": "43587fb782bcd303"}
+ "depHash": "fd600d38b2b4deb5"}

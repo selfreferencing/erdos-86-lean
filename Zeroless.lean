@@ -14,6 +14,8 @@
 import Mathlib.NumberTheory.Padics.PadicVal.Basic
 import Mathlib.NumberTheory.Padics.PadicVal.Defs
 import Mathlib.Data.ZMod.Basic
+import Mathlib.Data.Nat.Totient
+import Mathlib.FieldTheory.Finite.Basic
 import Mathlib.Tactic
 
 namespace Zeroless
@@ -342,26 +344,39 @@ theorem firstK_implies_hasZero (n k : ℕ) (_hk : k ≤ (Nat.digits 10 (2^n)).le
   obtain ⟨d, hd_mem, hd_zero⟩ := h
   exact ⟨d, List.mem_of_mem_take hd_mem, hd_zero⟩
 
-/-- 2^(period k) ≡ 1 (mod 5^k) -/
+/-- φ(5^k) = 4 × 5^(k-1) = period k -/
+theorem totient_5_pow (k : ℕ) (hk : k ≥ 1) : (5^k).totient = period k := by
+  have hkpos : 0 < k := Nat.succ_le_iff.mp hk
+  have hprime : Nat.Prime 5 := by decide
+  rw [Nat.totient_prime_pow hprime hkpos]
+  simp only [period]
+  ring
+
+/-- 2 is coprime to 5^k -/
+theorem coprime_2_pow5 (k : ℕ) : Nat.Coprime 2 (5^k) := by
+  have h : Nat.Coprime 2 5 := by decide
+  exact h.pow_right k
+
+/-- 2^(period k) ≡ 1 (mod 5^k) via Euler's theorem -/
 theorem pow2_period_mod_5k (k : ℕ) (hk : k ≥ 1) :
     (2 : ZMod (5^k))^(period k) = 1 := by
-  -- period k = 4 * 5^(k-1) = ord_{5^k}(2) by LTE
-  -- So 2^(period k) = 1 in ZMod (5^k)
-  cases k with
-  | zero => omega
-  | succ k' =>
-    simp only [period]
-    -- For small k, verify computationally
-    match k' with
-    | 0 => native_decide  -- k = 1: 2^4 ≡ 1 (mod 5)
-    | 1 => native_decide  -- k = 2: 2^20 ≡ 1 (mod 25)
-    | 2 => native_decide  -- k = 3: 2^100 ≡ 1 (mod 125)
-    | 3 => native_decide  -- k = 4: 2^500 ≡ 1 (mod 625)
-    | _ =>
-      -- Higher k: follows from LTE lemma:
-      -- ν₅(2^(4·5^(k-1)) - 1) = k, so ord_{5^k}(2) = 4·5^(k-1) = period k
-      -- Not needed for main theorem (uses complete_coverage axiom)
-      sorry
+  -- period k = φ(5^k), so by Euler's theorem, 2^(period k) ≡ 1
+  have hcop := coprime_2_pow5 k
+  have htot := totient_5_pow k hk
+  -- Use ZMod.pow_totient: for unit u, u^φ(n) = 1
+  let u : (ZMod (5^k))ˣ := ZMod.unitOfCoprime 2 hcop
+  have hu : u ^ ((5^k).totient) = 1 := ZMod.pow_totient u
+  -- Coerce back to ZMod
+  have hu' : (2 : ZMod (5^k)) ^ ((5^k).totient) = 1 := by
+    have hval : (u : ZMod (5^k)) = 2 := ZMod.coe_unitOfCoprime 2 hcop
+    calc (2 : ZMod (5^k)) ^ ((5^k).totient)
+        = (u : ZMod (5^k)) ^ ((5^k).totient) := by rw [hval]
+      _ = ((u ^ ((5^k).totient) : (ZMod (5^k))ˣ) : ZMod (5^k)) := by
+          simp only [Units.val_pow_eq_pow_val]
+      _ = (1 : (ZMod (5^k))ˣ) := by rw [hu]
+      _ = 1 := Units.val_one
+  rw [← htot]
+  exact hu'
 
 /-- If n ≡ m (mod period k), then 2^n ≡ 2^m (mod 5^k) -/
 theorem pow2_cong_mod_5k (n m k : ℕ) (hk : k ≥ 1) (_hn : n ≥ period k) (_hm : m ≥ period k)
@@ -568,30 +583,31 @@ def allCoveredUpTo (maxN _maxLevel : ℕ) : Bool :=
 /-- Computational verification that all n in [87, 500] have zeros -/
 theorem all_covered_500 : allCoveredUpTo 500 10 = true := by native_decide
 
-/-! ## Analytical Framework -/
+/-! ## The 86 Conjecture -/
 
-/-- Every residue class is eventually rejected.
+/-- The 86 Conjecture (Conj86): For all n > 86, 2^n contains digit 0.
 
-This is the core analytical axiom. Its justification:
+**Status**: OPEN PROBLEM in mathematics.
+- Verified computationally to n = 2,500,000,000 (Guy's Unsolved Problems)
+- No proof exists
 
-1. **Survivor Recurrence**: S_{k+1} = (9/2) S_k where S_k = survivors at level k
-   - Verified computationally: S_1=4, S_2=18, S_3=81, S_4=364, S_5=1638
-   - Ratio S_{k+1}/S_k = 4.5 = 9/2 for all verified levels
+**Why this cannot be derived from our framework**:
+- The survivor recurrence S_{k+1} = (9/2)S_k shows density → 0, but density 0 ≠ empty
+- Schroeppel (HAKMEM) proved: ∀N, ∃n with last N digits of 2^n having no zeros
+- Lavrov proved: ∀k, ∃ power of 2 with first k AND last k digits all 1s or 2s
+- So rejection position is UNBOUNDED - no constant or c·log(n) bound is known
 
-2. **Survival Fraction**: S_k / period(k) = 0.9^(k-1) → 0 as k → ∞
-   - Coverage = 1 - 0.9^(k-1) → 1
+**This axiom is equivalent to the 86 conjecture itself**:
+- complete_coverage → Conj86: instantiate at n = r
+- Conj86 → complete_coverage: pick any k, the premise is vacuously satisfied
 
-3. **Rejection Mechanism**: At each level, 1/10 of remaining survivors are rejected
-   - Half in state s₀, of which 1/5 hit digits 0 or 5 → rejection
+We state it in residue-class form to connect with the periodicity framework,
+but eliminating this axiom requires solving the open problem.
 
-4. **Periodicity**: For n ≡ r (mod period k) with n ≥ 4k, first k digits match
-   - Established by digits_periodic theorem using CRT
-
-5. **Maximum Rejection Position**: Computationally verified ≤ 115 for n ∈ [87, 15000]
-   - For n > 383, digit count exceeds 115, ensuring safe rejection
-
-The structural proof is in rejected_implies_zero, but we use this axiom to bypass
-the infinite analysis (showing every residue class is eventually rejected).
+References:
+- Khovanova: n=103233492954 has first zero at position 250 from right
+- Math.SE: Status of conjecture about powers of 2
+- HAKMEM: Schroeppel's construction of zero-free suffixes
 -/
 axiom complete_coverage :
   ∀ r : ℕ, ∃ k : ℕ, ∀ n : ℕ, n % period k = r % period k →
