@@ -146,13 +146,10 @@ abbrev diagQuot (P : ℕ) (α : ℤ) : (ℤ × ℤ) ⧸ Lattice P α :=
 theorem quotientEquivZMod_diag (P : ℕ) (α : ℤ) :
     quotientEquivZMod P α (diagQuot P α) = ((α + 1 : ℤ) : ZMod (g P α)) := by
   classical
-  unfold quotientEquivZMod diagQuot
-  simp only [AddEquiv.trans_apply, QuotientAddGroup.quotientAddEquivOfEq_mk,
-    QuotientAddGroup.quotientKerEquivOfSurjective_apply_mk,
-    linFormZModHom, linForm, AddMonoidHom.coe_mk, ZeroHom.coe_mk,
-    mul_one, one_add]
-  push_cast
-  ring
+  unfold quotientEquivZMod diagQuot linFormZModHom linForm
+  -- `simp` computes the two quotient equivalences on `mk'` and evaluates the linear form.
+  -- It also rewrites the RHS via `Int.cast_add`, so both sides match.
+  simp [AddEquiv.trans_apply]
 
 /-- If (α+1) is a unit mod g(P,α), then π(1,1) generates the quotient -/
 theorem diag_generates_of_isUnit (P : ℕ) (α : ℤ)

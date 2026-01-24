@@ -232,6 +232,211 @@ This is equivalent to showing: for any n > 86, the zeroless suffix of 2^n has le
 
 ---
 
+## The 5-adic Mechanism (Prompt 11A)
+
+### The Zero Interval Test
+
+For n ≥ k, define u_k(n) := 2^(n-k) mod 5^k. Then the k-th digit from the right is:
+
+```
+d_{k-1} = floor(2·u_k(n) / 5^(k-1)) ∈ {0,1,...,9}
+```
+
+**Critical condition**: d_{k-1} = 0 ⟺ u_k(n) < 5^(k-1)/2
+
+This is the "zero interval" - landing in [0, 5^(k-1)/2) produces a zero digit.
+
+### Why 129 is Special
+
+For n=129, the 5-adic orbit u_i(129) = 2^(129-i) mod 5^i avoids the zero interval for 36 consecutive levels:
+
+- u_i(129) ≥ 5^(i-1)/2 for i = 1,...,36 (digits 0-35 nonzero)
+- u_37(129) < 5^36/2 (digit 36 is zero)
+
+**Concrete values:**
+- u_37(129) = 2^92 mod 5^37 = 4108979496791485338684396
+- Threshold: 5^36/2 = 7275957614183425903320312
+- Since u_37(129) < threshold, d_36 = 0
+
+129 isn't special due to any simple valuation property - it's the first n where the 5-adic orbit happens to take such a long "survivor path."
+
+### 5-adic Fingerprint of 129 (Prompt 11B)
+
+- 129 ≡ 1 (mod 4) → last digit is 2
+- 129 ≡ 9 (mod 20) → last two digits are 12
+- 129 ≡ 29 (mod 100) → last three digits are 912
+- 129 ≡ 4 (mod 125), so v_5(129-4) = 3
+- In base 5: **129 = (1004)₅** - "5-adically close to 4"
+
+### Why n < 129 Can't Beat 3.58
+
+To beat 129/36 ≈ 3.58 with n < 129, need L ≥ 36. But L = 36 requires at least 36 digits:
+- 2^n ≥ 10^35 → n ≥ ⌈35 log₂ 10⌉ = 117
+
+So only candidates are n = 117,...,128. Empirically, **none land in the depth-36 survivor set** - they all hit a zero in the last 36 digits.
+
+### Heuristic Rarity of Tight Cases
+
+P(suffix length ≥ L) ≈ 0.9^L (each digit is ~1/10 chance of zero)
+
+To beat ratio 3.58 at larger n: need L ≳ n/3.58, giving probability:
+```
+P ≈ 0.9^(n/3.58) ≈ e^(-0.0294n)
+```
+
+This explains why 129 stays the tightest case through n = 10,000 - it's **exponentially unlikely** to find a closer call as n grows.
+
+### The Absolute Lower Bound
+
+The sharp, unconditional bound:
+
+```
+n/L(n) ≥ n/D(n) → 1/log₁₀(2) ≈ 3.321928...
+```
+
+The ratio 3.58 at n=129 is only +0.26 above this floor - a remarkably close call.
+
+---
+
+## The Compression Lemma (Prompt 12A)
+
+### Minimum Representative in Residue Class
+
+For k ≥ 1, let T_k = 4·5^(k-1). For residue r ∈ {0,...,T_k-1}:
+
+```
+n_min(r) = r      if r ≥ k
+n_min(r) = r + T_k  if r < k
+```
+
+### The Key Reduction
+
+**Case r < k**: Trivially satisfied since T_k >> 3.32k for k > 26.
+
+**Case r ≥ k**: The target "n_min(r) > 3.32k for all survivors" becomes:
+
+> **There are no survivors with k ≤ r ≤ 3.32k**
+
+### Equivalence to 86 Conjecture
+
+For r ∈ [k, ⌊ck⌋] where c = log₂(10) ≈ 3.32:
+- If 2^r has < k digits → padded block has leading zeros → not survivor
+- Survivor only if 2^r has exactly k digits AND is zeroless
+
+The candidates r ∈ [⌈(k-1)c⌉, ⌊kc⌋] number **only 3-4 per k**.
+
+**The Suffix Bound Lemma is equivalent to:**
+
+> For every k > 26, none of the 3-4 integers r giving exactly k digits makes 2^r zeroless.
+
+This is precisely the 86 conjecture (since D(86) = 26 is the last k where a zeroless power exists).
+
+### The 3.32 Bound is Provable but Insufficient (Prompt 12B)
+
+**Finite verification structure:**
+
+1. For k ≥ 1723: (k-1)·log₂(10) > 3.32k, so no integer r ≤ 3.32k can produce k digits → **vacuously true**
+
+2. For k = 27,...,1722: candidates are r = 87,...,5717
+   - Computational check: **no zeroless 2^r in this range**
+   - This proves n_min(r) > 3.32k for all k > 26
+
+**CRITICAL CORRECTION:**
+
+This does NOT prove the 86 conjecture because log₂(10) ≈ 3.3219 > 3.32.
+
+The inequality only forces hypothetical zeroless 2^n into the narrow band:
+```
+3.32k < n < k·log₂(10)
+```
+
+This still leaves infinitely many possible (k,n) pairs for large k.
+
+**What would close the gap:**
+- Need n_min(r) ≥ ⌈k·log₂(10)⌉
+- This is essentially the 86 conjecture itself restated
+
+**The true gap:** Between 3.32 and 3.3219... is where the conjecture lives.
+
+### Two Scales in Tension (Prompt 13A)
+
+**Scale 1: Digit-length bound** (unavoidable)
+- n ≥ (k-1)·log₂(10) ≈ 3.322(k-1) just to have k digits
+- This explains why empirical ratios are 3.3-3.6: hugging the trivial bound
+
+**Scale 2: Independence model prediction**
+- If digits independent with P(nonzero) ≈ 0.9, success probability p_k ≈ 0.9^k
+- Expected additional search past n₀ ≈ 3.322k is (10/9)^k
+
+**The crossover (k ≈ 50)**
+- For small k: digit-length bound dominates → n_min ≈ 3.322k
+- For large k: (10/9)^k term dominates → exponential growth
+
+**Why empirical 3.58 at k=36**: Pre-crossover behavior. We're in the regime where the digit-length constraint is the binding one, not the rarity penalty.
+
+**Key implication**: If n_min(k) ~ 3.5k held for arbitrarily large k, it would contradict independence and signal strong structure in the constraints.
+
+### The Overshoot Formula (Prompt 13B)
+
+**Back-of-envelope prediction:**
+```
+E[n_min(k)] ≈ (k-1)·log₂(10) + (10/9)^k
+            ≈ 3.322(k-1) + 1.111^k
+```
+
+**For k=36:**
+- Digit barrier: 3.322 × 35 ≈ 116
+- Overshoot: (10/9)^36 ≈ 42
+- Predicted: ~158
+- Observed: 129 (got lucky)
+
+**Why ~3.5 instead of ~3.32:** The overshoot term nudges the slope upward for moderate k, but isn't yet dominant.
+
+**Key insight:** Each extra decimal digit costs log₂(10) ≈ 3.322 extra exponent. The "3.5" is mostly this digit-count barrier, not subtle discrete-log correlations.
+
+### Why Schroeppel is Expensive, Zeroless is Cheap (Prompt 14A)
+
+**The entropy formula for expected hit time:**
+```
+E[first hit] ≈ P_k / (a/2)^k = const · (10/a)^k
+```
+where a = |allowed digits| and P_k = 4·5^(k-1) is the cycle length.
+
+**Schroeppel's {1,2} digits (a=2):**
+- Target is essentially ONE residue class (the unique {1,2}^k number divisible by 2^k)
+- Cost: (10/2)^k = 5^k (exponential, expensive)
+
+**Zeroless {1,...,9} digits (a=9):**
+- Target is HUGE: ~(9/2)^k compatible residues
+- Cost: (10/9)^k ≈ 1.111^k (nearly linear for moderate k)
+
+**Why the difference matters:**
+- Schroeppel/Lavrov prove existence at cost O(5^k) - useless for proving 86 conjecture
+- Zeroless survivors exist cheaply, but the question is whether they exist at ALL for n > 86
+
+**Three cost regimes:**
+1. Size bound: n ≥ (k-1)·log₂(10) ≈ 3.322(k-1) (unavoidable)
+2. Zeroless overhead: + C·(10/9)^k (small for k < 50)
+3. {1,2} overhead: + C·5^k (always dominates)
+
+### Concrete {1,2} Examples (Prompt 14B)
+
+First n with last k digits all in {1,2}:
+- k=3: n=89 (…112)
+- k=5: n=589 (…22112)
+- k=6: n=3089 (…122112)
+
+These are already on scale 5^(k-1), confirming exponential cost.
+
+**Generalized density heuristic:** For digit set D with |D|=d:
+```
+Expected waiting time ≈ (10/d)^k
+```
+- d=2 ({1,2}): (10/2)^k = 5^k
+- d=9 (zeroless): (10/9)^k ≈ 1.111^k
+
+---
+
 ## Lean Formalization Status
 
 **File**: `/Users/kvallie2/Desktop/esc_stage8/Zeroless.lean`

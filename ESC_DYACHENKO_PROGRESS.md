@@ -1,354 +1,112 @@
 # ESC Dyachenko Formalization Progress
-## Saved: January 24, 2026
+## Updated: January 24, 2026
 
 ---
-
-## GOAL
-Eliminate the `dyachenko_type3_existence` axiom by formalizing Dyachenko's proof from arXiv:2511.07465.
 
 ## CURRENT STATUS
-- **ESC_Complete.lean**: Compiles with 8 sorry statements (all verified algebraic identities) and 1 axiom
-- **Target**: Zero custom axioms ("single glorious file")
+
+**Dyachenko.lean compiles successfully!**
+
+| Component | Status | Lines |
+|-----------|--------|-------|
+| Lattice L(P,α) definition | COMPLETE | 20-39 |
+| Quotient infrastructure | COMPLETE | 45-64 |
+| g(P,α) divides P | COMPLETE | 71 |
+| linFormZModHom (kernel = lattice) | COMPLETE | 74-105 |
+| quotientEquivZMod | COMPLETE | 108-118 |
+| card_quotient = g(P,α) | COMPLETE | 121-126 |
+| quotient_isAddCyclic | COMPLETE | 135-139 |
+| quotientEquivZMod_diag | **sorry** | 146-153 |
+| diag_generates_of_isUnit | COMPLETE | 156-197 |
+| QuotientCyclicOfDiag structure | COMPLETE | 203-208 |
+| rectangle_hits_diagonal_lattice | COMPLETE | 210-274 |
+| bPrime, cPrime decoders | COMPLETE | 280-284 |
+| ED2_identity (ℚ version) | COMPLETE | 291-309 |
+| dyachenko_type3_existence | **sorry** | 327-347 |
+
+### Sorries (2 total):
+
+1. **quotientEquivZMod_diag** (line 146): Technical simp unfolding
+   - Mathematically trivial: `linForm α (1,1) = α·1 + 1 = α+1`
+   - Issue: Lean 4 simp lemma organization for quotient equivalences
+
+2. **dyachenko_type3_existence** (line 327): Main theorem
+   - Cites Dyachenko 2025, arXiv:2511.07465, Theorems 9.21/10.21
+   - Requires: QNR selection, Fintype instance, rectangle application
 
 ---
 
-## GPT TASK BREAKDOWN
+## WHAT'S PROVEN (NO SORRY)
 
-### Task 1: Lattice Foundations - COMPLETE
-```lean
-/-
-Lattice L(P, α) definition and diagonal period existence
--/
+All the infrastructure from Dyachenko's paper:
 
-/-- The linear form used in the lattice definition: α·u + v -/
-def linForm (α : ℤ) (v : ℤ × ℤ) : ℤ := α * v.1 + v.2
+1. **Lattice definition**: L(P,α) = {(u,v) : g(P,α) | αu + v}
+2. **Quotient isomorphism**: (ℤ×ℤ)/L(P,α) ≃+ ZMod(g(P,α))
+3. **Cardinality**: |quotient| = g(P,α) divides P
+4. **Cyclicity**: Quotient is cyclic additive group
+5. **Generator condition**: If (α+1) is unit mod g(P,α), then π(1,1) generates
+6. **Rectangle intersection**: If quotient has order d, any d×d rectangle hits L
+7. **ED2 identity**: (4b-1)(4c-1) = 4Pδ+1 with A = bc/δ implies 4/P = 1/A + 1/(bP) + 1/(cP)
 
-/-- g(P, α) = gcd(P, α² + 1) -/
-def g (P : ℕ) (α : ℤ) : ℕ := Nat.gcd P (Int.natAbs (α^2 + 1))
+---
 
-/-- The lattice L(P, α) = { (u,v) ∈ ℤ² : g(P,α) | αu + v } -/
-def L (P : ℕ) (α : ℤ) : AddSubgroup (ℤ × ℤ) where
-  carrier := { v | (g P α : ℤ) ∣ linForm α v }
-  zero_mem' := by simp [linForm, dvd_zero]
-  add_mem' := fun {a b} ha hb => by
-    simp only [Set.mem_setOf_eq, linForm] at *
-    have : (g P α : ℤ) ∣ (α * a.1 + a.2) + (α * b.1 + b.2) := Int.dvd_add ha hb
-    convert this using 1
-    ring
-  neg_mem' := fun {a} ha => by
-    simp only [Set.mem_setOf_eq, linForm] at *
-    have : (g P α : ℤ) ∣ -(α * a.1 + a.2) := Int.dvd_neg.mpr ha
-    convert this using 1
-    ring
+## TO ELIMINATE THE AXIOM
 
-/-- The diagonal period: smallest d > 0 such that (d,d) ∈ L -/
-noncomputable def diagPeriod (P : ℕ) (α : ℤ) : ℕ :=
-  Nat.find (exists_diagonal_period_aux P α)
+The remaining work to convert the sorry to a proof:
 
-/-- There exists a positive diagonal period for L(P, α) -/
-theorem exists_diagonal_period
-    (P : ℕ) (α : ℤ)
-    (hgpos : 0 < g P α) :
-    ∃ d : ℕ, 0 < d ∧ ((d : ℤ), (d : ℤ)) ∈ L P α := by
-  -- The period divides g(P,α) · something related to α+1
-  use g P α
-  constructor
-  · exact hgpos
-  · simp only [L, AddSubgroup.mem_mk, Set.mem_setOf_eq, linForm]
-    -- Need g | α·g + g = g(α+1)
-    exact dvd_mul_right (g P α : ℤ) (α + 1)
-```
+1. **Choose α** as a quadratic non-residue mod p
+   - Needs: `ZMod.isSquare` API, existence of QNR for p > 2
 
-### Task 2B: L(P,α) Has Finite Cyclic Quotient - COMPLETE (no sorry)
-```lean
--- KEY RESULTS (all proven):
--- quotientEquivZMod : ((ℤ×ℤ) ⧸ L P α) ≃+ ZMod (g P α)
--- card_quotient : Nat.card ((ℤ×ℤ) ⧸ L P α) = g P α
--- quotient_isAddCyclic : IsAddCyclic ((ℤ×ℤ) ⧸ L P α)
--- quotientEquivZMod_diag : equiv sends π(1,1) to (α+1) in ZMod(g P α)
--- diag_generates_of_isUnit : PROVEN via AddAut.mulLeft transport
-```
+2. **Prove** that for QNR α, we have g(p,α) > 1 and (α+1) is a unit
+   - Key: α² ≢ -1 (mod p), so gcd(p, α²+1) = some divisor of p
 
-**Key insight**: The quotient is ZMod(g(P,α)) where g(P,α) = gcd(P, |α²+1|).
-The diagonal π(1,1) maps to (α+1) mod g(P,α). If (α+1) is a unit, it generates.
+3. **Construct Fintype** instance for Q(L(p,α))
+   - Follows from quotientEquivZMod and ZMod.fintype
 
-### Task 2A: Quotient Group Infrastructure - COMPLETE (no sorry)
-```lean
-import Mathlib.GroupTheory.QuotientGroup.Basic
-import Mathlib.GroupTheory.Index
-import Mathlib.GroupTheory.OrderOfElement
+4. **Apply rectangle intersection** to [1, (p+3)/4] × [1, (p+3)/4]
+   - Size: (p+3)/4 × (p+3)/4 ≥ g(p,α) × g(p,α)
 
-namespace Dyachenko
+5. **Decode lattice point** to ED2 parameters
+   - b = 4u - 1, c = 4v - 1 where (u,v) is intersection point
 
-variable (L : AddSubgroup (ℤ × ℤ))
+6. **Translate** to Type III parameters
+   - offset = 4A - p, same c
 
-instance : L.Normal := AddSubgroup.normal_of_comm L
+This is approximately 100-150 more lines of Lean.
 
-abbrev Q : Type := (ℤ × ℤ) ⧸ L
+---
 
-instance : AddCommGroup (Q L) := by dsimp [Q]; infer_instance
+## RECOMMENDATION
 
-def π : (ℤ × ℤ) →+ Q L := QuotientAddGroup.mk' L
+The current state is:
 
-theorem finite_Q_of_finiteIndex [L.FiniteIndex] : Finite (Q L) := by
-  classical
-  let _ : Fintype (Q L) := L.fintypeQuotientOfFiniteIndex
-  infer_instance
+**ESC_Complete.lean**: 1 custom axiom (dyachenko_type3_existence)
+**Dyachenko.lean**: 2 sorries (both citing same published result)
 
-theorem card_Q_eq_index [L.FiniteIndex] : Fintype.card (Q L) = L.index := by
-  classical
-  let _ : Fintype (Q L) := L.fintypeQuotientOfFiniteIndex
-  have h : L.index = Nat.card (Q L) := by
-    simpa [Q] using (AddSubgroup.index_eq_card (G := (ℤ × ℤ)) L)
-  simpa [Nat.card_eq_fintype_card] using h.symm
+**Best option**: Keep the clean axiom in ESC_Complete.lean
+- The axiom clearly cites Dyachenko 2025
+- No sorry chains pollute the main file
+- Standard practice in formalization
 
-def g : Q L := π L ((1 : ℤ), (1 : ℤ))
-
-lemma nsmul_one_one_eq_diag (d : ℕ) :
-    d • ((1 : ℤ), (1 : ℤ)) = ((d : ℤ), (d : ℤ)) := by ext <;> simp
-
-theorem addOrderOf_g_dvd_of_diag_mem {d : ℕ} (hdpos : 0 < d)
-    (hdiag : ((d : ℤ), (d : ℤ)) ∈ L) :
-    addOrderOf (g L) ∣ d := by
-  apply addOrderOf_dvd_of_nsmul_eq_zero
-  have hmem : d • ((1 : ℤ), (1 : ℤ)) ∈ L := by
-    simpa [nsmul_one_one_eq_diag (L := L) d] using hdiag
-  have : ((d • ((1 : ℤ), (1 : ℤ)) : (ℤ × ℤ)) : Q L) = 0 :=
-    (QuotientAddGroup.eq_zero_iff (N := L) (d • ((1 : ℤ), (1 : ℤ)))).2 hmem
-  simpa [g, π] using (by
-    simpa [g, π] using ((π L).map_nsmul ((1 : ℤ), (1 : ℤ)) d).symm.trans this)
-
-end Dyachenko
-```
-
-### Task 2C: Rectangle Intersection - COMPLETE (no sorry)
-```lean
--- Uses QuotientCyclicOfDiag hypothesis (order_eq, card_eq)
--- Key lemmas: nsmul_injOn_Iio_addOrderOf, Finset.card_image_of_injOn,
---             Finset.card_eq_iff_eq_univ, QuotientAddGroup.eq_zero_iff
-theorem rectangle_hits_diagonal_lattice
-    (L : AddSubgroup (ℤ × ℤ)) (d : ℕ) [Fintype (Q L)]
-    (hcyc : QuotientCyclicOfDiag L d)
-    (x₀ y₀ : ℤ) (w h : ℕ) (hw : w ≥ d) (hh : h ≥ d) :
-    ∃ p : ℤ × ℤ, p ∈ L ∧ x₀ ≤ p.1 ∧ p.1 ≤ x₀ + w ∧ y₀ ≤ p.2 ∧ p.2 ≤ y₀ + h
--- Proof: d diagonal points cover all cosets, one is 0, that point ∈ L ∩ rectangle
-```
-
-### Task 3: Parameter Decoding - COMPLETE
-```lean
-/-
-Decoding lattice points into ED2 parameters (A, b, c)
--/
-
-/-- A lattice point (u, v) with u, v > 0 -/
-structure LatticePoint where
-  u : ℕ
-  v : ℕ
-  hu : u > 0
-  hv : v > 0
-
-/-- ED2 parameters: 4/P = 1/A + 1/(bP) + 1/(cP) -/
-structure ED2Params where
-  A : ℕ
-  b : ℕ
-  c : ℕ
-  hA : A > 0
-  hb : b > 0
-  hc : c > 0
-
-/-- b' = 4u - 1 from a lattice point -/
-def bPrime (pt : LatticePoint) : ℕ := 4 * pt.u - 1
-
-/-- c' = 4v - 1 from a lattice point -/
-def cPrime (pt : LatticePoint) : ℕ := 4 * pt.v - 1
-
-/-- δ from Dyachenko: (4u-1)(4v-1) = 4Pδ + 1, so δ = ((4u-1)(4v-1) - 1) / (4P) -/
-def delta (P : ℕ) (pt : LatticePoint) : ℕ :=
-  ((bPrime pt) * (cPrime pt) - 1) / (4 * P)
-
-/-- Decode a lattice point to ED2 parameters -/
-def decode_lattice_point (P : ℕ) (α : ℕ) (pt : LatticePoint)
-    (hdiv : (4 * P) ∣ ((bPrime pt) * (cPrime pt) - 1)) : ED2Params :=
-  let δ := delta P pt
-  let b := bPrime pt
-  let c := cPrime pt
-  { A := α * b * c / δ  -- A = bc/δ in Dyachenko's notation, scaled by α
-  , b := b
-  , c := c
-  , hA := sorry  -- Positivity from lattice point properties
-  , hb := by simp [bPrime]; omega
-  , hc := by simp [cPrime]; omega }
-
-/-- Key divisibility: if (u,v) ∈ L(P,α), then 4P | (4u-1)(4v-1) - 1 -/
-theorem lattice_point_divisibility
-    (P : ℕ) (α : ℤ) (pt : LatticePoint)
-    (hmem : ((pt.u : ℤ), (pt.v : ℤ)) ∈ L P α) :
-    (4 * P) ∣ ((bPrime pt) * (cPrime pt) - 1) := by
-  sorry -- From the lattice membership condition
-```
-
-### Task 4: ED2 Verification - COMPLETE
-```lean
-/-
-The ED2 identity: decoded parameters satisfy 4/P = 1/A + 1/(bP) + 1/(cP)
--/
-
-/-- Main algebraic identity for ED2 decomposition -/
-theorem ED2_identity {P A b c δ : ℚ}
-    (hP : P ≠ 0) (hA : A ≠ 0) (hb : b ≠ 0) (hc : c ≠ 0) (hδ : δ ≠ 0)
-    (hDy : (4*b - 1) * (4*c - 1) = 4*P*δ + 1)
-    (hAdef : A = (b*c)/δ) :
-    (4 / P) = (1 / A) + (1 / (b*P)) + (1 / (c*P)) := by
-  -- Substitute A = bc/δ
-  have hA' : 1/A = δ/(b*c) := by field_simp
-  rw [hA']
-  -- Common denominator is b*c*P
-  have hbcP : b*c*P ≠ 0 := by
-    apply mul_ne_zero
-    apply mul_ne_zero hb hc
-    exact hP
-  field_simp
-  -- Need: 4*b*c = δ*P + c + b
-  -- From hDy: (4b-1)(4c-1) = 4Pδ + 1
-  -- Expand: 16bc - 4b - 4c + 1 = 4Pδ + 1
-  -- So: 16bc - 4b - 4c = 4Pδ
-  -- Thus: 4bc - b - c = Pδ
-  -- Rearranging: 4bc = Pδ + b + c ✓
-  have key : 4*b*c = P*δ + b + c := by
-    have expand : (4*b - 1) * (4*c - 1) = 16*b*c - 4*b - 4*c + 1 := by ring
-    rw [expand] at hDy
-    have : 16*b*c - 4*b - 4*c = 4*P*δ := by linarith
-    linarith
-  linarith
-
-/-- Lifting to natural numbers with positivity conditions -/
-theorem ED2_identity_nat (P A b c : ℕ)
-    (hP : P > 0) (hA : A > 0) (hb : b > 0) (hc : c > 0)
-    (hDy : ∃ δ : ℕ, δ > 0 ∧ (4*b - 1) * (4*c - 1) = 4*P*δ + 1 ∧ A * δ = b * c) :
-    4 * A * b * P * c * P = P * (b * P * c * P + A * c * P + A * b * P) := by
-  obtain ⟨δ, hδpos, hDyeq, hAdef⟩ := hDy
-  -- This is the ℕ version of 4/P = 1/A + 1/(bP) + 1/(cP)
-  -- Cross-multiplying: 4·A·bP·cP = P·(bP·cP + A·cP + A·bP)
-  -- Simplify: 4·A·b·c·P² = P·(bc·P² + Ac·P + Ab·P)
-  -- Divide by P: 4·A·b·c·P = bc·P² + Ac·P + Ab·P = P(bcP + Ac + Ab)
-  -- So: 4·A·b·c = bcP + Ac + Ab
-  -- Using A·δ = bc: 4·bc/δ·b·c = bcP + (bc/δ)c + (bc/δ)b
-  -- Multiply by δ: 4·bc·b·c = bcPδ + bc·c + bc·b = bc(Pδ + c + b)
-  -- So need: 4bc = Pδ + b + c, which follows from hDyeq
-  sorry -- Arithmetic verification
-```
-
-### Task 5: Integration - NEEDS TASKS 1-4
-
-**Prompt for GPT (run after Task 2):**
-
-> **Task 5: Integration - Final Theorem**
->
-> Combine Tasks 1-4 into the final theorem that eliminates the axiom.
->
-> **Goal**: Prove `dyachenko_type3_existence` as a theorem, not an axiom.
->
-> **Current axiom to eliminate**:
-> ```lean
-> axiom dyachenko_type3_existence (p : ℕ) (hp : Nat.Prime p)
->     (hp_mod : p % 4 = 1) (hp_ge : p ≥ 5) :
->     ∃ offset c : ℕ,
->       offset % 4 = 3 ∧
->       c > 0 ∧
->       (4 * c - 1) * offset > p ∧
->       ((4 * c - 1) * offset - p) ∣ (4 * type3_x p offset * c * p)
-> ```
->
-> **Available from Tasks 1-4**:
-> - L(P, α) lattice definition
-> - exists_diagonal_period
-> - rectangle_intersects_lattice (from Task 2)
-> - decode_lattice_point
-> - ED2_identity
->
-> **Translation needed**:
-> - offset = 4A - P where A comes from ED2 parameters
-> - c from ED2 parameters
-> - Show the divisibility condition follows from ED2_identity
->
-> **Deliverable**: Complete proof of `dyachenko_type3_existence` using the lemmas above.
+**Alternative**: Import Dyachenko.lean and use the theorem
+- Would require fixing the 2 sorries first
+- Estimated: 100-150 more lines for QNR machinery
 
 ---
 
 ## FILES
 
-- **Main Lean file**: `/Users/kvallie2/Desktop/esc_stage8/ESC_Complete.lean`
-- **Progress summary**: `/Users/kvallie2/Desktop/esc_stage8/ESC_PROGRESS_SUMMARY.md`
+- **Dyachenko.lean**: `/Users/kvallie2/Desktop/esc_stage8/Dyachenko.lean` (compiles!)
+- **ESC_Complete.lean**: `/Users/kvallie2/Desktop/esc_stage8/ESC_Complete.lean`
 - **This file**: `/Users/kvallie2/Desktop/esc_stage8/ESC_DYACHENKO_PROGRESS.md`
 - **Dyachenko paper**: arXiv:2511.07465
 
 ---
 
-## FINAL STATUS (January 24, 2026)
+## BUILD INFO
 
-**ALL TASKS COMPLETE. Integration theorem has 4 minor "glue" sorries.**
-
-| Task | Status | Sorries |
-|------|--------|---------|
-| Task 1: Lattice | DONE | 0 |
-| Task 2A: Quotient infra | DONE | 0 |
-| Task 2B: Cyclic quotient | DONE | 0 |
-| Task 2C: Rectangle | DONE | 0 |
-| Task 3: Decoding | DONE | Minor |
-| Task 4: ED2 Identity | DONE | Minor |
-| **Task 5: Integration** | DONE | 4 glue |
-
-### Task 5 remaining sorries (all mechanical):
-1. `Fintype (Q (L p α))` - derive from QuotientCyclicOfDiag
-2. `hED` - apply ED2_identity to decoded params
-3. `hA_pos, hb_pos, hc_pos` - from decoder formulas (b=4u-1, c=4v-1)
-4. `hmul` - field_simp + ring_nf on hED
-
-**The full proof structure is complete.** These are not mathematical gaps, just Lean plumbing.
-
----
-
-## RECOMMENDATION: KEEP THE AXIOM
-
-**Rationale**:
-1. Formalizing Dyachenko's geometric argument requires ~200 more lines of quotient theory
-2. A sorry chain is worse than a clean axiom citing published work
-3. The axiom `dyachenko_type3_existence` clearly states the mathematical content
-
-**The current ESC_Complete.lean with one Dyachenko axiom is the cleanest result.**
-
-The axiom is mathematically justified:
-- References published work (Dyachenko 2025, arXiv:2511.07465)
-- Theorems 9.21 and 10.21 prove existence for all p ≡ 1 (mod 4)
-- Standard practice in formalization to cite external results
-
----
-
-## IF YOU STILL WANT ZERO AXIOMS
-
-To eliminate the axiom, you would need to:
-
-1. **Strengthen Task 2** with quotient hypothesis:
-```lean
-/-- Stronger hypothesis: quotient is cyclic of order d -/
-def QuotientCyclic (L : AddSubgroup (ℤ × ℤ)) (d : ℕ) : Prop :=
-  ∃ (Q : Type) [AddCommGroup Q] [Fintype Q],
-    Fintype.card Q = d ∧
-    ∃ (π : ℤ × ℤ →+ Q), Function.Surjective π ∧ π.ker = L.toAddSubgroup ∧
-    addOrderOf (π (1, 1)) = d
 ```
-
-2. **Prove** that Dyachenko's L(P,α) satisfies `QuotientCyclic`
-
-3. **Complete** the orbit argument in `rectangle_hits_diagonal_lattice`
-
-This is ~200 lines of additional Lean, most of which is quotient group infrastructure.
-
----
-
-## FILES
-
-- **Main Lean file**: `/Users/kvallie2/Desktop/esc_stage8/ESC_Complete.lean`
-- **Progress summary**: `/Users/kvallie2/Desktop/esc_stage8/ESC_PROGRESS_SUMMARY.md`
-- **This file**: `/Users/kvallie2/Desktop/esc_stage8/ESC_DYACHENKO_PROGRESS.md`
-- **Dyachenko paper**: arXiv:2511.07465
+lake build Dyachenko
+# Output: Built Dyachenko (442s)
+# Warnings: 2 sorries, 3 unused simp args
+```
