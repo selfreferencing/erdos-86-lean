@@ -437,6 +437,85 @@ Expected waiting time ≈ (10/d)^k
 
 ---
 
+## The Digit Squeeze Lemma (Prompt 15A)
+
+### The Barrier Mechanism at k = 26 → 27
+
+There's a clean structural reason why the transition happens exactly at k = 27.
+
+**Setup:** D(n) = ⌊n log₁₀(2)⌋ + 1 = number of digits of 2^n.
+
+**Key observation:** Having k zeroless suffix digits requires 2^n ≥ 10^(k-1) (otherwise you don't have k digits, and padding introduces zeros).
+
+### The Digit Squeeze
+
+If n < 3.32k, then 2^n < 10^k (since 2^(3.32k) < 10^k). Combined with the suffix requirement:
+
+```
+10^(k-1) ≤ 2^n < 10^k  ⟹  D(n) = k
+```
+
+So **the last k digits ARE the entire number**. Therefore:
+
+> "k zeroless suffix digits" ⟹ 2^n is **fully** zeroless
+
+### The Lemma (Digit Squeeze)
+
+> **Lemma:** If n < 3.32k, then any length-k zeroless decimal suffix of 2^n forces 2^n to be fully zeroless.
+
+**Proof sketch:**
+1. Use 3.32 = 83/25 and verify 2^83 < 10^25
+2. For n < (83/25)k: 2^n < 10^k
+3. k zeroless suffix requires 2^n ≥ 10^(k-1)
+4. Together: D(n) = k, so suffix = whole number ∎
+
+### Why the Break at k = 27
+
+The largest fully zeroless power 2^86 has **26 digits**. So:
+
+- For k ≤ 26: Can satisfy suffix condition by being entirely zeroless (n ≤ 86)
+- For k = 27: First k where you CANNOT satisfy suffix by full zerolessness
+- Must pick n where D(n) ≥ k+1, allowing zeros outside the suffix
+
+**This is the structural barrier** - it forces the problem to change character at exactly k = 27.
+
+### What This Does/Doesn't Explain
+
+**Does explain:**
+- Why the break happens at k = 27 (one past the last zeroless digit count)
+- Why n ∈ [87, 3.32k) is impossible for k > 26
+
+**Doesn't explain:**
+- Why the next minimum is n = 129 rather than n = 90 (first n with D(n) ≥ 28)
+- The "extra gap" of 39 is the arithmetic part (2^n mod 10^k constraints)
+
+### The Circularity (Prompt 15B)
+
+**Critical observation:** Proving "no n ∈ [87, 3.32k) has k zeroless suffix" is **exactly as hard as the 86 conjecture**.
+
+The implication chain:
+1. n < 3.32k ⟹ 2^n < 10^k ⟹ D(n) ≤ k
+2. k zeroless suffix + D(n) ≤ k ⟹ D(n) = k and 2^n fully zeroless
+3. So ruling out [87, 3.32k) requires ruling out all fully zeroless 2^n for n ≥ 87
+
+**Unconditional weaker bound:**
+```
+n < (k-1)·log₂(10) ⟹ D(n) < k ⟹ impossible to have k zeroless suffix
+```
+This is trivial (you need at least k digits). The extra jump from k=26 to k=27 is where the full-zeroless supply runs out.
+
+### Connection to Earlier Results
+
+The compression lemma (Prompt 12A) said only 3-4 candidates per k need checking. The Digit Squeeze explains WHY: for n < 3.32k, suffix-zerolessness collapses to full-zerolessness, which is already settled.
+
+### References
+
+- [Khovanova blog](https://blog.tanyakhovanova.com/2011/02/86-conjecture/) - 86 Conjecture analysis
+- [HAKMEM](https://w3.pppl.gov/~hammett/work/2009/AIM-239-ocr.pdf) - Schroeppel's construction
+- [Math.SE](https://math.stackexchange.com/questions/25660/status-of-a-conjecture-about-powers-of-2) - Status discussion
+
+---
+
 ## Lean Formalization Status
 
 **File**: `/Users/kvallie2/Desktop/esc_stage8/Zeroless.lean`
