@@ -146,10 +146,17 @@ abbrev diagQuot (P : ℕ) (α : ℤ) : (ℤ × ℤ) ⧸ Lattice P α :=
 theorem quotientEquivZMod_diag (P : ℕ) (α : ℤ) :
     quotientEquivZMod P α (diagQuot P α) = ((α + 1 : ℤ) : ZMod (g P α)) := by
   classical
-  unfold quotientEquivZMod diagQuot linFormZModHom linForm
-  -- `simp` computes the two quotient equivalences on `mk'` and evaluates the linear form.
-  -- It also rewrites the RHS via `Int.cast_add`, so both sides match.
-  simp [AddEquiv.trans_apply]
+  -- The equivalence e0.trans e1 sends π(1,1) first via e0, then via e1
+  -- e1 maps to f(1,1) = α*1 + 1 = α + 1
+  unfold quotientEquivZMod diagQuot
+  simp only [AddEquiv.trans_apply]
+  -- The first equivalence doesn't change the coset representative
+  unfold linFormZModHom linForm
+  -- Use the definition of quotientKerEquivOfSurjective
+  rw [QuotientAddGroup.quotientKerEquivOfSurjective_apply]
+  -- Now just compute: α * 1 + 1 = α + 1
+  simp only [AddMonoidHom.coe_mk, ZeroHom.coe_mk]
+  ring_nf
 
 /-- If (α+1) is a unit mod g(P,α), then π(1,1) generates the quotient -/
 theorem diag_generates_of_isUnit (P : ℕ) (α : ℤ)
@@ -323,7 +330,8 @@ def type3_x (p offset : ℕ) : ℕ := (p + offset) / 4
 
     Reference: arXiv:2511.07465, Theorems 9.21 and 10.21
 -/
-/-! ### Auxiliary lemmas for the main theorem -/
+
+-- ### Auxiliary lemmas for the main theorem ###
 
 /-- For p ≡ 1 (mod 4), there exists α such that (α+1) is a unit mod g(p,α).
     This uses the existence of a square root of -1 mod p. -/
@@ -338,9 +346,13 @@ lemma exists_alpha_unit (p : ℕ) (hp : Nat.Prime p) (hp_mod : p % 4 = 1) (hp_ge
 /-- The diagonal (d,d) lies in L(p,α) when d = g(p,α). -/
 lemma diag_in_lattice (p : ℕ) (α : ℤ) :
     ((g p α : ℤ), (g p α : ℤ)) ∈ Lattice p α := by
-  simp only [Lattice, AddSubgroup.mem_mk, Set.mem_setOf_eq, linForm]
-  -- Need: g(p,α) | α * g(p,α) + g(p,α) = g(p,α) * (α + 1)
-  exact dvd_mul_right (g p α : ℤ) (α + 1)
+  -- Need to show: g(p,α) | linForm α (g, g) = α * g + g = g * (α + 1)
+  show (↑(g p α) : ℤ) ∣ linForm α (↑(g p α), ↑(g p α))
+  simp only [linForm]
+  -- Now: g | α * g + g = g * (α + 1)
+  have h : α * ↑(g p α) + ↑(g p α) = ↑(g p α) * (α + 1) := by ring
+  rw [h]
+  exact dvd_mul_right (↑(g p α)) (α + 1)
 
 /-- Build the QuotientCyclicOfDiag structure from our infrastructure. -/
 lemma quotient_cyclic_of_lattice (p : ℕ) (α : ℤ) (hp : Nat.Prime p)
@@ -349,7 +361,7 @@ lemma quotient_cyclic_of_lattice (p : ℕ) (α : ℤ) (hp : Nat.Prime p)
   refine ⟨?d_pos, ?diag_mem, ?order_eq, ?card_eq⟩
   case d_pos =>
     -- g(p, α) = gcd(p, |α²+1|) > 0 since p > 0
-    exact Nat.gcd_pos_left p (Int.natAbs (α^2 + 1))
+    exact Nat.gcd_pos_of_pos_left (Int.natAbs (α^2 + 1)) hp.pos
   case diag_mem =>
     exact diag_in_lattice p α
   case card_eq =>
@@ -364,11 +376,11 @@ lemma quotient_cyclic_of_lattice (p : ℕ) (α : ℤ) (hp : Nat.Prime p)
     sorry
 
 /-- Decode a lattice point to Type III parameters.
-    Given (u, v) ∈ L(p,α) with 1 ≤ u, v ≤ (p+3)/4, produce valid (offset, c). -/
+    Given (u, v) ∈ L(p,α) with 1 ≤ u, v ≤ 1 + (p+3)/4, produce valid (offset, c). -/
 lemma decode_lattice_point_to_type3 (p : ℕ) (hp : Nat.Prime p)
     (hp_mod : p % 4 = 1) (hp_ge : p ≥ 5)
     (u v : ℤ) (hu_pos : 1 ≤ u) (hv_pos : 1 ≤ v)
-    (hu_bound : u ≤ (p + 3) / 4) (hv_bound : v ≤ (p + 3) / 4) :
+    (hu_bound : u ≤ 1 + (p + 3) / 4) (hv_bound : v ≤ 1 + (p + 3) / 4) :
     ∃ offset c : ℕ,
       offset % 4 = 3 ∧
       c > 0 ∧
@@ -395,6 +407,9 @@ theorem dyachenko_type3_existence (p : ℕ) (hp : Nat.Prime p)
   obtain ⟨α, hunit⟩ := exists_alpha_unit p hp hp_mod hp_ge
 
   /- STEP 2: Build the Fintype instance for the quotient -/
+  -- First establish that g(p, α) > 0 (needed for ZMod Fintype)
+  have hg_pos : 0 < g p α := Nat.gcd_pos_of_pos_left (Int.natAbs (α^2 + 1)) hp.pos
+  haveI : NeZero (g p α) := ⟨Nat.pos_iff_ne_zero.mp hg_pos⟩
   haveI : Fintype ((ℤ × ℤ) ⧸ Lattice p α) :=
     Fintype.ofEquiv (ZMod (g p α)) (quotientEquivZMod p α).symm.toEquiv
 
@@ -422,8 +437,7 @@ theorem dyachenko_type3_existence (p : ℕ) (hp : Nat.Prime p)
       hbox_ge hbox_ge
 
   /- STEP 5: Decode the lattice point to Type III parameters -/
-  exact decode_lattice_point_to_type3 p hp hp_mod hp_ge pt.1 pt.2 hx0 hy0
-    (by linarith : pt.1 ≤ (p + 3) / 4)
-    (by linarith : pt.2 ≤ (p + 3) / 4)
+  -- hx1 : pt.1 ≤ 1 + ↑boxSize, hy1 : pt.2 ≤ 1 + ↑boxSize where boxSize = (p+3)/4
+  exact decode_lattice_point_to_type3 p hp hp_mod hp_ge pt.1 pt.2 hx0 hy0 hx1 hy1
 
 end Dyachenko

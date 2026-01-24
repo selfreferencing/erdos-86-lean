@@ -518,6 +518,44 @@ The compression lemma (Prompt 12A) said only 3-4 candidates per k need checking.
 
 ## Attack Phase Findings
 
+### **MAJOR BREAKTHROUGH: The Empty Interval Proof Structure**
+
+**Complete verification of all 35 zeroless powers:**
+
+For EVERY zeroless power 2^n (n ∈ {1,2,...,86}):
+1. depth(n) = D(n) — survives exactly to its digit count
+2. n < 3.32 × D(n) — satisfies the Digit Squeeze bound
+
+**The Critical Transition:**
+
+| k | Interval [2, 3.32k) | Survivors |
+|---|---------------------|-----------|
+| 25 | [2, 83) | [81] |
+| 26 | [2, 87) | **[86]** ← Last zeroless power! |
+| 27 | [2, 90) | **EMPTY** |
+| 28 | [2, 93) | **EMPTY** |
+| ... | ... | **EMPTY** |
+| 35 | [2, 117) | **EMPTY** |
+
+**The Proof Structure:**
+
+1. For 2^n to be zeroless, need n to survive to level D(n)
+2. Also need n < 3.32 × D(n) (Digit Squeeze Lemma)
+3. Combined: n must be a survivor in [2, 3.32 × D(n)) at level D(n)
+4. **For all k ≥ 27: the interval [2, 3.32k) has NO survivors**
+5. Since D(n) ≥ 27 for all n > 86, no such n can be zeroless
+
+**What remains for a complete proof:**
+
+Show that [2, 3.32k) remains empty for ALL k ≥ 27 (not just k ≤ 35).
+
+GPT 5.2's suggested approach: Use discrepancy bounds from killed-child uniformity. If survivors are well-distributed (which they are - killed-index converges to 20% each by k≈6), then for large k, an interval of size O(k) cannot contain any survivors since:
+- Interval size: 3.32k
+- Period size: T_k = 4 × 5^(k-1)
+- Ratio: 3.32k / T_k → 0 exponentially fast
+
+---
+
 ### The 4-or-5 Children Theorem
 
 **Theorem (Computationally Verified):** Every level-k survivor has EXACTLY 4 or 5 surviving children at level k+1. Never 3 or 6.
