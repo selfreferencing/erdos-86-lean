@@ -1,0 +1,5 @@
+{"log":
+ [{"message":
+   ".> LEAN_PATH=././.lake/packages/Cli/.lake/build/lib:././.lake/packages/batteries/.lake/build/lib:././.lake/packages/Qq/.lake/build/lib:././.lake/packages/aesop/.lake/build/lib:././.lake/packages/proofwidgets/.lake/build/lib:././.lake/packages/importGraph/.lake/build/lib:././.lake/packages/LeanSearchClient/.lake/build/lib:././.lake/packages/plausible/.lake/build/lib:././.lake/packages/mathlib/.lake/build/lib:././.lake/build/lib DYLD_LIBRARY_PATH= /Users/kvallie2/.elan/toolchains/leanprover--lean4---v4.15.0/bin/lean ././././ErdosStraus/Basic.lean -R ./././. -o ././.lake/build/lib/ErdosStraus/Basic.olean -i ././.lake/build/lib/ErdosStraus/Basic.ilean -c ././.lake/build/ir/ErdosStraus/Basic.c --json",
+   "level": "trace"}],
+ "depHash": "3444973773855214424"}

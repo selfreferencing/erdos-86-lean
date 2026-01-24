@@ -1,0 +1,37 @@
+{
+  "limit": 5000,
+  "k_max": 200,
+  "type_i_resistant_count": 1,
+  "both_fail_count": 0,
+  "mod_840_distribution": {
+    "1": 1
+  },
+  "resistant_primes": [
+    {
+      "p": 2521,
+      "p_mod_4": 1,
+      "p_mod_24": 1,
+      "p_mod_840": 1,
+      "type_i_exists": false,
+      "type_ii_exists": true,
+      "type_ii_k": 5,
+      "type_ii_a": 2,
+      "type_ii_b": 159,
+      "type_ii_m_k": 23,
+      "type_ii_x_k": 636,
+      "type_i_resistant": true,
+      "both_fail": false,
+      "legendre": {
+        "3": 1,
+        "5": 1,
+        "7": 1,
+        "11": -1,
+        "13": 1,
+        "17": -1,
+        "19": -1,
+        "23": -1
+      }
+    }
+  ],
+  "both_fail_primes": []
+}

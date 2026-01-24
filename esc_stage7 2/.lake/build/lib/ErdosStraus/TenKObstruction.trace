@@ -1,0 +1,8 @@
+{"log":
+ [{"message":
+   ".> LEAN_PATH=././.lake/packages/Cli/.lake/build/lib:././.lake/packages/batteries/.lake/build/lib:././.lake/packages/Qq/.lake/build/lib:././.lake/packages/aesop/.lake/build/lib:././.lake/packages/proofwidgets/.lake/build/lib:././.lake/packages/importGraph/.lake/build/lib:././.lake/packages/LeanSearchClient/.lake/build/lib:././.lake/packages/plausible/.lake/build/lib:././.lake/packages/mathlib/.lake/build/lib:././.lake/build/lib DYLD_LIBRARY_PATH= /Users/kvallie2/.elan/toolchains/leanprover--lean4---v4.15.0/bin/lean ././././ErdosStraus/TenKObstruction.lean -R ./././. -o ././.lake/build/lib/ErdosStraus/TenKObstruction.olean -i ././.lake/build/lib/ErdosStraus/TenKObstruction.ilean -c ././.lake/build/ir/ErdosStraus/TenKObstruction.c --json",
+   "level": "trace"},
+  {"message":
+   "././././ErdosStraus/TenKObstruction.lean:76:39: unused variable `hp`\nnote: this linter can be disabled with `set_option linter.unusedVariables false`",
+   "level": "warning"}],
+ "depHash": "541225754052320150"}

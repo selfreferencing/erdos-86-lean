@@ -1,0 +1,52 @@
+Scanning Mordell-hard primes up to 100000000...
+Output: /Users/kvallie2/Desktop/esc_stage8/max_witness_scan_100000000.txt
+============================================================
+  New max: p=2521, d=8, k=5
+  New max: p=3361, d=29, k=0
+  New max: p=196561, d=1922, k=25
+  New max: p=8628481, d=2367, k=5
+  New max: p=30573481, d=12388, k=25
+  Progress: 20000 primes, 132/s, ETA ~20.2min, max_d=12388
+  New max: p=72077041, d=16129, k=7
+  Progress: 40000 primes, 122/s, ETA ~19.1min, max_d=16129
+  Progress: 60000 primes, 117/s, ETA ~17.1min, max_d=16129
+  Progress: 80000 primes, 13/s, ETA ~125.5min, max_d=16129
+  New max: p=76719889, d=37281, k=5
+  Progress: 100000 primes, 16/s, ETA ~81.7min, max_d=37281
+  Progress: 120000 primes, 19/s, ETA ~52.0min, max_d=37281
+  Progress: 140000 primes, 22/s, ETA ~30.1min, max_d=37281
+  Progress: 160000 primes, 25/s, ETA ~13.3min, max_d=37281
+
+Scanned 179468 Mordell-hard primes in 6485.3s
+Maximum d required: 37281
+Primes requiring d > 1500: 26
+
+Primes requiring d > 1500:
+  p =     76719889, d = 37281, k =  5
+  p =     50773321, d = 27556, k = 25
+  p =     72077041, d = 16129, k =  7
+  p =     74290441, d = 13352, k = 21
+  p =     30573481, d = 12388, k = 25
+  p =     95724721, d =  4450, k = 29
+  p =     38365681, d =  3971, k =  7
+  p =     72303529, d =  3591, k = 14
+  p =     70688209, d =  3380, k = 17
+  p =     46639849, d =  2907, k = 14
+  p =     16002529, d =  2685, k = 17
+  p =     19168249, d =  2505, k =  2
+  p =     48473881, d =  2493, k =  2
+  p =     88358209, d =  2411, k = 29
+  p =      8628481, d =  2367, k =  5
+  p =     18575929, d =  2312, k =  9
+  p =     82363009, d =  2286, k = 11
+  p =       196561, d =  1922, k = 25
+  p =     59757721, d =  1764, k = 11
+  p =     65094121, d =  1706, k =  3
+  p =     28646209, d =  1620, k = 17
+  p =     32072881, d =  1613, k =  2
+  p =     27812689, d =  1587, k = 26
+  p =     73014769, d =  1551, k = 26
+  p =     71014441, d =  1523, k =  0
+  p =     96384289, d =  1515, k =  2
+
+Results saved to /Users/kvallie2/Desktop/esc_stage8/max_witness_scan_100000000.txt

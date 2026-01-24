@@ -1,0 +1,9 @@
+{"log":
+ [{"message":
+   ".> LEAN_PATH=././.lake/packages/Cli/.lake/build/lib:././.lake/packages/batteries/.lake/build/lib:././.lake/packages/Qq/.lake/build/lib:././.lake/packages/aesop/.lake/build/lib:././.lake/packages/proofwidgets/.lake/build/lib:././.lake/packages/importGraph/.lake/build/lib:././.lake/packages/LeanSearchClient/.lake/build/lib:././.lake/packages/plausible/.lake/build/lib:././.lake/packages/mathlib/.lake/build/lib:././.lake/build/lib DYLD_LIBRARY_PATH= /Users/kvallie2/.elan/toolchains/leanprover--lean4---v4.15.0/bin/lean ././././ErdosStraus/K0.lean -R ./././. -o ././.lake/build/lib/ErdosStraus/K0.olean -i ././.lake/build/lib/ErdosStraus/K0.ilean -c ././.lake/build/ir/ErdosStraus/K0.c --json",
+   "level": "trace"},
+  {"message": "././././ErdosStraus/K0.lean:31:6: declaration uses 'sorry'",
+   "level": "warning"},
+  {"message": "././././ErdosStraus/K0.lean:47:8: declaration uses 'sorry'",
+   "level": "warning"}],
+ "depHash": "13134254028712946380"}

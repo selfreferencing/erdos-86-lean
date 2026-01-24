@@ -1,0 +1,8 @@
+{
+  "limit": 50000,
+  "type_i_resistant_count": 0,
+  "counterexamples": 0,
+  "mod_840_distribution": {},
+  "all_in_difficult_classes": true,
+  "resistant_primes": []
+}

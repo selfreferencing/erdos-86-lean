@@ -1,0 +1,970 @@
+{
+  "K": [
+    0,
+    1,
+    2,
+    5,
+    7,
+    9,
+    11,
+    14,
+    17,
+    19,
+    23,
+    26,
+    29,
+    3,
+    31,
+    39,
+    41
+  ],
+  "num_rules": 157,
+  "test_modulus": 840,
+  "admissible_count": 96,
+  "covered_count": 57,
+  "uncovered_count": 39,
+  "coverage_fraction": 0.59375,
+  "uncovered_classes": [
+    1,
+    17,
+    29,
+    73,
+    89,
+    101,
+    121,
+    169,
+    173,
+    193,
+    197,
+    241,
+    257,
+    269,
+    281,
+    289,
+    293,
+    313,
+    341,
+    353,
+    361,
+    409,
+    437,
+    449,
+    461,
+    481,
+    509,
+    521,
+    529,
+    593,
+    617,
+    629,
+    649,
+    677,
+    689,
+    701,
+    761,
+    773,
+    793
+  ],
+  "rules": [
+    {
+      "k": 0,
+      "m_k": 3,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 13,
+      "modulus": 24
+    },
+    {
+      "k": 0,
+      "m_k": 3,
+      "witness_type": "prime",
+      "q": 5,
+      "d": 5,
+      "residue": 37,
+      "modulus": 60
+    },
+    {
+      "k": 0,
+      "m_k": 3,
+      "witness_type": "prime",
+      "q": 7,
+      "d": 7,
+      "residue": 53,
+      "modulus": 84
+    },
+    {
+      "k": 0,
+      "m_k": 3,
+      "witness_type": "prime",
+      "q": 11,
+      "d": 11,
+      "residue": 85,
+      "modulus": 132
+    },
+    {
+      "k": 0,
+      "m_k": 3,
+      "witness_type": "prime",
+      "q": 13,
+      "d": 13,
+      "residue": 101,
+      "modulus": 156
+    },
+    {
+      "k": 0,
+      "m_k": 3,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 133,
+      "modulus": 204
+    },
+    {
+      "k": 0,
+      "m_k": 3,
+      "witness_type": "prime",
+      "q": 19,
+      "d": 19,
+      "residue": 149,
+      "modulus": 228
+    },
+    {
+      "k": 0,
+      "m_k": 3,
+      "witness_type": "prime",
+      "q": 23,
+      "d": 23,
+      "residue": 181,
+      "modulus": 276
+    },
+    {
+      "k": 0,
+      "m_k": 3,
+      "witness_type": "prime",
+      "q": 29,
+      "d": 29,
+      "residue": 229,
+      "modulus": 348
+    },
+    {
+      "k": 1,
+      "m_k": 7,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 41,
+      "modulus": 56
+    },
+    {
+      "k": 1,
+      "m_k": 7,
+      "witness_type": "prime",
+      "q": 3,
+      "d": 3,
+      "residue": 65,
+      "modulus": 84
+    },
+    {
+      "k": 1,
+      "m_k": 7,
+      "witness_type": "prime",
+      "q": 5,
+      "d": 5,
+      "residue": 113,
+      "modulus": 140
+    },
+    {
+      "k": 1,
+      "m_k": 7,
+      "witness_type": "prime",
+      "q": 11,
+      "d": 11,
+      "residue": 257,
+      "modulus": 308
+    },
+    {
+      "k": 1,
+      "m_k": 7,
+      "witness_type": "prime",
+      "q": 13,
+      "d": 13,
+      "residue": 305,
+      "modulus": 364
+    },
+    {
+      "k": 1,
+      "m_k": 7,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 401,
+      "modulus": 476
+    },
+    {
+      "k": 1,
+      "m_k": 7,
+      "witness_type": "prime",
+      "q": 19,
+      "d": 19,
+      "residue": 449,
+      "modulus": 532
+    },
+    {
+      "k": 1,
+      "m_k": 7,
+      "witness_type": "prime",
+      "q": 23,
+      "d": 23,
+      "residue": 545,
+      "modulus": 644
+    },
+    {
+      "k": 1,
+      "m_k": 7,
+      "witness_type": "prime",
+      "q": 29,
+      "d": 29,
+      "residue": 689,
+      "modulus": 812
+    },
+    {
+      "k": 2,
+      "m_k": 11,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 69,
+      "modulus": 88
+    },
+    {
+      "k": 2,
+      "m_k": 11,
+      "witness_type": "prime",
+      "q": 3,
+      "d": 3,
+      "residue": 109,
+      "modulus": 132
+    },
+    {
+      "k": 2,
+      "m_k": 11,
+      "witness_type": "prime",
+      "q": 5,
+      "d": 5,
+      "residue": 189,
+      "modulus": 220
+    },
+    {
+      "k": 2,
+      "m_k": 11,
+      "witness_type": "prime",
+      "q": 7,
+      "d": 7,
+      "residue": 269,
+      "modulus": 308
+    },
+    {
+      "k": 2,
+      "m_k": 11,
+      "witness_type": "prime",
+      "q": 13,
+      "d": 13,
+      "residue": 509,
+      "modulus": 572
+    },
+    {
+      "k": 2,
+      "m_k": 11,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 669,
+      "modulus": 748
+    },
+    {
+      "k": 2,
+      "m_k": 11,
+      "witness_type": "prime",
+      "q": 19,
+      "d": 19,
+      "residue": 749,
+      "modulus": 836
+    },
+    {
+      "k": 2,
+      "m_k": 11,
+      "witness_type": "prime",
+      "q": 23,
+      "d": 23,
+      "residue": 909,
+      "modulus": 1012
+    },
+    {
+      "k": 2,
+      "m_k": 11,
+      "witness_type": "prime",
+      "q": 29,
+      "d": 29,
+      "residue": 1149,
+      "modulus": 1276
+    },
+    {
+      "k": 5,
+      "m_k": 23,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 153,
+      "modulus": 184
+    },
+    {
+      "k": 5,
+      "m_k": 23,
+      "witness_type": "prime",
+      "q": 3,
+      "d": 3,
+      "residue": 241,
+      "modulus": 276
+    },
+    {
+      "k": 5,
+      "m_k": 23,
+      "witness_type": "prime",
+      "q": 5,
+      "d": 5,
+      "residue": 417,
+      "modulus": 460
+    },
+    {
+      "k": 5,
+      "m_k": 23,
+      "witness_type": "prime",
+      "q": 7,
+      "d": 7,
+      "residue": 593,
+      "modulus": 644
+    },
+    {
+      "k": 5,
+      "m_k": 23,
+      "witness_type": "prime",
+      "q": 11,
+      "d": 11,
+      "residue": 945,
+      "modulus": 1012
+    },
+    {
+      "k": 5,
+      "m_k": 23,
+      "witness_type": "prime",
+      "q": 13,
+      "d": 13,
+      "residue": 1121,
+      "modulus": 1196
+    },
+    {
+      "k": 5,
+      "m_k": 23,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 1473,
+      "modulus": 1564
+    },
+    {
+      "k": 5,
+      "m_k": 23,
+      "witness_type": "prime",
+      "q": 19,
+      "d": 19,
+      "residue": 1649,
+      "modulus": 1748
+    },
+    {
+      "k": 5,
+      "m_k": 23,
+      "witness_type": "prime",
+      "q": 29,
+      "d": 29,
+      "residue": 2529,
+      "modulus": 2668
+    },
+    {
+      "k": 7,
+      "m_k": 31,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 209,
+      "modulus": 248
+    },
+    {
+      "k": 7,
+      "m_k": 31,
+      "witness_type": "prime",
+      "q": 3,
+      "d": 3,
+      "residue": 329,
+      "modulus": 372
+    },
+    {
+      "k": 7,
+      "m_k": 31,
+      "witness_type": "prime",
+      "q": 5,
+      "d": 5,
+      "residue": 569,
+      "modulus": 620
+    },
+    {
+      "k": 7,
+      "m_k": 31,
+      "witness_type": "prime",
+      "q": 7,
+      "d": 7,
+      "residue": 809,
+      "modulus": 868
+    },
+    {
+      "k": 7,
+      "m_k": 31,
+      "witness_type": "prime",
+      "q": 11,
+      "d": 11,
+      "residue": 1289,
+      "modulus": 1364
+    },
+    {
+      "k": 7,
+      "m_k": 31,
+      "witness_type": "prime",
+      "q": 13,
+      "d": 13,
+      "residue": 1529,
+      "modulus": 1612
+    },
+    {
+      "k": 7,
+      "m_k": 31,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 2009,
+      "modulus": 2108
+    },
+    {
+      "k": 7,
+      "m_k": 31,
+      "witness_type": "prime",
+      "q": 19,
+      "d": 19,
+      "residue": 2249,
+      "modulus": 2356
+    },
+    {
+      "k": 7,
+      "m_k": 31,
+      "witness_type": "prime",
+      "q": 23,
+      "d": 23,
+      "residue": 2729,
+      "modulus": 2852
+    },
+    {
+      "k": 7,
+      "m_k": 31,
+      "witness_type": "prime",
+      "q": 29,
+      "d": 29,
+      "residue": 3449,
+      "modulus": 3596
+    },
+    {
+      "k": 9,
+      "m_k": 39,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 265,
+      "modulus": 312
+    },
+    {
+      "k": 9,
+      "m_k": 39,
+      "witness_type": "prime",
+      "q": 5,
+      "d": 5,
+      "residue": 721,
+      "modulus": 780
+    },
+    {
+      "k": 9,
+      "m_k": 39,
+      "witness_type": "prime",
+      "q": 7,
+      "d": 7,
+      "residue": 1025,
+      "modulus": 1092
+    },
+    {
+      "k": 9,
+      "m_k": 39,
+      "witness_type": "prime",
+      "q": 11,
+      "d": 11,
+      "residue": 1633,
+      "modulus": 1716
+    },
+    {
+      "k": 9,
+      "m_k": 39,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 2545,
+      "modulus": 2652
+    },
+    {
+      "k": 9,
+      "m_k": 39,
+      "witness_type": "prime",
+      "q": 19,
+      "d": 19,
+      "residue": 2849,
+      "modulus": 2964
+    },
+    {
+      "k": 9,
+      "m_k": 39,
+      "witness_type": "prime",
+      "q": 23,
+      "d": 23,
+      "residue": 3457,
+      "modulus": 3588
+    },
+    {
+      "k": 9,
+      "m_k": 39,
+      "witness_type": "prime",
+      "q": 29,
+      "d": 29,
+      "residue": 4369,
+      "modulus": 4524
+    },
+    {
+      "k": 11,
+      "m_k": 47,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 321,
+      "modulus": 376
+    },
+    {
+      "k": 11,
+      "m_k": 47,
+      "witness_type": "prime",
+      "q": 3,
+      "d": 3,
+      "residue": 505,
+      "modulus": 564
+    },
+    {
+      "k": 11,
+      "m_k": 47,
+      "witness_type": "prime",
+      "q": 5,
+      "d": 5,
+      "residue": 873,
+      "modulus": 940
+    },
+    {
+      "k": 11,
+      "m_k": 47,
+      "witness_type": "prime",
+      "q": 7,
+      "d": 7,
+      "residue": 1241,
+      "modulus": 1316
+    },
+    {
+      "k": 11,
+      "m_k": 47,
+      "witness_type": "prime",
+      "q": 11,
+      "d": 11,
+      "residue": 1977,
+      "modulus": 2068
+    },
+    {
+      "k": 11,
+      "m_k": 47,
+      "witness_type": "prime",
+      "q": 13,
+      "d": 13,
+      "residue": 2345,
+      "modulus": 2444
+    },
+    {
+      "k": 11,
+      "m_k": 47,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 3081,
+      "modulus": 3196
+    },
+    {
+      "k": 11,
+      "m_k": 47,
+      "witness_type": "prime",
+      "q": 19,
+      "d": 19,
+      "residue": 3449,
+      "modulus": 3572
+    },
+    {
+      "k": 11,
+      "m_k": 47,
+      "witness_type": "prime",
+      "q": 23,
+      "d": 23,
+      "residue": 4185,
+      "modulus": 4324
+    },
+    {
+      "k": 11,
+      "m_k": 47,
+      "witness_type": "prime",
+      "q": 29,
+      "d": 29,
+      "residue": 5289,
+      "modulus": 5452
+    },
+    {
+      "k": 14,
+      "m_k": 59,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 405,
+      "modulus": 472
+    },
+    {
+      "k": 14,
+      "m_k": 59,
+      "witness_type": "prime",
+      "q": 3,
+      "d": 3,
+      "residue": 637,
+      "modulus": 708
+    },
+    {
+      "k": 14,
+      "m_k": 59,
+      "witness_type": "prime",
+      "q": 5,
+      "d": 5,
+      "residue": 1101,
+      "modulus": 1180
+    },
+    {
+      "k": 14,
+      "m_k": 59,
+      "witness_type": "prime",
+      "q": 7,
+      "d": 7,
+      "residue": 1565,
+      "modulus": 1652
+    },
+    {
+      "k": 14,
+      "m_k": 59,
+      "witness_type": "prime",
+      "q": 11,
+      "d": 11,
+      "residue": 2493,
+      "modulus": 2596
+    },
+    {
+      "k": 14,
+      "m_k": 59,
+      "witness_type": "prime",
+      "q": 13,
+      "d": 13,
+      "residue": 2957,
+      "modulus": 3068
+    },
+    {
+      "k": 14,
+      "m_k": 59,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 3885,
+      "modulus": 4012
+    },
+    {
+      "k": 14,
+      "m_k": 59,
+      "witness_type": "prime",
+      "q": 19,
+      "d": 19,
+      "residue": 4349,
+      "modulus": 4484
+    },
+    {
+      "k": 14,
+      "m_k": 59,
+      "witness_type": "prime",
+      "q": 23,
+      "d": 23,
+      "residue": 5277,
+      "modulus": 5428
+    },
+    {
+      "k": 14,
+      "m_k": 59,
+      "witness_type": "prime",
+      "q": 29,
+      "d": 29,
+      "residue": 6669,
+      "modulus": 6844
+    },
+    {
+      "k": 17,
+      "m_k": 71,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 489,
+      "modulus": 568
+    },
+    {
+      "k": 17,
+      "m_k": 71,
+      "witness_type": "prime",
+      "q": 3,
+      "d": 3,
+      "residue": 769,
+      "modulus": 852
+    },
+    {
+      "k": 17,
+      "m_k": 71,
+      "witness_type": "prime",
+      "q": 5,
+      "d": 5,
+      "residue": 1329,
+      "modulus": 1420
+    },
+    {
+      "k": 17,
+      "m_k": 71,
+      "witness_type": "prime",
+      "q": 7,
+      "d": 7,
+      "residue": 1889,
+      "modulus": 1988
+    },
+    {
+      "k": 17,
+      "m_k": 71,
+      "witness_type": "prime",
+      "q": 11,
+      "d": 11,
+      "residue": 3009,
+      "modulus": 3124
+    },
+    {
+      "k": 17,
+      "m_k": 71,
+      "witness_type": "prime",
+      "q": 13,
+      "d": 13,
+      "residue": 3569,
+      "modulus": 3692
+    },
+    {
+      "k": 17,
+      "m_k": 71,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 4689,
+      "modulus": 4828
+    },
+    {
+      "k": 17,
+      "m_k": 71,
+      "witness_type": "prime",
+      "q": 19,
+      "d": 19,
+      "residue": 5249,
+      "modulus": 5396
+    },
+    {
+      "k": 17,
+      "m_k": 71,
+      "witness_type": "prime",
+      "q": 23,
+      "d": 23,
+      "residue": 6369,
+      "modulus": 6532
+    },
+    {
+      "k": 17,
+      "m_k": 71,
+      "witness_type": "prime",
+      "q": 29,
+      "d": 29,
+      "residue": 8049,
+      "modulus": 8236
+    },
+    {
+      "k": 19,
+      "m_k": 79,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 545,
+      "modulus": 632
+    },
+    {
+      "k": 19,
+      "m_k": 79,
+      "witness_type": "prime",
+      "q": 3,
+      "d": 3,
+      "residue": 857,
+      "modulus": 948
+    },
+    {
+      "k": 19,
+      "m_k": 79,
+      "witness_type": "prime",
+      "q": 5,
+      "d": 5,
+      "residue": 1481,
+      "modulus": 1580
+    },
+    {
+      "k": 19,
+      "m_k": 79,
+      "witness_type": "prime",
+      "q": 7,
+      "d": 7,
+      "residue": 2105,
+      "modulus": 2212
+    },
+    {
+      "k": 19,
+      "m_k": 79,
+      "witness_type": "prime",
+      "q": 11,
+      "d": 11,
+      "residue": 3353,
+      "modulus": 3476
+    },
+    {
+      "k": 19,
+      "m_k": 79,
+      "witness_type": "prime",
+      "q": 13,
+      "d": 13,
+      "residue": 3977,
+      "modulus": 4108
+    },
+    {
+      "k": 19,
+      "m_k": 79,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 5225,
+      "modulus": 5372
+    },
+    {
+      "k": 19,
+      "m_k": 79,
+      "witness_type": "prime",
+      "q": 19,
+      "d": 19,
+      "residue": 5849,
+      "modulus": 6004
+    },
+    {
+      "k": 19,
+      "m_k": 79,
+      "witness_type": "prime",
+      "q": 23,
+      "d": 23,
+      "residue": 7097,
+      "modulus": 7268
+    },
+    {
+      "k": 19,
+      "m_k": 79,
+      "witness_type": "prime",
+      "q": 29,
+      "d": 29,
+      "residue": 8969,
+      "modulus": 9164
+    },
+    {
+      "k": 23,
+      "m_k": 95,
+      "witness_type": "prime",
+      "q": 2,
+      "d": 2,
+      "residue": 657,
+      "modulus": 760
+    },
+    {
+      "k": 23,
+      "m_k": 95,
+      "witness_type": "prime",
+      "q": 3,
+      "d": 3,
+      "residue": 1033,
+      "modulus": 1140
+    },
+    {
+      "k": 23,
+      "m_k": 95,
+      "witness_type": "prime",
+      "q": 7,
+      "d": 7,
+      "residue": 2537,
+      "modulus": 2660
+    },
+    {
+      "k": 23,
+      "m_k": 95,
+      "witness_type": "prime",
+      "q": 11,
+      "d": 11,
+      "residue": 4041,
+      "modulus": 4180
+    },
+    {
+      "k": 23,
+      "m_k": 95,
+      "witness_type": "prime",
+      "q": 13,
+      "d": 13,
+      "residue": 4793,
+      "modulus": 4940
+    },
+    {
+      "k": 23,
+      "m_k": 95,
+      "witness_type": "prime",
+      "q": 17,
+      "d": 17,
+      "residue": 6297,
+      "modulus": 6460
+    }
+  ]
+}
