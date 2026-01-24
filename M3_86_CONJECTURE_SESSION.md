@@ -7,6 +7,8 @@
 
 Applied M³ (Macro-Micro-Multiple) method to the 86 Conjecture. Result: **The conjecture is genuinely open**. Current mathematical tools are insufficient to prove it. The axiom in our Lean formalization correctly represents the state of knowledge.
 
+**Key finding from Round 2**: Option C (structural growth lemma) is the viable path forward, but requires new mathematics.
+
 ---
 
 ## The Conjecture
@@ -21,101 +23,137 @@ Applied M³ (Macro-Micro-Multiple) method to the 86 Conjecture. Result: **The co
 
 ## M³ Analysis Results
 
-### MACRO Insights (GPT Prompts 1-3, 5)
+### Round 1: MACRO Insights (Prompts 1-5)
 
 #### 1. Carry-Shielding vs Carry-Forcing (Prompt 1)
-The fundamental difference between base 10 and base 3:
-
 | Base | Forbidden Digit | Carry Effect |
 |------|-----------------|--------------|
 | 10 | 0 | c=1 → output odd → **0 impossible** |
 | 3 | 2 | c=1 still produces 2 from d=2 |
 
-**Key insight**: In base 10, carries SHIELD against rejection. In base 3, carries are FORCED to avoid rejection. This explains why base 10 has more escape routes.
+**Key insight**: In base 10, carries SHIELD against rejection. In base 3, carries are FORCED.
 
 #### 2. Scaling Mismatch (Prompt 2)
-Schroeppel/Lavrov constructions:
-- Control last N digits zero-free, but n ~ 5^N
-- Control first k AND last k digits, but n ~ 5^k
-- Middle digits: ~0.301 × 5^k - 2k >> 0 (uncontrolled)
-
-**The gap**: Endpoint control via periodicity creates exponentially large n, leaving giant uncontrolled middle.
+- Schroeppel: Control last N digits zero-free, but n ~ 5^N
+- Lavrov: Control first k AND last k digits, but n ~ 5^k
+- **The gap**: Middle digits (~0.301 × 5^k - 2k) remain uncontrolled
 
 #### 3. No Sublinear Bound on R(n) (Prompt 3)
-Let R(n) = position of first 0 from right in 2^n.
-
-Record data (OEIS A031142):
-- n = 7,879,942,137,257 → R(n) = 308
-- D(n) ~ 2.37 × 10^12 digits
-- Ratio R(n)/D(n) ~ 10^-10
-
-**Heuristic**: R*(N) ~ Θ(log N), but not proven.
+Record: n = 103,233,492,954 → R(n) = 250, D(n) ~ 3.1 × 10^10
+Ratio: R/D ~ 8 × 10^-9
 
 #### 4. Why 86? (Prompt 5)
-86 is NOT structurally special. It's empirically the largest known zeroless exponent.
+86 is NOT structurally special. 2^86 contains forbidden block "52" (LSB order) which creates zero in 2^87.
 
-**Carry analysis of 2^86 → 2^87**:
-```
-2^86 = 77371252455336267181195264 (no zeros)
-2^87 = 154742504910672534362390528 (three zeros at positions 3, 15, 19)
-
-Zeros from: digit 5 in 2^86 with carry-in 0
-Carry sequence: 001011001011010011001001011
-```
+#### 5. Instant Mixing (Gemini Prompt 4)
+Survivor transition matrix has rank 1 → state distribution is 50/50 after ONE digit regardless of initial residue class.
 
 ---
 
-### MICRO Insights (Gemini Prompt 4)
+### Round 2: Deep Analysis (Prompts 6-10)
 
-#### Instant Mixing Property
-The survivor transition matrix:
+#### Prompt 6: Non-Sequential Digit Access (×2 responses)
+
+**5-adic Digit Extraction Formula:**
 ```
-| 4  5 |
-| 4  5 |
+u_k := 2^(n-k-1) mod 5^(k+1)
+d_k = floor(2u_k / 5^k)
 ```
+Bypasses carry propagation entirely. Each digit determined by one modular exponentiation.
 
-Both rows identical → Rank 1 → After ONE digit, distribution is exactly 50/50 between s₀ and s₁, regardless of initial residue class.
+**Key equivalence:** d_k = 0 ⟺ 0 ≤ u_k < 5^k/2
 
-**Rejection rate per digit**: P(s₀) × P(digit 0 or 5) = 0.5 × 0.2 = 0.1
+**Shrinking Target Reformulation:**
+- Let α = log₁₀(2), y_n = 10^({nα} - 1)
+- "2^n zeroless" ⟺ "{nα} lands in union of 9^m(n) tiny intervals"
+- Target size: μ(S_n) ≈ (0.9688)^n
+- Expected hits: Σ μ(S_n) ≈ 32 (close to observed 35!)
 
-#### The Critical Gap
-Gemini's ergodic argument assumes: "digits of 2^n behave ergodically (approximating uniform random source)"
+#### Prompt 7: Covering Congruence Reformulation (×2 responses)
 
-**This is the unproven assumption**. Normality of log₁₀(2) is an open problem.
+**Infinite covering system:**
+- A_j = {n : d_j(n) = 0} is union of residue classes mod T_j = 4·5^{j-1}
+- Density of A_j = 1/10 exactly (each digit 0-9 equidistributed)
+- 86 conjecture ⟺ ∪_{j≥1} A_j ⊇ {n > 86}
+
+**Computational coverage data:**
+| k | First uncovered n | N(k) |
+|---|-------------------|------|
+| 12 | 89 | 88 |
+| 36 | 129 | 128 |
+| 93 | 1958 | 1957 |
+| 115 | 7931 | 7930 |
+| 120 | 269518 | 269517 |
+
+**Why finite truncation fails:** Schroeppel/Lavrov guarantee survivors exist at every k.
+
+**Discrete log connection:** The map n mod T_j → u(n) is discrete logarithm, which behaves like random permutation on intervals.
+
+#### Prompt 8: Local Forbidden Block Certificate (×2 responses)
+
+**Precise local rule:**
+Zero in 2x at position j ⟺ (d_j ∈ {0,5}) AND (d_{j-1} < 5)
+
+**Forbidden blocks (LSB order):** 05, 15, 25, 35, 45
+**Written order:** 50, 51, 52, 53, 54
+
+**Critical clarification:** This detects zeros in 2^{n+1}, not 2^n.
+- Bad pair in 2^n → zero in 2^{n+1}
+- 2^86 contains "52" → 2^87 has zero
+
+#### Prompt 9: What Would Victory Look Like?
+
+| Option | Status | Reason |
+|--------|--------|--------|
+| A (Finite modulus) | **DEAD** | Schroeppel/Lavrov kill it |
+| B (Probabilistic) | Blocked | Requires normality breakthrough |
+| C (Structural) | **VIABLE** | Prove R(n) = o(n) |
+| D (Reduction) | Blocked | Needs deep new theorem |
+
+**Target Lemma (Option C):**
+> min{n : m(n) ≥ k} ≥ Cλ^k for all k ≥ k₀, with λ > 1
+
+Then k = D(n) ≈ 0.301n yields contradiction for large n.
+
+#### Prompt 10: Rigorous Technical Summary (Pro)
+
+**What's provable:**
+- R(n) > k is periodic in n with period 4·5^{k-1}
+- Exact density a(k)/(4·5^{k-1}) via OEIS A181610
+- R(n) is unbounded (Schroeppel construction)
+- R*(N) ≥ log₅(N) - O(1) infinitely often
+
+**What's NOT provable with current tools:**
+- p_k ~ C·0.9^k asymptotically
+- R*(N) = O(log N)
+- R(n) = o(n)
+- R(n) < D(n) for n > 86 (≡ the conjecture)
 
 ---
 
-### The Quantifier Gap
+## The Convergent Picture
 
-| Ergodic Theorem Says | We Need |
-|---------------------|---------|
-| "Almost surely" (measure 1) | "For all" (every n > 86) |
-| Typical orbits hit rejection | No exceptional orbits exist |
-| Exceptional set has measure 0 | Exceptional set is empty |
+### Why All Approaches Fail
 
-**Measure 0 ≠ Empty**
+| Approach | What It Gives | The Gap |
+|----------|---------------|---------|
+| Density 0.9^{k-1} → 0 | Measure 0 | Measure 0 ≠ empty |
+| Schroeppel/Lavrov | Survivors exist at every k | Can't reach "total digits" |
+| Ergodic/shrinking target | "Almost surely" | Need "for all" |
+| Local forbidden blocks | Certificate for next power | Global coverage unproven |
+| 5-adic equidistribution | Heuristic | Rigorous bounds missing |
 
-Lagarias's work on base 3 gives Hausdorff dimension bounds on exceptional set, but NOT emptiness. Same gap applies here.
+### The Viable Path (Option C)
 
----
+**The proof is NOT:** "survivors don't exist"
+**The proof IS:** "survivors exist only at exponents so large they can't coincide with 'survival depth = total digit length'"
 
-## Summary of Approaches
+**Shape of a proof:**
+1. Model trailing-digit survival as 5-adic tree
+2. Prove growth lemma: every survivor cylinder at depth k has least representative n ≥ Cλ^k
+3. Compare: n ≥ Cλ^{D(n)} contradicts D(n) ~ 0.301n
 
-| Approach | What It Shows | Why It Fails |
-|----------|---------------|--------------|
-| Density/Recurrence | S_k/P_k = 0.9^(k-1) → 0 | Measure 0 ≠ empty |
-| Schroeppel/Lavrov | Can control k endpoint digits | Middle explodes exponentially |
-| Markov/Ergodic | "Almost surely" rejection | Quantifier gap: need "for all" |
-| Carry Automaton | Deterministic local structure | Can't control global distribution |
-| Normality | Would imply rejection | Normality of log₁₀(2) is open |
-
----
-
-## The Reduction
-
-The 86 conjecture is equivalent to proving a weak form of normality for powers of 2: that every sufficiently long decimal expansion contains at least one 0.
-
-This is weaker than full normality (each digit with frequency 1/10), but we don't know how to prove even this.
+**Tools needed:** Perron-Frobenius / automaton semigroup arguments on survivor tree
 
 ---
 
@@ -134,12 +172,13 @@ The axiom is appropriate: eliminating it requires solving the open problem.
 ## Key References
 
 1. OEIS A007377 - Zeroless powers of 2
-2. OEIS A031142/A031143 - Record rightmost zero positions
+2. OEIS A031140/A031141 - Record rightmost zero positions
 3. OEIS A181610 - Zero-free counts in suffix cycles
-4. Khovanova blog - 86 Conjecture analysis
-5. HAKMEM - Schroeppel's construction
-6. Lagarias (arXiv:math/0512006) - Ternary case dynamics
-7. Math.SE - Status discussions
+4. OEIS A181611 - Rightmost zero positions
+5. Khovanova blog - 86 Conjecture analysis
+6. HAKMEM Item 57 - Schroeppel's construction
+7. Lavrov (Math.SE) - First k AND last k digit control
+8. Lagarias (arXiv:math/0512006) - Ternary case dynamics
 
 ---
 
@@ -148,15 +187,16 @@ The axiom is appropriate: eliminating it requires solving the open problem.
 The M³ method successfully characterized WHY the 86 conjecture is hard:
 
 1. **Carry-shielding** creates escape routes not present in base 3
-2. **Endpoint control** doesn't extend to the middle
+2. **Endpoint control** (Schroeppel/Lavrov) doesn't extend to middle
 3. **Ergodic arguments** give "almost surely" not "for all"
 4. **The gap** is between measure 0 and empty
+5. **Finite covering truncations** always have survivors
 
-Current tools are provably insufficient. A proof would require either:
-- New digit distribution results for exponential sequences
-- A completely novel approach bypassing the quantifier gap
+**The viable path (Option C):** Prove a structural growth lemma showing survivors are pushed to exponentially large exponents, then the "total digits" constraint forces finiteness.
+
+This requires new mathematics: Perron-Frobenius analysis on the 5-adic survivor tree with monotonicity/growth invariants.
 
 ---
 
-*Session saved: January 24, 2026*
-*Status: Open problem confirmed. Formalization complete with appropriate axiom.*
+*Session updated: January 24, 2026*
+*Status: Open problem confirmed. Option C identified as viable path. Formalization complete with appropriate axiom.*

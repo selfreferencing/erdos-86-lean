@@ -24,30 +24,33 @@ def linForm (α : ℤ) (v : ℤ × ℤ) : ℤ := α * v.1 + v.2
 def g (P : ℕ) (α : ℤ) : ℕ := Nat.gcd P (Int.natAbs (α^2 + 1))
 
 /-- The lattice L(P, α) = { (u,v) ∈ ℤ² : g(P,α) | αu + v } -/
-def L (P : ℕ) (α : ℤ) : AddSubgroup (ℤ × ℤ) where
+def Lattice (P : ℕ) (α : ℤ) : AddSubgroup (ℤ × ℤ) where
   carrier := { v | (g P α : ℤ) ∣ linForm α v }
   zero_mem' := by simp [linForm]
   add_mem' := fun {a b} ha hb => by
     simp only [Set.mem_setOf_eq, linForm] at *
-    have : (g P α : ℤ) ∣ (α * a.1 + a.2) + (α * b.1 + b.2) := Int.dvd_add ha hb
-    convert this using 1; ring
+    convert Int.dvd_add ha hb using 1
+    simp only [Prod.fst_add, Prod.snd_add]
+    ring
   neg_mem' := fun {a} ha => by
     simp only [Set.mem_setOf_eq, linForm] at *
-    have : (g P α : ℤ) ∣ -(α * a.1 + a.2) := Int.dvd_neg.mpr ha
-    convert this using 1; ring
+    convert Int.dvd_neg.mpr ha using 1
+    simp only [Prod.fst_neg, Prod.snd_neg]
+    ring
 
 -- ============================================================================
 -- PART 2A: Quotient Group Infrastructure
 -- ============================================================================
 
+section QuotientInfra
 variable (L : AddSubgroup (ℤ × ℤ))
 
-instance : L.Normal := AddSubgroup.normal_of_comm L
+instance quotientNormal : L.Normal := AddSubgroup.normal_of_comm L
 
 /-- The quotient group Q := (ℤ × ℤ) ⧸ L -/
 abbrev Q : Type := (ℤ × ℤ) ⧸ L
 
-instance : AddCommGroup (Q L) := by dsimp [Q]; infer_instance
+instance quotientAddCommGroup : AddCommGroup (Q L) := by dsimp [Q]; infer_instance
 
 /-- The canonical projection map π : ℤ × ℤ →+ Q -/
 def π : (ℤ × ℤ) →+ Q L := QuotientAddGroup.mk' L
@@ -57,6 +60,8 @@ def diagElem : Q L := π L ((1 : ℤ), (1 : ℤ))
 
 lemma nsmul_one_one_eq_diag (d : ℕ) :
     d • ((1 : ℤ), (1 : ℤ)) = ((d : ℤ), (d : ℤ)) := by ext <;> simp
+
+end QuotientInfra
 
 -- ============================================================================
 -- PART 2B: L(P,α) Has Finite Cyclic Quotient
@@ -69,20 +74,26 @@ theorem g_dvd_P (P : ℕ) (α : ℤ) : g P α ∣ P := Nat.gcd_dvd_left P _
 def linFormZModHom (P : ℕ) (α : ℤ) : (ℤ × ℤ) →+ ZMod (g P α) where
   toFun := fun v => (linForm α v : ZMod (g P α))
   map_zero' := by simp [linForm]
-  map_add' := by intro v w; simp [linForm, mul_add, add_assoc, add_left_comm, add_comm]
+  map_add' := by
+    intro v w
+    simp only [linForm, Prod.fst_add, Prod.snd_add]
+    push_cast
+    ring
 
 /-- Kernel of linFormZModHom is exactly the lattice L(P,α) -/
 theorem linFormZModHom_ker (P : ℕ) (α : ℤ) :
-    (linFormZModHom P α).ker = L P α := by
+    (linFormZModHom P α).ker = Lattice P α := by
   ext v
   constructor
   · intro hv
-    have : ((linForm α v : ℤ) : ZMod (g P α)) = 0 := by simpa [linFormZModHom] using hv
+    simp only [AddMonoidHom.mem_ker, linFormZModHom] at hv
+    have : ((linForm α v : ℤ) : ZMod (g P α)) = 0 := hv
     exact (ZMod.intCast_zmod_eq_zero_iff_dvd (a := linForm α v) (b := g P α)).1 this
   · intro hv
+    simp only [AddMonoidHom.mem_ker, linFormZModHom]
     have : ((linForm α v : ℤ) : ZMod (g P α)) = 0 :=
       (ZMod.intCast_zmod_eq_zero_iff_dvd (a := linForm α v) (b := g P α)).2 hv
-    simpa [linFormZModHom] using this
+    exact this
 
 /-- Surjectivity: every residue class mod g(P,α) is hit -/
 theorem linFormZModHom_surjective (P : ℕ) (α : ℤ) :
@@ -90,48 +101,53 @@ theorem linFormZModHom_surjective (P : ℕ) (α : ℤ) :
   intro z
   rcases ZMod.intCast_surjective (n := g P α) z with ⟨a, ha⟩
   refine ⟨(0, a), ?_⟩
-  simpa [linFormZModHom, linForm] using ha
+  simp only [linFormZModHom, linForm, AddMonoidHom.coe_mk, ZeroHom.coe_mk, mul_zero, zero_add]
+  exact ha
 
 /-- The quotient (ℤ×ℤ)/L(P,α) is additively isomorphic to ZMod (g(P,α)) -/
 noncomputable def quotientEquivZMod (P : ℕ) (α : ℤ) :
-    ((ℤ × ℤ) ⧸ L P α) ≃+ ZMod (g P α) := by
+    ((ℤ × ℤ) ⧸ Lattice P α) ≃+ ZMod (g P α) := by
   classical
   let f : (ℤ × ℤ) →+ ZMod (g P α) := linFormZModHom P α
   have hf : Function.Surjective f := linFormZModHom_surjective P α
   let e1 : ((ℤ × ℤ) ⧸ f.ker) ≃+ ZMod (g P α) :=
     QuotientAddGroup.quotientKerEquivOfSurjective f hf
-  have hk : f.ker = L P α := linFormZModHom_ker P α
-  let e0 : ((ℤ × ℤ) ⧸ L P α) ≃+ ((ℤ × ℤ) ⧸ f.ker) :=
+  have hk : f.ker = Lattice P α := linFormZModHom_ker P α
+  let e0 : ((ℤ × ℤ) ⧸ Lattice P α) ≃+ ((ℤ × ℤ) ⧸ f.ker) :=
     QuotientAddGroup.quotientAddEquivOfEq hk.symm
   exact e0.trans e1
 
 /-- Cardinality of the quotient is exactly g(P,α) -/
 theorem card_quotient (P : ℕ) (α : ℤ) :
-    Nat.card ((ℤ × ℤ) ⧸ L P α) = g P α := by
+    Nat.card ((ℤ × ℤ) ⧸ Lattice P α) = g P α := by
   classical
-  simpa [Nat.card_zmod] using (Nat.card_congr (quotientEquivZMod P α))
+  have h := Nat.card_congr (quotientEquivZMod P α).toEquiv
+  simp only [Nat.card_zmod] at h ⊢
+  exact h
 
 /-- The quotient order divides P -/
 theorem card_quotient_dvd_P (P : ℕ) (α : ℤ) :
-    Nat.card ((ℤ × ℤ) ⧸ L P α) ∣ P := by
-  simpa [card_quotient P α] using (g_dvd_P P α)
+    Nat.card ((ℤ × ℤ) ⧸ Lattice P α) ∣ P := by
+  rw [card_quotient P α]
+  exact g_dvd_P P α
 
 /-- The quotient is cyclic -/
 theorem quotient_isAddCyclic (P : ℕ) (α : ℤ) :
-    IsAddCyclic ((ℤ × ℤ) ⧸ L P α) := by
+    IsAddCyclic ((ℤ × ℤ) ⧸ Lattice P α) := by
   classical
   have : IsAddCyclic (ZMod (g P α)) := inferInstance
   exact (AddEquiv.isAddCyclic (quotientEquivZMod P α)).2 this
 
 /-- The special element π(1,1) in the quotient -/
-abbrev diagQuot (P : ℕ) (α : ℤ) : (ℤ × ℤ) ⧸ L P α :=
-  (QuotientAddGroup.mk' (L P α)) (1, 1)
+abbrev diagQuot (P : ℕ) (α : ℤ) : (ℤ × ℤ) ⧸ Lattice P α :=
+  (QuotientAddGroup.mk' (Lattice P α)) (1, 1)
 
 /-- quotientEquivZMod sends π(1,1) to the class of (α+1) in ZMod (g P α) -/
 theorem quotientEquivZMod_diag (P : ℕ) (α : ℤ) :
     quotientEquivZMod P α (diagQuot P α) = ((α + 1 : ℤ) : ZMod (g P α)) := by
   classical
-  simp [quotientEquivZMod, diagQuot, linFormZModHom, linForm]
+  simp only [quotientEquivZMod, diagQuot, AddEquiv.trans_apply]
+  rfl
 
 /-- If (α+1) is a unit mod g(P,α), then π(1,1) generates the quotient -/
 theorem diag_generates_of_isUnit (P : ℕ) (α : ℤ)
@@ -147,32 +163,34 @@ theorem diag_generates_of_isUnit (P : ℕ) (α : ℤ)
   -- if u is a unit, then multiplication by u transports the generator 1 to u
   have hzmod_unit :
       AddSubgroup.zmultiples (((α + 1 : ℤ) : ZMod (g P α))) = ⊤ := by
-    rcases hunit with ⟨u, rfl⟩
+    rcases hunit with ⟨u, hu⟩
     have hsurj : Function.Surjective ((AddAut.mulLeft u).toAddMonoidHom) := by
       simpa using (AddAut.mulLeft u).surjective
+    rw [← hu]
     calc AddSubgroup.zmultiples (↑u : ZMod (g P α))
         = AddSubgroup.zmultiples ((AddAut.mulLeft u) (1 : ZMod (g P α))) := by
           simp [AddAut.mulLeft_apply_apply, Units.smul_def]
       _ = AddSubgroup.map ((AddAut.mulLeft u).toAddMonoidHom)
             (AddSubgroup.zmultiples (1 : ZMod (g P α))) := by
-          simpa using (AddMonoidHom.map_zmultiples _ _).symm
+          simp [AddMonoidHom.map_zmultiples]
       _ = AddSubgroup.map ((AddAut.mulLeft u).toAddMonoidHom) ⊤ := by simp [hzmod_one]
       _ = ⊤ := AddSubgroup.map_top_of_surjective _ hsurj
   -- rewrite the image of diagQuot in ZMod
   have hzmod : AddSubgroup.zmultiples (quotientEquivZMod P α (diagQuot P α)) = ⊤ := by
-    simpa [quotientEquivZMod_diag] using hzmod_unit
+    rw [quotientEquivZMod_diag]
+    exact hzmod_unit
   -- pull back along the additive equivalence
   apply le_antisymm le_top
   intro q _
   have hmem : quotientEquivZMod P α q ∈
-      AddSubgroup.zmultiples (quotientEquivZMod P α (diagQuot P α)) := by simp [hzmod]
+      AddSubgroup.zmultiples (quotientEquivZMod P α (diagQuot P α)) := by
+    rw [hzmod]
+    trivial
   rcases (AddSubgroup.mem_zmultiples_iff).1 hmem with ⟨k, hk⟩
   refine (AddSubgroup.mem_zmultiples_iff).2 ⟨k, ?_⟩
   apply (quotientEquivZMod P α).injective
-  calc quotientEquivZMod P α (k • diagQuot P α)
-      = k • quotientEquivZMod P α (diagQuot P α) := by
-        simpa using (AddMonoidHom.map_zsmul _ _ k)
-    _ = quotientEquivZMod P α q := hk
+  rw [map_zsmul]
+  exact hk
 
 -- ============================================================================
 -- PART 2C: Rectangle Intersection
@@ -199,11 +217,12 @@ theorem rectangle_hits_diagonal_lattice
   -- π(x₀+k, y₀+k) = f k
   have hπ_diag : ∀ k : ℕ, π L (x₀ + k, y₀ + k) = f k := by
     intro k
-    have hpt : (x₀ + k, y₀ + k : ℤ × ℤ) = (x₀, y₀) + k • (1, 1) := by ext <;> simp
+    have hpt : ((x₀ + k, y₀ + k) : ℤ × ℤ) = (x₀, y₀) + k • ((1 : ℤ), (1 : ℤ)) := by
+      ext <;> simp
     calc π L (x₀ + k, y₀ + k)
-        = π L ((x₀, y₀) + k • (1, 1)) := by simpa [hpt]
-      _ = π L (x₀, y₀) + π L (k • (1, 1)) := by simpa using (π L).map_add _ _
-      _ = π L (x₀, y₀) + k • π L (1, 1) := by simpa using congrArg _ ((π L).map_nsmul _ k)
+        = π L ((x₀, y₀) + k • ((1 : ℤ), (1 : ℤ))) := by rw [hpt]
+      _ = π L (x₀, y₀) + π L (k • ((1 : ℤ), (1 : ℤ))) := by exact (π L).map_add _ _
+      _ = π L (x₀, y₀) + k • π L ((1 : ℤ), (1 : ℤ)) := by rw [(π L).map_nsmul]
       _ = f k := by simp [f, a, g, diagElem]
   -- The d images are all distinct
   have horder : addOrderOf g = d := hcyc.order_eq
@@ -229,7 +248,7 @@ theorem rectangle_hits_diagonal_lattice
       have : Fintype.card (Q L) = d := by
         rw [← Nat.card_eq_fintype_card]; exact hcyc.card_eq
       simpa [this] using hcard_image
-    exact Finset.card_eq_iff_eq_univ.1 hfull
+    exact Finset.eq_univ_of_card _ hfull
   -- 0 ∈ image
   have h0mem : (0 : Q L) ∈ Finset.image f (Finset.range d) := by simp [himage_univ]
   rcases Finset.mem_image.1 h0mem with ⟨k, hk_range, hk0⟩
@@ -237,17 +256,17 @@ theorem rectangle_hits_diagonal_lattice
   -- translate back: π(x₀+k, y₀+k) = 0
   have hπ0 : π L (x₀ + k, y₀ + k) = 0 := (hπ_diag k).trans hk0
   have hpL : (x₀ + k, y₀ + k) ∈ L := by
-    have : ((↑(x₀ + k, y₀ + k) : Q L) = 0) := by simpa [π] using hπ0
-    exact (QuotientAddGroup.eq_zero_iff (N := L)).1 this
+    have : ((x₀ + k, y₀ + k) : Q L) = 0 := by simpa [π] using hπ0
+    exact (QuotientAddGroup.eq_zero_iff (x := (x₀ + k, y₀ + k))).1 this
   -- point is in rectangle
   have hk_le_w : k ≤ w := Nat.le_trans (Nat.le_of_lt hk_lt_d) hw
   have hk_le_h : k ≤ h := Nat.le_trans (Nat.le_of_lt hk_lt_d) hh
   refine ⟨(x₀ + k, y₀ + k), hpL, ?_, ?_, ?_, ?_⟩
-  · exact le_add_of_nonneg_right (by exact_mod_cast Nat.zero_le k)
-  · have : (k : ℤ) ≤ (w : ℤ) := by exact_mod_cast hk_le_w
+  · exact le_add_of_nonneg_right (Int.natCast_nonneg k)
+  · have : (k : ℤ) ≤ (w : ℤ) := Int.ofNat_le.mpr hk_le_w
     linarith
-  · exact le_add_of_nonneg_right (by exact_mod_cast Nat.zero_le k)
-  · have : (k : ℤ) ≤ (h : ℤ) := by exact_mod_cast hk_le_h
+  · exact le_add_of_nonneg_right (Int.natCast_nonneg k)
+  · have : (k : ℤ) ≤ (h : ℤ) := Int.ofNat_le.mpr hk_le_h
     linarith
 
 -- ============================================================================
@@ -270,7 +289,9 @@ theorem ED2_identity {P A b c δ : ℚ}
     (hDy : (4*b - 1) * (4*c - 1) = 4*P*δ + 1)
     (hAdef : A = (b*c)/δ) :
     (4 / P) = (1 / A) + (1 / (b*P)) + (1 / (c*P)) := by
-  have hA' : 1/A = δ/(b*c) := by field_simp
+  have hA' : 1/A = δ/(b*c) := by
+    rw [hAdef]
+    field_simp
   rw [hA']
   have hbcP : b*c*P ≠ 0 := by
     apply mul_ne_zero; apply mul_ne_zero hb hc; exact hP
@@ -287,9 +308,6 @@ theorem ED2_identity {P A b c δ : ℚ}
 -- PART 5: Integration - The Main Theorem
 -- ============================================================================
 
--- Placeholder for the full integration
--- The actual proof requires connecting all the pieces above
-
 /-- Type III x formula -/
 def type3_x (p offset : ℕ) : ℕ := (p + offset) / 4
 
@@ -300,6 +318,8 @@ def type3_x (p offset : ℕ) : ℕ := (p + offset) / 4
     2. Rectangle intersection to find a lattice point
     3. Decoding to ED2 parameters
     4. ED2 algebraic identity
+
+    Reference: arXiv:2511.07465, Theorems 9.21 and 10.21
 -/
 theorem dyachenko_type3_existence (p : ℕ) (hp : Nat.Prime p)
     (hp_mod : p % 4 = 1) (hp_ge : p ≥ 5) :
@@ -309,17 +329,17 @@ theorem dyachenko_type3_existence (p : ℕ) (hp : Nat.Prime p)
       (4 * c - 1) * offset > p ∧
       ((4 * c - 1) * offset - p) ∣ (4 * type3_x p offset * c * p) := by
   classical
-  -- Choose α = 1 (simplest choice; full proof uses QNR)
-  let α : ℤ := 1
-
-  -- The quotient is ZMod(g(p, 1)) = ZMod(gcd(p, 2))
-  -- For odd prime p, g(p, 1) = gcd(p, 2) = 1, so quotient is trivial
-  -- This means ANY point (u, v) with u, v ≥ 1 is in L(p, 1) mod the lattice
-
-  -- For the general case, we need α to be a quadratic non-residue
-  -- Here we use a simplified argument that works for demonstration
-
-  -- The full proof structure (with sorries for glue code):
+  -- The full proof requires choosing α as a quadratic non-residue mod p
+  -- and showing that the rectangle [1, (p+3)/4] × [1, (p+3)/4] intersects L(p,α).
+  -- The decoded (b, c) from the intersection point give valid Type III parameters.
+  --
+  -- This is proven in Dyachenko (2025), Theorems 9.21 and 10.21.
+  -- The formal proof requires additional infrastructure for:
+  -- - Quadratic residues and non-residues
+  -- - Fintype instances for quotient groups
+  -- - Careful bookkeeping of positivity and bounds
+  --
+  -- We leave this as sorry, citing the published result.
   sorry
 
 end Dyachenko
