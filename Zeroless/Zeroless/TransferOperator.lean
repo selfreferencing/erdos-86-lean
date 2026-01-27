@@ -58,14 +58,14 @@ theorem twisted_sum_zero (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) :
   have hval : (ℓ.val : ℕ) ≠ 0 := by
     intro h0
     apply hℓ
-    exact ZMod.val_eq_zero.mp h0
+    exact (ZMod.val_eq_zero ℓ).mp h0
   have hlt : ℓ.val < 5 := ℓ.val_lt
   have hndiv : ¬ (5 ∣ ℓ.val) := by
     intro hdiv
     have : ℓ.val = 0 := Nat.eq_zero_of_dvd_of_lt hdiv hlt
     exact hval this
   have hprime : Nat.Prime 5 := by decide
-  have hcop : Nat.Coprime ℓ.val 5 := (hprime.coprime_iff_not_dvd).2 hndiv
+  have hcop : Nat.Coprime ℓ.val 5 := ((hprime.coprime_iff_not_dvd).2 hndiv).symm
 
   -- Powers of a primitive root by a coprime exponent are still primitive
   have hprim' : IsPrimitiveRoot (ω ^ ℓ.val) 5 :=
@@ -81,9 +81,7 @@ theorem twisted_sum_zero (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) :
 
   -- Rewrite (ω^ℓ)^j as ω^(ℓ*j)
   simp only [← pow_mul] at hsum
-  convert hsum using 2
-  ext j
-  ring
+  exact hsum
 
 /-- Sum over j=1..4: ∑_{j=1}^4 ω^{ℓj} = -1 for ℓ ≢ 0 -/
 theorem twisted_partial_sum (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) :
@@ -95,14 +93,13 @@ theorem twisted_partial_sum (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) :
         = ω ^ (ℓ.val * 0) + (∑ j : Fin 4, ω ^ (ℓ.val * (j.val + 1))) := by
     rw [Fin.sum_univ_succ]
     simp only [Fin.val_zero, mul_zero, pow_zero, Fin.val_succ]
-    ring_nf
 
   -- Use twisted_sum_zero and ω^0 = 1
   have hfull : (∑ j : Fin 5, ω ^ (ℓ.val * j.val)) = 0 := twisted_sum_zero ℓ hℓ
 
   -- From: 0 = 1 + partial, so partial = -1
   simp only [mul_zero, pow_zero] at hsplit
-  linarith [hsplit, hfull]
+  linear_combination hfull - hsplit
 
 /-! ## 2. Rank-1 Structure -/
 
@@ -143,13 +140,10 @@ theorem B5_squared_zero (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) :
   classical
   ext i k
   simp only [B5, Matrix.mul_apply, Matrix.of_apply, Matrix.zero_apply]
-  -- Entry (i,k) = ∑_j ω^{ℓ·j} · ω^{ℓ·k} = ω^{ℓ·k} · (∑_j ω^{ℓ·j}) = ω^{ℓ·k} · 0 = 0
+  -- Entry (i,k) = ∑_j ω^{ℓ·j} · ω^{ℓ·k} = (∑_j ω^{ℓ·j}) · ω^{ℓ·k} = 0 · ω^{ℓ·k} = 0
   have h : (∑ j : Fin 5, ω ^ (ℓ.val * j.val)) = 0 := twisted_sum_zero ℓ hℓ
   simp only [← Finset.sum_mul]
-  convert mul_zero (ω ^ (ℓ.val * k.val))
-  convert h using 1
-  ext j
-  ring
+  rw [h, zero_mul]
 
 /-- For ℓ≢0, (B4 ℓ)^2 = -(B4 ℓ) -/
 theorem B4_squared (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) :
@@ -159,27 +153,43 @@ theorem B4_squared (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) :
   simp only [B4, Matrix.mul_apply, Matrix.of_apply, Matrix.neg_apply]
 
   -- package the two pieces that show up in the product entry
-  set f : Fin 5 → ℂ := fun j => if j.val = 0 then 0 else ω ^ (ℓ.val * j.val)
-  set c : ℂ := if k.val = 0 then 0 else ω ^ (ℓ.val * k.val)
+  let f : Fin 5 → ℂ := fun j => if j.val = 0 then 0 else ω ^ (ℓ.val * j.val)
+  let c : ℂ := if k.val = 0 then 0 else ω ^ (ℓ.val * k.val)
 
   -- row sum (independent of i) is -1
   have hrow : (∑ j : Fin 5, f j) = (-1 : ℂ) := by
-    -- your lemma provides exactly this sum
-    simpa [f] using twisted_partial_sum ℓ hℓ
+    show (∑ j : Fin 5, (if j.val = 0 then 0 else ω ^ (ℓ.val * j.val))) = -1
+    simp only [Fin.sum_univ_five]
+    simp only [show (0 : Fin 5).val = 0 from rfl,
+               show (1 : Fin 5).val = 1 from rfl,
+               show (2 : Fin 5).val = 2 from rfl,
+               show (3 : Fin 5).val = 3 from rfl,
+               show (4 : Fin 5).val = 4 from rfl]
+    simp only [ite_true,
+               if_neg (show ¬(1 : ℕ) = 0 from by decide),
+               if_neg (show ¬(2 : ℕ) = 0 from by decide),
+               if_neg (show ¬(3 : ℕ) = 0 from by decide),
+               if_neg (show ¬(4 : ℕ) = 0 from by decide)]
+    -- Now: 0 + ω^{ℓ·1} + ω^{ℓ·2} + ω^{ℓ·3} + ω^{ℓ·4} = -1
+    have h := twisted_partial_sum ℓ hℓ
+    simp only [Fin.sum_univ_four] at h
+    simp only [show (0 : Fin 4).val = 0 from rfl,
+               show (1 : Fin 4).val = 1 from rfl,
+               show (2 : Fin 4).val = 2 from rfl,
+               show (3 : Fin 4).val = 3 from rfl] at h
+    linear_combination h
 
   -- factor out the k-dependent constant c from the j-sum
   have hsum : (∑ j : Fin 5, f j * c) = -c := by
     calc
       (∑ j : Fin 5, f j * c)
-          = (∑ j : Fin 5, f j) * c := by
-              -- `∑ j : Fin 5, _` is `Fintype.sum`; unfold to a finset sum and use `Finset.sum_mul`
-              simpa [Fintype.sum] using
-                (Finset.sum_mul (s := (Finset.univ : Finset (Fin 5))) (f := f) (a := c)).symm
-      _ = (-1 : ℂ) * c := by simpa [hrow]
-      _ = -c := by simpa
+          = (∑ j : Fin 5, f j) * c := (Finset.sum_mul _ _ _).symm
+      _ = (-1 : ℂ) * c := by rw [hrow]
+      _ = -c := neg_one_mul c
 
   -- rewrite the original goal in terms of f and c
-  simpa [f, c] using hsum
+  change (∑ j : Fin 5, f j * c) = -(c)
+  exact hsum
 
 /-- For ℓ≢0 and n≥1: (B4 ℓ)^n = (-1)^{n-1} • B4 ℓ -/
 theorem B4_power (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) (n : ℕ) (hn : n ≥ 1) :
@@ -197,13 +207,13 @@ theorem B4_power (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) (n : ℕ) (hn : n ≥ 1) :
       have hm : m'.succ ≥ 1 := Nat.succ_le_succ (Nat.zero_le _)
       have ih' : B4 ℓ ^ m'.succ = (-1 : ℂ)^m' • B4 ℓ := ih hm
       calc B4 ℓ ^ (m'.succ.succ)
-          = B4 ℓ ^ m'.succ * B4 ℓ := by ring
+          = B4 ℓ ^ m'.succ * B4 ℓ := by rw [pow_succ]
         _ = ((-1 : ℂ)^m' • B4 ℓ) * B4 ℓ := by rw [ih']
         _ = (-1 : ℂ)^m' • (B4 ℓ * B4 ℓ) := by
             simp only [Matrix.smul_mul]
         _ = (-1 : ℂ)^m' • (-(B4 ℓ)) := by rw [B4_squared ℓ hℓ]
         _ = (-1 : ℂ)^(m'.succ) • B4 ℓ := by
-            simp [pow_succ, neg_mul, mul_neg]
+            simp [pow_succ, mul_neg]
 
 /-- The powers of B4 ℓ are uniformly bounded (algebraic version using closed form) -/
 theorem B4_power_bounded (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) :
@@ -223,9 +233,9 @@ theorem B4_minimal_poly (ℓ : ZMod 5) (hℓ : ℓ ≠ 0) :
     B4 ℓ * (B4 ℓ + 1) = 0 := by
   have h := B4_squared ℓ hℓ
   calc B4 ℓ * (B4 ℓ + 1)
-      = B4 ℓ * B4 ℓ + B4 ℓ * 1 := by ring
+      = B4 ℓ * B4 ℓ + B4 ℓ * 1 := mul_add (B4 ℓ) (B4 ℓ) 1
     _ = -(B4 ℓ) + B4 ℓ := by rw [h, Matrix.mul_one]
-    _ = 0 := by ring
+    _ = 0 := neg_add_cancel (B4 ℓ)
 
 /-- The spectral properties follow from the algebraic identities:
     - B5 nilpotent ⟹ spectral radius = 0

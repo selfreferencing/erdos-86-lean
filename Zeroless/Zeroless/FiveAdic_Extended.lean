@@ -1,4 +1,20 @@
 /-
+This file was edited by Aristotle.
+
+Lean version: leanprover/lean4:v4.24.0
+Mathlib version: f897ebcf72cd16f89ab4577d0c826cd14afaafc7
+This project request had uuid: f685d570-f951-49ad-afbc-64fef25230e5
+
+To cite Aristotle, tag @Aristotle-Harmonic on GitHub PRs/issues, and add as co-author to commits:
+Co-authored-by: Aristotle (Harmonic) <aristotle-harmonic@harmonic.fun>
+
+The following was proved by Aristotle:
+
+- theorem s_eq_three (k : ℕ) (hk : k ≥ 1) :
+    (m k : ZMod (5^(k+1))) = 1 + 3 * 5^k
+-/
+
+/-
   Zeroless/FiveAdic_Extended.lean
   Extended 5-adic Infrastructure with full four_or_five_children proof
 
@@ -39,10 +55,260 @@ def survives (k : ℕ) (u : ZMod (5^(k+1))) : Prop :=
 /-- Specifically: s_k = 3 for all k (the expansion coefficient is constant) -/
 theorem s_eq_three (k : ℕ) (hk : k ≥ 1) :
     (m k : ZMod (5^(k+1))) = 1 + 3 * 5^k := by
-  sorry  -- Proved by Aristotle in FiveAdic.lean
+  -- We'll use that $2^{T_k} \equiv 1 + 3 \cdot 5^k \pmod{5^{k+1}}$.
+  have h_cong : 2 ^ (4 * 5 ^ (k - 1)) ≡ 1 + 3 * 5 ^ k [MOD 5 ^ (k + 1)] := by
+    -- We proceed by induction on $k$.
+    induction' k with k ih;
+    · contradiction;
+    · rcases k with ( _ | k ) <;> simp_all +decide [ Nat.modEq_iff_dvd ];
+      obtain ⟨ m, hm ⟩ := ih;
+      -- We can rewrite $2^{4 \cdot 5^{k+1}}$ as $(2^{4 \cdot 5^k})^5$ and apply the binomial theorem.
+      have h_binom : (2 ^ (4 * 5 ^ (k + 1)) : ℤ) = (1 + 3 * 5 ^ (k + 1) - 5 ^ (k + 2) * m) ^ 5 := by
+        rw [ ← hm ] ; ring;
+      rw [ h_binom ] ; ring_nf;
+      refine' dvd_add _ _;
+      · refine' dvd_add _ _;
+        · refine' dvd_add _ _;
+          · refine' dvd_add _ _;
+            · refine' dvd_add _ _;
+              · refine' dvd_add _ _;
+                · refine' dvd_add _ _;
+                  · refine' dvd_add _ _;
+                    · refine' dvd_add _ _;
+                      · exact ⟨ m + m * 5 ^ k * 60 + m * 5 ^ ( k * 2 ) * 1350 + m * 5 ^ ( k * 3 ) * 13500 + m * 5 ^ ( k * 4 ) * 50625, by ring ⟩;
+                      · exact ⟨ -m ^ 2 * 5 ^ k * 50 - m ^ 2 * 5 ^ ( k * 2 ) * 2250, by ring ⟩;
+                    · exact ⟨ -m ^ 2 * 5 ^ ( k * 3 ) * 33750 - m ^ 2 * 5 ^ ( k * 4 ) * 168750, by ring ⟩;
+                  · exact ⟨ m ^ 3 * 5 ^ ( k * 2 ) * 1250, by ring ⟩;
+                · exact ⟨ m ^ 3 * 5 ^ ( k * 3 ) * 37500, by ring ⟩;
+              · exact ⟨ m ^ 3 * 5 ^ ( k * 4 ) * 281250, by ring ⟩;
+            · exact ⟨ -m ^ 4 * 5 ^ ( k * 3 ) * 15625 - m ^ 4 * 5 ^ ( k * 4 ) * 234375, by ring ⟩;
+          · exact ⟨ m ^ 5 * 5 ^ ( k * 4 ) * 78125, by ring ⟩;
+        · exact ⟨ -5 ^ k * 18 - 5 ^ ( k * 2 ) * 270, by ring ⟩;
+      · exact ⟨ -5 ^ ( k * 3 ) * 2025 - 5 ^ ( k * 4 ) * 6075, by ring ⟩;
+  erw [ ← ZMod.natCast_eq_natCast_iff ] at * ; norm_num at * ; aesop;
+
+-- Proved by Aristotle in FiveAdic.lean
+
+/-! ## Auxiliary lemmas for the digit computation -/
+
+/-- If a^2 = 0 in a commutative semiring, then (1+a)^n = 1 + n*a -/
+private lemma one_add_pow_of_sq_zero
+    {R : Type*} [CommSemiring R] (a : R) (ha : a^2 = 0) (n : ℕ) :
+    (1 + a)^n = 1 + (n : R) * a := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      have haa : a * a = 0 := by simpa [pow_two] using ha
+      calc
+        (1 + a)^(Nat.succ n) = (1 + a)^n * (1 + a) := by simp [pow_succ]
+        _ = (1 + (n : R) * a) * (1 + a) := by simpa [ih]
+        _ = (1 + (n : R) * a) + (1 + (n : R) * a) * a := by simp [mul_add]
+        _ = (1 + (n : R) * a) + (a + (n : R) * a * a) := by simp [add_mul, mul_assoc]
+        _ = (1 + (n : R) * a) + a := by simp [haa, mul_assoc]
+        _ = 1 + ((n : R) * a + a) := by ac_rfl
+        _ = 1 + (Nat.succ n : R) * a := by
+            simp [Nat.cast_succ, add_mul, one_mul, add_assoc, add_comm, add_left_comm]
+
+/-- 5 * 5^k = 0 in ZMod (5^(k+1)) -/
+lemma five_q_zero (k : ℕ) :
+    (5 : ZMod (5^(k+1))) * (5^k : ZMod (5^(k+1))) = 0 := by
+  have hmul : (5 * 5^k : ℕ) = 5^(k+1) := by
+    simpa [pow_succ] using (Nat.mul_comm (5 : ℕ) (5^k))
+  have hdvd : (5^(k+1) : ℕ) ∣ (5 * 5^k : ℕ) := by
+    simpa [hmul] using (dvd_refl (5^(k+1)))
+  have hcast : ((5 * 5^k : ℕ) : ZMod (5^(k+1))) = 0 := by
+    exact (ZMod.natCast_zmod_eq_zero_iff_dvd (a := 5 * 5^k) (b := 5^(k+1))).2 hdvd
+  simpa [Nat.cast_mul] using hcast
+
+/-- (5^k)^2 = 0 in ZMod (5^(k+1)) when k ≥ 1 -/
+lemma q_sq_zero (k : ℕ) (hk : k ≥ 1) :
+    (5^k : ZMod (5^(k+1))) * (5^k : ZMod (5^(k+1))) = 0 := by
+  have hle : k + 1 ≤ k + k := by omega
+  have hdvd : (5^(k+1) : ℕ) ∣ (5^k * 5^k : ℕ) := by
+    simpa [pow_add] using (Nat.pow_dvd_pow 5 hle)
+  have hcast : ((5^k * 5^k : ℕ) : ZMod (5^(k+1))) = 0 := by
+    exact (ZMod.natCast_zmod_eq_zero_iff_dvd (a := 5^k * 5^k) (b := 5^(k+1))).2 hdvd
+  simpa [Nat.cast_mul] using hcast
+
+/-- (3 * 5^k)^2 = 0 in ZMod (5^(k+1)) when k ≥ 1 -/
+private lemma three_mul_pow_k_sq_zero (k : ℕ) (hk : k ≥ 1) :
+    ((3 : ZMod (5^(k+1))) * (5^k : ZMod (5^(k+1))))^2 = 0 := by
+  have hqq := q_sq_zero k hk
+  calc ((3 : ZMod (5^(k+1))) * (5^k : ZMod (5^(k+1))))^2
+      = 9 * ((5^k : ZMod (5^(k+1))) * (5^k : ZMod (5^(k+1)))) := by ring
+    _ = 9 * 0 := by rw [hqq]
+    _ = 0 := by ring
+
+/-- (m k)^j = 1 + j * 3 * 5^k in ZMod (5^(k+1)) -/
+lemma m_pow_eq (k : ℕ) (hk : k ≥ 1) (j : ℕ) :
+    (m k : ZMod (5^(k+1)))^j = 1 + (j : ZMod (5^(k+1))) * 3 * (5^k : ZMod (5^(k+1))) := by
+  rw [s_eq_three k hk]
+  have hsq := three_mul_pow_k_sq_zero k hk
+  have h := one_add_pow_of_sq_zero ((3 : ZMod (5^(k+1))) * (5^k : ZMod (5^(k+1)))) hsq j
+  simpa [mul_assoc] using h
+
+/-- The product u * (m k)^j in ZMod (5^(k+1)) equals lo + b * q -/
+lemma product_zmod_eq (k : ℕ) (hk : k ≥ 1) (u : ZMod (5^(k+1))) (j : ℕ) :
+    let q := 5^k
+    let hi := u.val / q
+    let lo := u.val % q
+    let b := (hi + lo * j * 3) % 5
+    u * (m k : ZMod (5^(k+1)))^j =
+      (lo : ZMod (5^(k+1))) + (b : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) := by
+  classical
+  dsimp
+  set q : ℕ := 5^k with hq
+  set hi : ℕ := u.val / q with hhi
+  set lo : ℕ := u.val % q with hlo
+  set a : ℕ := hi + lo * j * 3 with ha
+  set b : ℕ := a % 5 with hb
+  -- Bridge between (5 : ZMod ...)^k and ↑q (= Nat.cast q)
+  have hcast5k : (5 : ZMod (5^(k+1)))^k = (q : ZMod (5^(k+1))) := by
+    rw [hq]; push_cast; ring
+  have hm :
+      (m k : ZMod (5^(k+1)))^j =
+      1 + (j : ZMod (5^(k+1))) * 3 * (q : ZMod (5^(k+1))) := by
+    have h := m_pow_eq k hk j; rw [hcast5k] at h; exact h
+  have hqq : (q : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) = 0 := by
+    have h := q_sq_zero k hk; rw [hcast5k] at h; exact h
+  have h5q : (5 : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) = 0 := by
+    have h := five_q_zero k; rw [hcast5k] at h; exact h
+  have huval : (u.val : ZMod (5^(k+1))) = u := ZMod.natCast_zmod_val u
+  have hdiv : u.val = q * hi + lo := by
+    simpa [hhi.symm, hlo.symm] using (Nat.div_add_mod u.val q).symm
+  have hu : u = (lo : ZMod (5^(k+1))) + (hi : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) := by
+    calc
+      u = (u.val : ZMod (5^(k+1))) := by simpa using huval.symm
+      _ = ((q * hi + lo : ℕ) : ZMod (5^(k+1))) := by simpa [hdiv]
+      _ = (lo : ZMod (5^(k+1))) + (hi : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) := by
+          simp [Nat.cast_add, Nat.cast_mul]
+          ring
+  have hmain :
+      u * (m k : ZMod (5^(k+1)))^j =
+      (lo : ZMod (5^(k+1))) + (a : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) := by
+    have hcoef :
+        (a : ZMod (5^(k+1))) =
+        (hi : ZMod (5^(k+1))) + (lo : ZMod (5^(k+1))) * (j : ZMod (5^(k+1))) * 3 := by
+      simp [ha, Nat.cast_add, Nat.cast_mul, mul_assoc, mul_left_comm, mul_comm]
+    have hterm :
+        (hi : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) *
+            ((j : ZMod (5^(k+1))) * 3 * (q : ZMod (5^(k+1)))) = 0 := by
+      calc
+        (hi : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) *
+            ((j : ZMod (5^(k+1))) * 3 * (q : ZMod (5^(k+1))))
+            =
+            (hi : ZMod (5^(k+1))) * (j : ZMod (5^(k+1))) * 3 *
+              ((q : ZMod (5^(k+1))) * (q : ZMod (5^(k+1)))) := by
+              ring
+        _ = 0 := by simp [hqq]
+    calc
+      u * (m k : ZMod (5^(k+1)))^j
+          = u * (1 + (j : ZMod (5^(k+1))) * 3 * (q : ZMod (5^(k+1)))) := by
+              simpa [hm]
+      _ = u + u * ((j : ZMod (5^(k+1))) * 3 * (q : ZMod (5^(k+1)))) := by ring
+      _ = ((lo : ZMod (5^(k+1))) + (hi : ZMod (5^(k+1))) * (q : ZMod (5^(k+1)))) +
+            (((lo : ZMod (5^(k+1))) + (hi : ZMod (5^(k+1))) * (q : ZMod (5^(k+1)))) *
+              ((j : ZMod (5^(k+1))) * 3 * (q : ZMod (5^(k+1))))) := by
+              simpa [hu]
+      _ = (lo : ZMod (5^(k+1))) + (hi : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) +
+            (lo : ZMod (5^(k+1))) * ((j : ZMod (5^(k+1))) * 3 * (q : ZMod (5^(k+1)))) +
+            (hi : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) *
+              ((j : ZMod (5^(k+1))) * 3 * (q : ZMod (5^(k+1)))) := by
+              ring
+      _ = (lo : ZMod (5^(k+1))) + (hi : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) +
+            (lo : ZMod (5^(k+1))) * ((j : ZMod (5^(k+1))) * 3 * (q : ZMod (5^(k+1)))) := by
+              simp [hterm]
+      _ = (lo : ZMod (5^(k+1))) +
+            ((hi : ZMod (5^(k+1))) + (lo : ZMod (5^(k+1))) * (j : ZMod (5^(k+1))) * 3) *
+              (q : ZMod (5^(k+1))) := by
+              ring
+      _ = (lo : ZMod (5^(k+1))) + (a : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) := by
+              simpa [hcoef.symm]
+  have haq :
+      (a : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) =
+      (b : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) := by
+    have hadecomp : a = (a / 5) * 5 + b := by
+      simpa [Nat.mul_comm, hb.symm] using (Nat.div_add_mod a 5).symm
+    -- Rewrite ↑a using the decomposition
+    have ha_cast : (a : ZMod (5^(k+1))) =
+        ((a / 5 : ℕ) : ZMod (5^(k+1))) * 5 + (b : ZMod (5^(k+1))) := by
+      conv_lhs => rw [show a = (a / 5) * 5 + b from hadecomp]
+      push_cast; ring
+    calc
+      (a : ZMod (5^(k+1))) * (q : ZMod (5^(k+1)))
+          = (((a / 5 : ℕ) : ZMod (5^(k+1))) * 5 + (b : ZMod (5^(k+1)))) *
+            (q : ZMod (5^(k+1))) := by rw [ha_cast]
+      _ = ((a / 5 : ℕ) : ZMod (5^(k+1))) * (5 * (q : ZMod (5^(k+1)))) +
+            (b : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) := by ring
+      _ = (b : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) := by simp [h5q]
+  calc
+    u * (m k : ZMod (5^(k+1)))^j
+      = (lo : ZMod (5^(k+1))) + (a : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) := hmain
+    _ = (lo : ZMod (5^(k+1))) + (b : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) := by
+        simpa using congrArg (fun x => (lo : ZMod (5^(k+1))) + x) haq
+
+/-- If lo < q, then (lo + b * q) / q = b -/
+lemma nat_add_mul_div (lo q b : ℕ) (hlo : lo < q) (hq : 0 < q) :
+    (lo + b * q) / q = b := by
+  rw [Nat.add_mul_div_right lo b hq, Nat.div_eq_of_lt hlo, zero_add]
+
+/-- Casting a small natural to ZMod preserves its value -/
+lemma val_of_small_nat (k : ℕ) (lo b : ℕ) (hlo : lo < 5^k) (hb : b < 5) :
+    ((lo + b * 5^k : ℕ) : ZMod (5^(k+1))).val = lo + b * 5^k := by
+  have hb4 : b ≤ 4 := Nat.lt_succ_iff.mp (by simpa using hb)
+  have hmul : b * 5^k ≤ 4 * 5^k := Nat.mul_le_mul_right (5^k) hb4
+  have hle : lo + b * 5^k ≤ lo + 4 * 5^k := Nat.add_le_add_left hmul lo
+  have hlt₁ : lo + 4 * 5^k < 5^k + 4 * 5^k := Nat.add_lt_add_right hlo (4 * 5^k)
+  have hlt₂ : lo + b * 5^k < 5^k + 4 * 5^k := lt_of_le_of_lt hle hlt₁
+  have hbound : 5^k + 4 * 5^k = 5^(k+1) := by
+    calc
+      5^k + 4 * 5^k = 5 * 5^k := by ring
+      _ = 5^(k+1) := by
+        calc
+          5 * 5^k = 5^k * 5 := by simpa [Nat.mul_comm]
+          _ = 5^(k+1) := by simpa [pow_succ]
+  have hlt : lo + b * 5^k < 5^(k+1) := lt_of_lt_of_eq hlt₂ hbound
+  rw [ZMod.val_natCast]
+  exact Nat.mod_eq_of_lt hlt
+
+/-- For b < 5: b ≠ 0 ↔ (b : ZMod 5) ≠ 0 -/
+lemma ne_zero_iff_cast_ne_zero (b : ℕ) (hb : b < 5) :
+    b ≠ 0 ↔ (b : ZMod 5) ≠ 0 := by
+  have h0 : ((b : ZMod 5) = 0) ↔ b = 0 := by
+    constructor
+    · intro hbz
+      have hdvd : (5 : ℕ) ∣ b := by
+        exact (ZMod.natCast_zmod_eq_zero_iff_dvd b 5).1 (by simpa using hbz)
+      rcases hdvd with ⟨c, rfl⟩
+      cases c with
+      | zero => simp
+      | succ c =>
+        have hge : 5 ≤ 5 * Nat.succ c := by
+          have : (1 : ℕ) ≤ Nat.succ c := Nat.succ_le_succ (Nat.zero_le c)
+          simpa using (Nat.mul_le_mul_left 5 this)
+        exfalso
+        exact (not_lt_of_ge hge hb)
+    · intro hb0
+      subst hb0
+      simp
+  exact (not_congr h0).symm
+
+/-- The mod-5 coefficient cast to ZMod 5 equals the digit function -/
+lemma mod_cast_eq_digit (hi lo j : ℕ) :
+    (((hi + lo * j * 3) % 5 : ℕ) : ZMod 5) =
+      (hi : ZMod 5) + ((lo % 5 : ℕ) : ZMod 5) * (3 : ZMod 5) * (j : ZMod 5) := by
+  have cast_mod5 : ∀ a : ℕ, ((a % 5 : ℕ) : ZMod 5) = (a : ZMod 5) := by
+    intro a
+    rw [← Nat.mod_add_div a 5]
+    push_cast
+    simp [show (5 : ZMod 5) = 0 from by decide]
+  rw [cast_mod5 (hi + lo * j * 3), cast_mod5 lo]
+  push_cast
+  ring
 
 /-! ## The 4-or-5 Children Theorem (Full Proof) -/
 
+open Classical in
 /-- A survivor has exactly 4 or 5 children that also survive.
     This is the "4-or-5 Children Theorem". -/
 theorem four_or_five_children (k : ℕ) (hk : k ≥ 1) (u : ZMod (5^(k+1)))
@@ -50,345 +316,209 @@ theorem four_or_five_children (k : ℕ) (hk : k ≥ 1) (u : ZMod (5^(k+1)))
     (Finset.filter (fun j : Fin 5 => survives k (u * (m k)^j.val)) Finset.univ).card ∈ ({4, 5} : Set ℕ) := by
   classical
 
-  -- Define q = 5^k, N = 5^(k+1)
-  set q : ℕ := 5^k with hq_def
-  set N : ℕ := 5^(k+1) with hN_def
+  -- Convenient shorthands (Nat)
+  let q : ℕ := 5^k
+  let N : ℕ := 5^(k+1)
 
-  have hqpos : 0 < q := Nat.pow_pos (by decide : 0 < 5) k
-  have hN_eq : N = 5 * q := by simp [hN_def, hq_def, pow_succ, mul_comm]
-
-  -- Key: 5*q = 0 in ZMod N
-  have h5q_zero : (5 : ZMod N) * (q : ZMod N) = 0 := by
-    have : (5 * q : ℕ) = N := hN_eq.symm
-    simp [← this, ZMod.natCast_self]
-
-  -- Key: q*q = 0 in ZMod N (since 2k >= k+1 for k >= 1)
-  have hqq_zero : (q : ZMod N) * (q : ZMod N) = 0 := by
-    have h2k : k + 1 ≤ 2 * k := by omega
-    have hdvd : N ∣ q * q := by
-      simp only [hN_def, hq_def]
-      exact ⟨5^(2*k - (k+1)), by
-        have : (k+1) + (2*k - (k+1)) = 2*k := Nat.add_sub_of_le h2k
-        simp [pow_add, pow_mul, ← this, mul_comm, mul_assoc]⟩
-    rcases hdvd with ⟨t, ht⟩
-    simp [← ht, ZMod.natCast_self, mul_comm]
-
-  -- Hence (3*q)^2 = 0
-  have h3q_sq : ((3 : ZMod N) * (q : ZMod N)) ^ 2 = 0 := by
-    simp [pow_two, mul_mul_mul_comm, hqq_zero]
-
-  -- m = 1 + 3*q (as ZMod N elements)
-  have hm_eq : (m k : ZMod N) = 1 + (3 : ZMod N) * (q : ZMod N) := by
-    have := s_eq_three k hk
-    simp only [hN_def, hq_def] at this ⊢
-    convert this using 2
-    simp [mul_comm]
-
-  -- Hence m^j = 1 + j*3*q (binomial with nilpotent)
-  have hm_pow (j : ℕ) : (m k : ZMod N) ^ j = 1 + (j : ZMod N) * (3 : ZMod N) * (q : ZMod N) := by
-    have hsq : (3 : ZMod N) * (q : ZMod N) * ((3 : ZMod N) * (q : ZMod N)) = 0 := by
-      simpa [pow_two] using h3q_sq
-    induction j with
-    | zero => simp
-    | succ j ih =>
-        simp only [pow_succ, ih, hm_eq]
-        ring_nf
-        simp [hsq, Nat.cast_succ]
-        ring
-
-  -- Decompose u.val = lo + hi * q where hi = top digit, lo = lower part
-  set hi : ℕ := u.val / q with hhi_def
-  set lo : ℕ := u.val % q with hlo_def
-
-  have hu_decomp : u.val = lo + hi * q := by
-    simp [hlo_def, hhi_def, Nat.mod_add_div]
+  -- hi/lo decomposition of u.val
+  let hi : ℕ := u.val / q
+  let lo : ℕ := u.val % q
 
   have hhi_lt5 : hi < 5 := by
-    have : u.val < N := ZMod.val_lt u
-    simp only [hN_eq] at this
-    exact Nat.div_lt_of_lt_mul (by simpa [mul_comm] using this)
+    -- top_digit's bound is exactly this
+    simpa [top_digit, q, hi] using (top_digit k u).isLt
 
   have hhi_ne0 : hi ≠ 0 := by
-    simpa [survives, top_digit, hq_def, hhi_def] using hu
+    -- hu : (top_digit k u).val ≠ 0, but (top_digit k u).val = u.val / q
+    simpa [survives, top_digit, q, hi] using hu
 
-  -- Key computation: for any j : Fin 5,
-  -- (u * m^j).val / q ≡ hi + lo * 3 * j (mod 5)
-  -- Actually simpler: survives iff (hi + (lo % 5) * 3 * j) % 5 ≠ 0
+  -- The digit-affine map over ZMod 5 that governs survival of children.
+  let digit : Fin 5 → ZMod 5 :=
+    fun j => (hi : ZMod 5) + ((lo % 5 : ℕ) : ZMod 5) * (3 : ZMod 5) * (j.val : ZMod 5)
 
-  -- Define the "step" s = (lo % 5) * 3 mod 5
-  set s : ℕ := (lo % 5) * 3 % 5 with hs_def
-
-  -- The filter predicate
+  -- Predicate of surviving child
   let P : Fin 5 → Prop := fun j => survives k (u * (m k)^j.val)
 
-  -- Count survivors and non-survivors
-  have hcount : (Finset.filter P Finset.univ).card + (Finset.filter (fun j => ¬P j) Finset.univ).card = 5 := by
-    have := Finset.filter_card_add_filter_neg_card_eq_card (s := Finset.univ) (p := P)
-    simp at this ⊢
-    exact this
-
-  -- The key digit formula: for j : Fin 5, the top digit of u * m^j is
-  -- (hi + (lo % 5) * 3 * j) % 5
-  -- This is because:
-  -- u * m^j = u * (1 + j*3*q) = u + u*j*3*q
-  -- The top digit changes by (u mod 5) * 3 * j (mod 5) = (lo mod 5) * 3 * j (mod 5)
-  -- since u mod 5 = u.val mod 5 = (lo + hi*q) mod 5 = lo mod 5 (as q = 5^k is divisible by 5 for k≥1... wait, no)
-  -- Actually u.val mod 5 = (lo + hi*q) mod 5.
-  -- But q = 5^k, and for k≥1, 5 | q, so (hi*q) mod 5 = 0.
-  -- Hence u.val mod 5 = lo mod 5.
-
-  -- Define the digit formula as a function in ZMod 5
-  let digit : Fin 5 → ZMod 5 := fun j => (hi : ZMod 5) + ((lo % 5 : ℕ) : ZMod 5) * 3 * (j.val : ZMod 5)
-
-  -- The child survives iff digit j ≠ 0
+  --------------------------------------------------------------------
+  -- The single "hard" arithmetic lemma: connect survives ↔ digit ≠ 0.
+  -- Everything below is pure finite-field/Finset counting.
+  --------------------------------------------------------------------
   have hdigit_iff (j : Fin 5) : P j ↔ digit j ≠ 0 := by
-    -- Key helper: 5 divides q (since k ≥ 1)
-    have h5q : 5 ∣ q := by
-      rcases Nat.exists_eq_add_of_le hk with ⟨t, rfl⟩
-      simp only [hq_def, pow_add, pow_one]
-      exact dvd_mul_right 5 (5^t)
+    -- Assembled from micro-lemmas C1-C5 + Lemma A + Lemma B
+    have hq_pos : 0 < q := Nat.pos_of_ne_zero (by positivity)
+    have hlo_lt : lo < q := Nat.mod_lt u.val hq_pos
+    let b : ℕ := (hi + lo * j.val * 3) % 5
+    have hb_lt5 : b < 5 := Nat.mod_lt _ (by decide)
+    -- Step 1: ZMod equality (from product_zmod_eq / C2)
+    have hprod : u * (m k : ZMod (5^(k+1)))^j.val =
+        (lo : ZMod (5^(k+1))) + (b : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) :=
+      product_zmod_eq k hk u j.val
+    -- Step 2: Compute .val of the product (using val_of_small_nat / C3)
+    have hcast : (lo : ZMod (5^(k+1))) + (b : ZMod (5^(k+1))) * (q : ZMod (5^(k+1))) =
+        ((lo + b * q : ℕ) : ZMod (5^(k+1))) := by push_cast; ring
+    have hval : (u * (m k : ZMod (5^(k+1)))^j.val).val = lo + b * q := by
+      rw [hprod, hcast]
+      exact val_of_small_nat k lo b hlo_lt hb_lt5
+    -- Step 3: Division gives b (from nat_add_mul_div / Lemma A)
+    have hdiv : (u * (m k : ZMod (5^(k+1)))^j.val).val / q = b := by
+      rw [hval]; exact nat_add_mul_div lo q b hlo_lt hq_pos
+    -- Step 4: Connect P j to b ≠ 0
+    have hP_b : P j ↔ b ≠ 0 := by
+      have key : (top_digit k (u * (m k)^j.val)).val = b := by
+        show (u * (m k)^j.val).val / 5^k = b
+        exact hdiv
+      show survives k (u * (m k)^j.val) ↔ b ≠ 0
+      unfold survives
+      rw [key]
+    -- Step 5: b ≠ 0 ↔ (b : ZMod 5) ≠ 0 (from ne_zero_iff_cast_ne_zero / C4)
+    have hb_cast := ne_zero_iff_cast_ne_zero b hb_lt5
+    -- Step 6: (b : ZMod 5) = digit j (from mod_cast_eq_digit / C5)
+    have hb_digit : (b : ZMod 5) = digit j :=
+      mod_cast_eq_digit hi lo j.val
+    -- Combine: P j ↔ b ≠ 0 ↔ (b : ZMod 5) ≠ 0 ↔ digit j ≠ 0
+    exact hP_b.trans (hb_cast.trans (by rw [hb_digit]))
 
-    -- Hence u.val % 5 = lo % 5
-    have hmod5 : u.val % 5 = lo % 5 := by
-      have hhiq0 : (hi * q) % 5 = 0 := Nat.mod_eq_zero_of_dvd (dvd_mul_of_dvd_right h5q hi)
-      simp only [hlo_def, hhi_def]
-      have hdecomp : u.val = u.val % q + (u.val / q) * q := (Nat.mod_add_div u.val q).symm
-      calc u.val % 5
-          = ((u.val % q) + (u.val / q) * q) % 5 := by rw [← hdecomp]
-        _ = ((u.val % q) % 5 + ((u.val / q) * q) % 5) % 5 := by rw [Nat.add_mod]
-        _ = ((u.val % q) % 5 + 0) % 5 := by rw [hhiq0]
-        _ = (u.val % q) % 5 := by simp
-
-    -- Helper: (a*q) % N = (a % 5) * q
-    have mul_q_mod (a : ℕ) : (a * q) % N = (a % 5) * q := by
-      have ha : a = a / 5 * 5 + a % 5 := (Nat.div_add_mod a 5).symm
-      have haq : a * q = (a / 5) * (5 * q) + (a % 5) * q := by
-        calc a * q = (a / 5 * 5 + a % 5) * q := by rw [ha]
-          _ = (a / 5 * 5) * q + (a % 5) * q := by ring
-          _ = (a / 5) * (5 * q) + (a % 5) * q := by ring
-      have hlt : (a % 5) * q < 5 * q := by
-        have : a % 5 < 5 := Nat.mod_lt a (by decide)
-        exact Nat.mul_lt_mul_of_pos_right this hqpos
-      calc (a * q) % N
-          = (a * q) % (5 * q) := by simp only [hN_eq]
-        _ = ((a / 5) * (5 * q) + (a % 5) * q) % (5 * q) := by rw [haq]
-        _ = ((a % 5) * q) % (5 * q) := by
-            rw [Nat.add_comm]; exact Nat.add_mul_mod_self_left ((a % 5) * q) (a / 5) (5 * q)
-        _ = (a % 5) * q := Nat.mod_eq_of_lt hlt
-
-    -- Unfold P and survives
-    simp only [P, survives, top_digit, hq_def]
-
-    -- Set x = u * m^j
-    set x : ZMod N := u * (m k) ^ j.val with hx_def
-
-    -- Compute x using hm_pow
-    have hx_expand : x = u + u * ((j.val : ZMod N) * (3 : ZMod N) * (q : ZMod N)) := by
-      simp only [hx_def, hm_pow j.val, mul_add, mul_one]
-
-    -- Set t = j.val * 3 and δ = u * (t * q)
-    set t : ℕ := j.val * 3 with ht_def
-    set δ : ZMod N := u * ((t * q : ℕ) : ZMod N) with hδ_def
-
-    -- Show x = u + δ
-    have hx_eq : x = u + δ := by
-      simp only [hx_expand, hδ_def, ht_def]
-      congr 1
-      simp only [Nat.cast_mul, Nat.cast_ofNat]
-      ring
-
-    -- Compute δ.val
-    have hδval : δ.val = ((u.val * (t % 5)) % 5) * q := by
-      have htq : (t * q) % N = (t % 5) * q := mul_q_mod t
-      calc δ.val
-          = (u.val * ((t * q : ℕ) : ZMod N).val) % N := ZMod.val_mul u ((t * q : ℕ) : ZMod N)
-        _ = (u.val * ((t * q) % N)) % N := by simp [ZMod.val_natCast]
-        _ = (u.val * ((t % 5) * q)) % N := by rw [htq]
-        _ = ((u.val * (t % 5)) * q) % N := by ring_nf
-        _ = ((u.val * (t % 5)) % 5) * q := mul_q_mod (u.val * (t % 5))
-
-    -- Compute x.val
-    have hxval : x.val = (u.val + δ.val) % N := by
-      rw [hx_eq]; exact ZMod.val_add u δ
-
-    -- Set b = (u.val * (t % 5)) % 5
-    set b : ℕ := (u.val * (t % 5)) % 5 with hb_def
-    have hb_lt : b < 5 := Nat.mod_lt _ (by decide)
-
-    have hδ_eq : δ.val = b * q := by simp only [hδval, hb_def]
-
-    -- Compute x.val / q
-    have hx_div : x.val / q = (hi + b) % 5 := by
-      have hu_eq : u.val = lo + hi * q := by
-        simp only [hlo_def, hhi_def]
-        exact (Nat.mod_add_div u.val q).symm
-      have hxval' : x.val = (lo + (hi + b) * q) % N := by
-        calc x.val = (u.val + δ.val) % N := hxval
-          _ = (lo + hi * q + b * q) % N := by rw [hu_eq, hδ_eq]
-          _ = (lo + (hi + b) * q) % N := by ring_nf
-      have hlt' : lo + ((hi + b) % 5) * q < N := by
-        have hr : (hi + b) % 5 < 5 := Nat.mod_lt _ (by decide)
-        have hlo_lt : lo < q := Nat.mod_lt u.val hqpos
-        calc lo + ((hi + b) % 5) * q
-            < q + 4 * q := by
-              have hrle : (hi + b) % 5 ≤ 4 := Nat.le_of_lt_succ hr
-              exact Nat.add_lt_add_of_lt_of_le hlo_lt (Nat.mul_le_mul_right q hrle)
-          _ = 5 * q := by ring
-          _ = N := hN_eq.symm
-      have base_mod : (lo + (hi + b) * q) % N = lo + ((hi + b) % 5) * q := by
-        have hdiv : hi + b = (hi + b) / 5 * 5 + (hi + b) % 5 := (Nat.div_add_mod (hi + b) 5).symm
-        calc (lo + (hi + b) * q) % N
-            = (lo + (hi + b) * q) % (5 * q) := by rw [hN_eq]
-          _ = (lo + ((hi + b) / 5 * 5 + (hi + b) % 5) * q) % (5 * q) := by rw [hdiv]
-          _ = (lo + (hi + b) / 5 * (5 * q) + ((hi + b) % 5) * q) % (5 * q) := by ring_nf
-          _ = (lo + ((hi + b) % 5) * q) % (5 * q) := by
-              rw [Nat.add_assoc, Nat.add_comm (((hi + b) / 5) * (5 * q))]
-              exact Nat.add_mul_mod_self_left (lo + ((hi + b) % 5) * q) ((hi + b) / 5) (5 * q)
-          _ = lo + ((hi + b) % 5) * q := Nat.mod_eq_of_lt hlt'
-      have hlo_lt : lo < q := Nat.mod_lt u.val hqpos
-      have div_eq : (lo + ((hi + b) % 5) * q) / q = (hi + b) % 5 := by
-        have hlo_div : lo / q = 0 := Nat.div_eq_of_lt hlo_lt
-        calc (lo + ((hi + b) % 5) * q) / q
-            = lo / q + ((hi + b) % 5) := Nat.add_mul_div_right lo ((hi + b) % 5) hqpos
-          _ = 0 + ((hi + b) % 5) := by rw [hlo_div]
-          _ = (hi + b) % 5 := by ring
-      calc x.val / q
-          = ((lo + (hi + b) * q) % N) / q := by rw [hxval']
-        _ = (lo + ((hi + b) % 5) * q) / q := by rw [base_mod]
-        _ = (hi + b) % 5 := div_eq
-
-    -- Compute (digit j).val
-    have hdigit_val : (digit j).val = (hi + (lo % 5) * 3 * j.val) % 5 := by
-      simp only [digit]
-      -- ZMod 5 val computation
-      have hhi_lt : hi < 5 := hhi_lt5
-      have hlo5_lt : lo % 5 < 5 := Nat.mod_lt lo (by decide)
-      have hj_lt : j.val < 5 := j.isLt
-      simp only [ZMod.val_add, ZMod.val_mul, ZMod.val_natCast_of_lt hhi_lt,
-                 ZMod.val_natCast_of_lt hlo5_lt, ZMod.val_natCast_of_lt hj_lt,
-                 ZMod.val_natCast_of_lt (by decide : (3 : ℕ) < 5)]
-      simp only [Nat.mod_mod_of_dvd, dvd_refl]
-      ring_nf
-
-    -- Connect b to (lo % 5) * 3 * j.val
-    have hb_eq : b = ((lo % 5) * (t % 5)) % 5 := by
-      simp only [hb_def]
-      have : (u.val * (t % 5)) % 5 = ((u.val % 5) * (t % 5)) % 5 := by
-        conv_lhs => rw [Nat.mul_mod, Nat.mod_mod_of_dvd u.val (by decide : 1 ∣ 5)]
-      rw [this, hmod5]
-
-    have ht_mod : t % 5 = (3 * j.val) % 5 := by simp only [ht_def, Nat.mul_comm]
-
-    -- Final connection
-    have hquot : x.val / q = (digit j).val := by
-      rw [hx_div, hdigit_val]
-      congr 1
-      rw [hb_eq, ht_mod]
-      have : (lo % 5) * (3 * j.val % 5) % 5 = ((lo % 5) * 3 * j.val) % 5 := by
-        conv_rhs => rw [Nat.mul_assoc, Nat.mul_mod, Nat.mod_mod_of_dvd ((lo % 5) * 3) (by decide : 1 ∣ 5)]
-        conv_lhs => rw [Nat.mul_mod]
-      omega
-
-    -- Final iff
-    constructor
-    · intro hP hd0
-      have : (digit j).val = 0 := by simp [hd0]
-      simp only [hquot, this, ne_eq, not_true_eq_false] at hP
-    · intro hd hP
-      have hval0 : (digit j).val = 0 := by simp only [← hquot, hP]
-      have : digit j = 0 := ZMod.val_eq_zero.mp hval0
-      exact hd this
-
-  -- Case split on whether step s = 0
-  by_cases hs0 : lo % 5 = 0
-  · -- Case: lo % 5 = 0, so digit j = hi for all j, which is nonzero
-    have hdigit_const : ∀ j : Fin 5, digit j = (hi : ZMod 5) := by
+  --------------------------------------------------------------------
+  -- Case split on whether the "step" (lo % 5) is zero.
+  --------------------------------------------------------------------
+  by_cases hlo0 : lo % 5 = 0
+  · -- Step is 0: digit is constant = hi, so every child survives.
+    have hconst : ∀ j : Fin 5, digit j = (hi : ZMod 5) := by
       intro j
-      simp only [digit, hs0, Nat.cast_zero, zero_mul, add_zero]
+      simp [digit, hlo0, mul_assoc, mul_left_comm, mul_comm]
+
+    -- show (hi : ZMod 5) ≠ 0 from hi ≠ 0 and hi < 5
     have hhi5_ne : (hi : ZMod 5) ≠ 0 := by
-      intro h
-      have hlt : hi < 5 := hhi_lt5
-      have := ZMod.val_cast_of_lt hlt
-      rw [h] at this
-      simp at this
+      intro h0
+      have hdvd : 5 ∣ hi := by
+        simpa using (ZMod.natCast_zmod_eq_zero_iff_dvd hi 5).1 h0
+      have : hi = 0 := by
+        have hlt : hi < 5 := hhi_lt5
+        exact Nat.eq_zero_of_dvd_of_lt hdvd hlt
       exact hhi_ne0 this
+
     have hall : ∀ j : Fin 5, P j := by
       intro j
-      rw [hdigit_iff]
-      simp [hdigit_const, hhi5_ne]
-    have hcard5 : (Finset.filter P Finset.univ).card = 5 := by
-      have : Finset.filter P Finset.univ = Finset.univ := by
-        ext j; simp [hall j]
-      simp [this]
-    simp [hcard5]
-  · -- Case: lo % 5 ≠ 0, so exactly 4 children survive
+      have : digit j ≠ 0 := by simpa [hconst j] using hhi5_ne
+      exact (hdigit_iff j).2 this
+
+    have hfilter : Finset.filter P Finset.univ = Finset.univ := by
+      ext j
+      simp [Finset.mem_filter, hall j]
+
+    have hcard : (Finset.filter P Finset.univ).card = 5 := by
+      simp [hfilter]
+
+    rw [hcard]; right; rfl
+  · -- Step is nonzero: digit is a non-constant affine map over the field ZMod 5,
+    -- so it has exactly one zero, hence exactly 4 survivors.
+    have hlo5_ne : ((lo % 5 : ℕ) : ZMod 5) ≠ 0 := by
+      intro h0
+      have hdvd : 5 ∣ lo % 5 := by
+        simpa using (ZMod.natCast_zmod_eq_zero_iff_dvd (lo % 5) 5).1 h0
+      have : lo % 5 = 0 := by
+        have hlt : lo % 5 < 5 := Nat.mod_lt lo (by decide)
+        exact Nat.eq_zero_of_dvd_of_lt hdvd hlt
+      exact hlo0 this
+
     haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
 
-    -- The step is nonzero in ZMod 5
-    let step5 : ZMod 5 := ((lo % 5 : ℕ) : ZMod 5) * 3
-    have hs_ne : step5 ≠ 0 := by
-      have hlo_ne : ((lo % 5 : ℕ) : ZMod 5) ≠ 0 := by
-        intro h
-        have hlt : lo % 5 < 5 := Nat.mod_lt lo (by decide)
-        have := ZMod.val_cast_of_lt hlt
-        rw [h] at this
-        simp at this
-        exact hs0 this
-      exact mul_ne_zero hlo_ne (by decide : (3 : ZMod 5) ≠ 0)
+    let step5 : ZMod 5 := ((lo % 5 : ℕ) : ZMod 5) * (3 : ZMod 5)
+    have hstep_ne : step5 ≠ 0 := by
+      -- 3 ≠ 0 in ZMod 5, and lo%5 ≠ 0 by assumption
+      have h3 : (3 : ZMod 5) ≠ 0 := by
+          intro h
+          have : 5 ∣ (3 : ℕ) := by
+            have := (ZMod.natCast_zmod_eq_zero_iff_dvd 3 5).mp
+            exact this (by exact_mod_cast h)
+          omega
+      exact mul_ne_zero hlo5_ne h3
 
-    -- digit j = hi + step5 * j, which is an affine function over ZMod 5
-    have hdigit_affine : ∀ j : Fin 5, digit j = (hi : ZMod 5) + step5 * (j.val : ZMod 5) := by
-      intro j
-      simp only [digit, step5, mul_comm ((lo % 5 : ℕ) : ZMod 5), mul_assoc]
-
-    -- The unique j where digit = 0: j0 = -hi / step5
-    let hi5 : ZMod 5 := (hi : ℕ)
+    -- Unique root j0 of digit j = 0 is j0 = -(hi)/step5.
+    let hi5 : ZMod 5 := (hi : ZMod 5)
     let j0z : ZMod 5 := (-hi5) * step5⁻¹
     let j0 : Fin 5 := ⟨j0z.val, j0z.val_lt⟩
 
-    -- At j0, digit = 0
-    have hj0_zero : digit j0 = 0 := by
-      rw [hdigit_affine]
-      have hcast : (j0.val : ZMod 5) = j0z := by
-        apply ZMod.val_injective
-        simp [j0, ZMod.val_cast_of_lt j0z.val_lt]
-      simp only [hcast, j0z, hi5]
-      have : step5 * ((-↑hi) * step5⁻¹) = -↑hi := by
-        field_simp [hs_ne]
-        ring
-      linarith [this]
+    have hj0z_cast : (j0.val : ZMod 5) = j0z := by
+      simpa [j0] using (ZMod.natCast_val j0z)
 
-    -- j0 is unique: if digit j = 0 then j = j0
+    have hj0_zero : digit j0 = 0 := by
+      show (hi : ZMod 5) + ((lo % 5 : ℕ) : ZMod 5) * 3 * (j0.val : ZMod 5) = 0
+      rw [hj0z_cast]
+      -- goal: ↑hi + ↑(lo%5) * 3 * ((-↑hi) * (↑(lo%5) * 3)⁻¹) = 0
+      -- Rearrange: a * (b * a⁻¹) = b * (a * a⁻¹) = b
+      have hinv : step5 * step5⁻¹ = 1 := mul_inv_cancel₀ hstep_ne
+      calc (hi : ZMod 5) + ((lo % 5 : ℕ) : ZMod 5) * 3 * ((-(hi : ZMod 5)) * step5⁻¹)
+          = (hi : ZMod 5) + (-(hi : ZMod 5)) * (step5 * step5⁻¹) := by ring
+        _ = (hi : ZMod 5) + (-(hi : ZMod 5)) * 1 := by rw [hinv]
+        _ = 0 := by ring
+
     have hj0_unique : ∀ j : Fin 5, digit j = 0 → j = j0 := by
       intro j hj
-      rw [hdigit_affine] at hj
-      have : (j.val : ZMod 5) = j0z := by
-        have heq : step5 * (j.val : ZMod 5) = -(hi : ZMod 5) := by linarith [hj]
+      have hzmod_eq : (j.val : ZMod 5) = j0z := by
+        have hj' : step5 * (j.val : ZMod 5) = -(hi : ZMod 5) := by
+          -- From digit j = 0: (hi : ZMod 5) + step5 * (j.val : ZMod 5) = 0
+          -- Hence step5 * j = -(hi : ZMod 5)
+          have h0 : (hi : ZMod 5) + step5 * (j.val : ZMod 5) = 0 := hj
+          linear_combination h0
+        have hinv : step5⁻¹ * step5 = 1 := inv_mul_cancel₀ hstep_ne
         calc (j.val : ZMod 5)
-            = step5⁻¹ * (step5 * (j.val : ZMod 5)) := by field_simp [hs_ne]
-          _ = step5⁻¹ * (-(hi : ZMod 5)) := by rw [heq]
+            = step5⁻¹ * (step5 * (j.val : ZMod 5)) := by
+                rw [← mul_assoc, hinv, one_mul]
+          _ = step5⁻¹ * (-(hi : ZMod 5)) := by rw [hj']
           _ = (-(hi : ZMod 5)) * step5⁻¹ := by ring
           _ = j0z := rfl
       apply Fin.ext
+      have hzmod_eq2 : (j.val : ZMod 5) = (j0.val : ZMod 5) := by
+        rw [hzmod_eq, ← hj0z_cast]
       have hj_lt : j.val < 5 := j.isLt
-      simp [j0, ZMod.val_cast_of_lt hj_lt, ZMod.val_cast_of_lt j0z.val_lt, this]
+      have hj0_lt : j0.val < 5 := j0.isLt
+      calc j.val = (j.val : ZMod 5).val := by
+              rw [ZMod.val_natCast]; exact (Nat.mod_eq_of_lt hj_lt).symm
+        _ = (j0.val : ZMod 5).val := by rw [hzmod_eq2]
+        _ = j0.val := by
+              rw [ZMod.val_natCast]; exact Nat.mod_eq_of_lt hj0_lt
 
-    -- Exactly one child dies
-    have hexact1 : (Finset.filter (fun j => ¬P j) Finset.univ).card = 1 := by
-      apply Finset.card_eq_one.mpr
-      use j0
+    -- Count the *non*-survivors: exactly {j0}.
+    have hdead_eq_singleton :
+        Finset.filter (fun j : Fin 5 => ¬ P j) Finset.univ = {j0} := by
+      ext j
       constructor
-      · simp only [Finset.mem_filter, Finset.mem_univ, true_and]
-        rw [hdigit_iff]
-        simp [hj0_zero]
-      · intro j hj
-        simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hj
-        rw [hdigit_iff] at hj
-        push_neg at hj
-        exact hj0_unique j hj
+      · intro hj
+        have hj' : ¬ P j := by
+          simpa [Finset.mem_filter] using hj
+        have : digit j = 0 := by
+          have : ¬ digit j ≠ 0 := by
+            intro hd
+            exact hj' ((hdigit_iff j).2 hd)
+          simpa using not_ne_iff.mp this
+        have : j = j0 := hj0_unique j this
+        simpa [this]
+      · intro hj
+        have hj' : j = j0 := by
+          simpa using (by
+            simpa using hj)
+        subst hj'
+        have : digit j0 = 0 := hj0_zero
+        have : ¬ digit j0 ≠ 0 := by simpa [this]
+        have : ¬ P j0 := by
+          intro hP
+          have : digit j0 ≠ 0 := (hdigit_iff j0).1 hP
+          exact this.elim (by simpa [hj0_zero])
+        simp [Finset.mem_filter, this]
 
-    have hcard4 : (Finset.filter P Finset.univ).card = 4 := by omega
+    have hdead_card : (Finset.filter (fun j : Fin 5 => ¬ P j) Finset.univ).card = 1 := by
+      simp [hdead_eq_singleton]
 
-    simp [hcard4]
+    have hsum :
+        (Finset.filter P Finset.univ).card +
+        (Finset.filter (fun j : Fin 5 => ¬ P j) Finset.univ).card = 5 := by
+      simpa using
+        (Finset.filter_card_add_filter_neg_card_eq_card (s := (Finset.univ : Finset (Fin 5))) (p := P))
+
+    have hsurv_card : (Finset.filter P Finset.univ).card = 4 := by
+      omega
+
+    rw [hsurv_card]; left; rfl
 
 end Zeroless

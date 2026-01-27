@@ -1,0 +1,308 @@
+        -- M = 95 subcases via Lemma D.6
+        by_cases hp95_23 : p % 95 = 23
+        · -- p ≡ 23 (mod 95): (α=2, r=4, s=3), M = 4·2·3·4 - 1 = 95
+          -- offset = (p+72)/95, b = 24, c = 8·(4 * p + 3)/95
+          have hdiv95a : 95 ∣ (p + 72) := by omega
+          have hdiv95b : 95 ∣ (4 * p + 3) := by omega
+          refine ⟨(p + 72) / 95, 24, 8 * ((4 * p + 3) / 95), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 2280 = 2113 := by omega
+            have h95div : (p + 72) / 95 * 95 = p + 72 := Nat.div_mul_cancel hdiv95a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 72) / 95 with hδ_def
+            set c₀ := (4 * p + 3) / 95 with hc₀_def
+            have hδ_mul : δ * 95 = p + 72 := Nat.div_mul_cancel hdiv95a
+            have hc₀_mul : c₀ * 95 = 4 * p + 3 := Nat.div_mul_cancel hdiv95b
+            have hδ_int : (↑δ : ℤ) * 95 = ↑p + 72 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 95 = 4 * ↑p + 3 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp95_29 : p % 95 = 29
+          · -- p ≡ 29 (mod 95): (α=1, r=3, s=8), M = 4·1·8·3 - 1 = 95
+            -- offset = (p+256)/95, b = 24, c = 3·(3 * p + 8)/95
+            have hdiv95a : 95 ∣ (p + 256) := by omega
+            have hdiv95b : 95 ∣ (3 * p + 8) := by omega
+            refine ⟨(p + 256) / 95, 24, 3 * ((3 * p + 8) / 95), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 2280 = 409 := by omega
+              have h95div : (p + 256) / 95 * 95 = p + 256 := Nat.div_mul_cancel hdiv95a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 256) / 95 with hδ_def
+              set c₀ := (3 * p + 8) / 95 with hc₀_def
+              have hδ_mul : δ * 95 = p + 256 := Nat.div_mul_cancel hdiv95a
+              have hc₀_mul : c₀ * 95 = 3 * p + 8 := Nat.div_mul_cancel hdiv95b
+              have hδ_int : (↑δ : ℤ) * 95 = ↑p + 256 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 95 = 3 * ↑p + 8 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp95_31 : p % 95 = 31
+            · -- p ≡ 31 (mod 95): (α=1, r=6, s=4), M = 4·1·4·6 - 1 = 95
+              -- offset = (p+64)/95, b = 24, c = 6·(6 * p + 4)/95
+              have hdiv95a : 95 ∣ (p + 64) := by omega
+              have hdiv95b : 95 ∣ (6 * p + 4) := by omega
+              refine ⟨(p + 64) / 95, 24, 6 * ((6 * p + 4) / 95), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 2280 = 601 := by omega
+                have h95div : (p + 64) / 95 * 95 = p + 64 := Nat.div_mul_cancel hdiv95a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 64) / 95 with hδ_def
+                set c₀ := (6 * p + 4) / 95 with hc₀_def
+                have hδ_mul : δ * 95 = p + 64 := Nat.div_mul_cancel hdiv95a
+                have hc₀_mul : c₀ * 95 = 6 * p + 4 := Nat.div_mul_cancel hdiv95b
+                have hδ_int : (↑δ : ℤ) * 95 = ↑p + 64 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 95 = 6 * ↑p + 4 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · by_cases hp95_46 : p % 95 = 46
+              · -- p ≡ 46 (mod 95): (α=1, r=4, s=6), M = 4·1·6·4 - 1 = 95
+                -- offset = (p+144)/95, b = 24, c = 4·(4 * p + 6)/95
+                have hdiv95a : 95 ∣ (p + 144) := by omega
+                have hdiv95b : 95 ∣ (4 * p + 6) := by omega
+                refine ⟨(p + 144) / 95, 24, 4 * ((4 * p + 6) / 95), ?_, by norm_num, ?_, ?_⟩
+                · have : p % 2280 = 2041 := by omega
+                  have h95div : (p + 144) / 95 * 95 = p + 144 := Nat.div_mul_cancel hdiv95a
+                  omega
+                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                · set δ := (p + 144) / 95 with hδ_def
+                  set c₀ := (4 * p + 6) / 95 with hc₀_def
+                  have hδ_mul : δ * 95 = p + 144 := Nat.div_mul_cancel hdiv95a
+                  have hc₀_mul : c₀ * 95 = 4 * p + 6 := Nat.div_mul_cancel hdiv95b
+                  have hδ_int : (↑δ : ℤ) * 95 = ↑p + 144 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 95 = 4 * ↑p + 6 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · by_cases hp95_47 : p % 95 = 47
+                · -- p ≡ 47 (mod 95): (α=3, r=4, s=2), M = 4·3·2·4 - 1 = 95
+                  -- offset = (p+48)/95, b = 24, c = 12·(4 * p + 2)/95
+                  have hdiv95a : 95 ∣ (p + 48) := by omega
+                  have hdiv95b : 95 ∣ (4 * p + 2) := by omega
+                  refine ⟨(p + 48) / 95, 24, 12 * ((4 * p + 2) / 95), ?_, by norm_num, ?_, ?_⟩
+                  · have : p % 2280 = 2137 := by omega
+                    have h95div : (p + 48) / 95 * 95 = p + 48 := Nat.div_mul_cancel hdiv95a
+                    omega
+                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                  · set δ := (p + 48) / 95 with hδ_def
+                    set c₀ := (4 * p + 2) / 95 with hc₀_def
+                    have hδ_mul : δ * 95 = p + 48 := Nat.div_mul_cancel hdiv95a
+                    have hc₀_mul : c₀ * 95 = 4 * p + 2 := Nat.div_mul_cancel hdiv95b
+                    have hδ_int : (↑δ : ℤ) * 95 = ↑p + 48 := by exact_mod_cast hδ_mul
+                    have hc₀_int : (↑c₀ : ℤ) * 95 = 4 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                    push_cast
+                    nlinarith [hδ_int, hc₀_int]
+                · by_cases hp95_59 : p % 95 = 59
+                  · -- p ≡ 59 (mod 95): (α=1, r=8, s=3), M = 4·1·3·8 - 1 = 95
+                    -- offset = (p+36)/95, b = 24, c = 8·(8 * p + 3)/95
+                    have hdiv95a : 95 ∣ (p + 36) := by omega
+                    have hdiv95b : 95 ∣ (8 * p + 3) := by omega
+                    refine ⟨(p + 36) / 95, 24, 8 * ((8 * p + 3) / 95), ?_, by norm_num, ?_, ?_⟩
+                    · have : p % 2280 = 1009 := by omega
+                      have h95div : (p + 36) / 95 * 95 = p + 36 := Nat.div_mul_cancel hdiv95a
+                      omega
+                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                    · set δ := (p + 36) / 95 with hδ_def
+                      set c₀ := (8 * p + 3) / 95 with hc₀_def
+                      have hδ_mul : δ * 95 = p + 36 := Nat.div_mul_cancel hdiv95a
+                      have hc₀_mul : c₀ * 95 = 8 * p + 3 := Nat.div_mul_cancel hdiv95b
+                      have hδ_int : (↑δ : ℤ) * 95 = ↑p + 36 := by exact_mod_cast hδ_mul
+                      have hc₀_int : (↑c₀ : ℤ) * 95 = 8 * ↑p + 3 := by exact_mod_cast hc₀_mul
+                      push_cast
+                      nlinarith [hδ_int, hc₀_int]
+                  · by_cases hp95_62 : p % 95 = 62
+                    · -- p ≡ 62 (mod 95): (α=2, r=3, s=4), M = 4·2·4·3 - 1 = 95
+                      -- offset = (p+128)/95, b = 24, c = 6·(3 * p + 4)/95
+                      have hdiv95a : 95 ∣ (p + 128) := by omega
+                      have hdiv95b : 95 ∣ (3 * p + 4) := by omega
+                      refine ⟨(p + 128) / 95, 24, 6 * ((3 * p + 4) / 95), ?_, by norm_num, ?_, ?_⟩
+                      · have : p % 2280 = 1297 := by omega
+                        have h95div : (p + 128) / 95 * 95 = p + 128 := Nat.div_mul_cancel hdiv95a
+                        omega
+                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                      · set δ := (p + 128) / 95 with hδ_def
+                        set c₀ := (3 * p + 4) / 95 with hc₀_def
+                        have hδ_mul : δ * 95 = p + 128 := Nat.div_mul_cancel hdiv95a
+                        have hc₀_mul : c₀ * 95 = 3 * p + 4 := Nat.div_mul_cancel hdiv95b
+                        have hδ_int : (↑δ : ℤ) * 95 = ↑p + 128 := by exact_mod_cast hδ_mul
+                        have hc₀_int : (↑c₀ : ℤ) * 95 = 3 * ↑p + 4 := by exact_mod_cast hc₀_mul
+                        push_cast
+                        nlinarith [hδ_int, hc₀_int]
+                    · by_cases hp95_63 : p % 95 = 63
+                      · -- p ≡ 63 (mod 95): (α=2, r=6, s=2), M = 4·2·2·6 - 1 = 95
+                        -- offset = (p+32)/95, b = 24, c = 12·(6 * p + 2)/95
+                        have hdiv95a : 95 ∣ (p + 32) := by omega
+                        have hdiv95b : 95 ∣ (6 * p + 2) := by omega
+                        refine ⟨(p + 32) / 95, 24, 12 * ((6 * p + 2) / 95), ?_, by norm_num, ?_, ?_⟩
+                        · have : p % 2280 = 1393 := by omega
+                          have h95div : (p + 32) / 95 * 95 = p + 32 := Nat.div_mul_cancel hdiv95a
+                          omega
+                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                        · set δ := (p + 32) / 95 with hδ_def
+                          set c₀ := (6 * p + 2) / 95 with hc₀_def
+                          have hδ_mul : δ * 95 = p + 32 := Nat.div_mul_cancel hdiv95a
+                          have hc₀_mul : c₀ * 95 = 6 * p + 2 := Nat.div_mul_cancel hdiv95b
+                          have hδ_int : (↑δ : ℤ) * 95 = ↑p + 32 := by exact_mod_cast hδ_mul
+                          have hc₀_int : (↑c₀ : ℤ) * 95 = 6 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                          push_cast
+                          nlinarith [hδ_int, hc₀_int]
+                      · by_cases hp95_71 : p % 95 = 71
+                        · -- p ≡ 71 (mod 95): (α=6, r=4, s=1), M = 4·6·1·4 - 1 = 95
+                          -- offset = (p+24)/95, b = 24, c = 24·(4 * p + 1)/95
+                          have hdiv95a : 95 ∣ (p + 24) := by omega
+                          have hdiv95b : 95 ∣ (4 * p + 1) := by omega
+                          refine ⟨(p + 24) / 95, 24, 24 * ((4 * p + 1) / 95), ?_, by norm_num, ?_, ?_⟩
+                          · have : p % 2280 = 2161 := by omega
+                            have h95div : (p + 24) / 95 * 95 = p + 24 := Nat.div_mul_cancel hdiv95a
+                            omega
+                          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                          · set δ := (p + 24) / 95 with hδ_def
+                            set c₀ := (4 * p + 1) / 95 with hc₀_def
+                            have hδ_mul : δ * 95 = p + 24 := Nat.div_mul_cancel hdiv95a
+                            have hc₀_mul : c₀ * 95 = 4 * p + 1 := Nat.div_mul_cancel hdiv95b
+                            have hδ_int : (↑δ : ℤ) * 95 = ↑p + 24 := by exact_mod_cast hδ_mul
+                            have hc₀_int : (↑c₀ : ℤ) * 95 = 4 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                            push_cast
+                            nlinarith [hδ_int, hc₀_int]
+                        · by_cases hp95_79 : p % 95 = 79
+                          · -- p ≡ 79 (mod 95): (α=1, r=12, s=2), M = 4·1·2·12 - 1 = 95
+                            -- offset = (p+16)/95, b = 24, c = 12·(12 * p + 2)/95
+                            have hdiv95a : 95 ∣ (p + 16) := by omega
+                            have hdiv95b : 95 ∣ (12 * p + 2) := by omega
+                            refine ⟨(p + 16) / 95, 24, 12 * ((12 * p + 2) / 95), ?_, by norm_num, ?_, ?_⟩
+                            · have : p % 2280 = 649 := by omega
+                              have h95div : (p + 16) / 95 * 95 = p + 16 := Nat.div_mul_cancel hdiv95a
+                              omega
+                            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                            · set δ := (p + 16) / 95 with hδ_def
+                              set c₀ := (12 * p + 2) / 95 with hc₀_def
+                              have hδ_mul : δ * 95 = p + 16 := Nat.div_mul_cancel hdiv95a
+                              have hc₀_mul : c₀ * 95 = 12 * p + 2 := Nat.div_mul_cancel hdiv95b
+                              have hδ_int : (↑δ : ℤ) * 95 = ↑p + 16 := by exact_mod_cast hδ_mul
+                              have hc₀_int : (↑c₀ : ℤ) * 95 = 12 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                              push_cast
+                              nlinarith [hδ_int, hc₀_int]
+                          · by_cases hp95_83 : p % 95 = 83
+                            · -- p ≡ 83 (mod 95): (α=3, r=8, s=1), M = 4·3·1·8 - 1 = 95
+                              -- offset = (p+12)/95, b = 24, c = 24·(8 * p + 1)/95
+                              have hdiv95a : 95 ∣ (p + 12) := by omega
+                              have hdiv95b : 95 ∣ (8 * p + 1) := by omega
+                              refine ⟨(p + 12) / 95, 24, 24 * ((8 * p + 1) / 95), ?_, by norm_num, ?_, ?_⟩
+                              · have : p % 2280 = 1033 := by omega
+                                have h95div : (p + 12) / 95 * 95 = p + 12 := Nat.div_mul_cancel hdiv95a
+                                omega
+                              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                              · set δ := (p + 12) / 95 with hδ_def
+                                set c₀ := (8 * p + 1) / 95 with hc₀_def
+                                have hδ_mul : δ * 95 = p + 12 := Nat.div_mul_cancel hdiv95a
+                                have hc₀_mul : c₀ * 95 = 8 * p + 1 := Nat.div_mul_cancel hdiv95b
+                                have hδ_int : (↑δ : ℤ) * 95 = ↑p + 12 := by exact_mod_cast hδ_mul
+                                have hc₀_int : (↑c₀ : ℤ) * 95 = 8 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                push_cast
+                                nlinarith [hδ_int, hc₀_int]
+                            · by_cases hp95_87 : p % 95 = 87
+                              · -- p ≡ 87 (mod 95): (α=2, r=12, s=1), M = 4·2·1·12 - 1 = 95
+                                -- offset = (p+8)/95, b = 24, c = 24·(12 * p + 1)/95
+                                have hdiv95a : 95 ∣ (p + 8) := by omega
+                                have hdiv95b : 95 ∣ (12 * p + 1) := by omega
+                                refine ⟨(p + 8) / 95, 24, 24 * ((12 * p + 1) / 95), ?_, by norm_num, ?_, ?_⟩
+                                · have : p % 2280 = 1417 := by omega
+                                  have h95div : (p + 8) / 95 * 95 = p + 8 := Nat.div_mul_cancel hdiv95a
+                                  omega
+                                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                · set δ := (p + 8) / 95 with hδ_def
+                                  set c₀ := (12 * p + 1) / 95 with hc₀_def
+                                  have hδ_mul : δ * 95 = p + 8 := Nat.div_mul_cancel hdiv95a
+                                  have hc₀_mul : c₀ * 95 = 12 * p + 1 := Nat.div_mul_cancel hdiv95b
+                                  have hδ_int : (↑δ : ℤ) * 95 = ↑p + 8 := by exact_mod_cast hδ_mul
+                                  have hc₀_int : (↑c₀ : ℤ) * 95 = 12 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                  push_cast
+                                  nlinarith [hδ_int, hc₀_int]
+                              · by_cases hp95_89 : p % 95 = 89
+                                · -- p ≡ 89 (mod 95): (α=1, r=2, s=12), M = 4·1·12·2 - 1 = 95
+                                  -- offset = (p+576)/95, b = 24, c = 2·(2 * p + 12)/95
+                                  have hdiv95a : 95 ∣ (p + 576) := by omega
+                                  have hdiv95b : 95 ∣ (2 * p + 12) := by omega
+                                  refine ⟨(p + 576) / 95, 24, 2 * ((2 * p + 12) / 95), ?_, by norm_num, ?_, ?_⟩
+                                  · have : p % 2280 = 1609 := by omega
+                                    have h95div : (p + 576) / 95 * 95 = p + 576 := Nat.div_mul_cancel hdiv95a
+                                    omega
+                                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                  · set δ := (p + 576) / 95 with hδ_def
+                                    set c₀ := (2 * p + 12) / 95 with hc₀_def
+                                    have hδ_mul : δ * 95 = p + 576 := Nat.div_mul_cancel hdiv95a
+                                    have hc₀_mul : c₀ * 95 = 2 * p + 12 := Nat.div_mul_cancel hdiv95b
+                                    have hδ_int : (↑δ : ℤ) * 95 = ↑p + 576 := by exact_mod_cast hδ_mul
+                                    have hc₀_int : (↑c₀ : ℤ) * 95 = 2 * ↑p + 12 := by exact_mod_cast hc₀_mul
+                                    push_cast
+                                    nlinarith [hδ_int, hc₀_int]
+                                · by_cases hp95_91 : p % 95 = 91
+                                  · -- p ≡ 91 (mod 95): (α=1, r=24, s=1), M = 4·1·1·24 - 1 = 95
+                                    -- offset = (p+4)/95, b = 24, c = 24·(24 * p + 1)/95
+                                    have hdiv95a : 95 ∣ (p + 4) := by omega
+                                    have hdiv95b : 95 ∣ (24 * p + 1) := by omega
+                                    refine ⟨(p + 4) / 95, 24, 24 * ((24 * p + 1) / 95), ?_, by norm_num, ?_, ?_⟩
+                                    · have : p % 2280 = 1801 := by omega
+                                      have h95div : (p + 4) / 95 * 95 = p + 4 := Nat.div_mul_cancel hdiv95a
+                                      omega
+                                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                    · set δ := (p + 4) / 95 with hδ_def
+                                      set c₀ := (24 * p + 1) / 95 with hc₀_def
+                                      have hδ_mul : δ * 95 = p + 4 := Nat.div_mul_cancel hdiv95a
+                                      have hc₀_mul : c₀ * 95 = 24 * p + 1 := Nat.div_mul_cancel hdiv95b
+                                      have hδ_int : (↑δ : ℤ) * 95 = ↑p + 4 := by exact_mod_cast hδ_mul
+                                      have hc₀_int : (↑c₀ : ℤ) * 95 = 24 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                      push_cast
+                                      nlinarith [hδ_int, hc₀_int]
+                                  · by_cases hp95_92 : p % 95 = 92
+                                    · -- p ≡ 92 (mod 95): (α=2, r=2, s=6), M = 4·2·6·2 - 1 = 95
+                                      -- offset = (p+288)/95, b = 24, c = 4·(2 * p + 6)/95
+                                      have hdiv95a : 95 ∣ (p + 288) := by omega
+                                      have hdiv95b : 95 ∣ (2 * p + 6) := by omega
+                                      refine ⟨(p + 288) / 95, 24, 4 * ((2 * p + 6) / 95), ?_, by norm_num, ?_, ?_⟩
+                                      · have : p % 2280 = 1897 := by omega
+                                        have h95div : (p + 288) / 95 * 95 = p + 288 := Nat.div_mul_cancel hdiv95a
+                                        omega
+                                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                      · set δ := (p + 288) / 95 with hδ_def
+                                        set c₀ := (2 * p + 6) / 95 with hc₀_def
+                                        have hδ_mul : δ * 95 = p + 288 := Nat.div_mul_cancel hdiv95a
+                                        have hc₀_mul : c₀ * 95 = 2 * p + 6 := Nat.div_mul_cancel hdiv95b
+                                        have hδ_int : (↑δ : ℤ) * 95 = ↑p + 288 := by exact_mod_cast hδ_mul
+                                        have hc₀_int : (↑c₀ : ℤ) * 95 = 2 * ↑p + 6 := by exact_mod_cast hc₀_mul
+                                        push_cast
+                                        nlinarith [hδ_int, hc₀_int]
+                                    · by_cases hp95_93 : p % 95 = 93
+                                      · -- p ≡ 93 (mod 95): (α=3, r=2, s=4), M = 4·3·4·2 - 1 = 95
+                                        -- offset = (p+192)/95, b = 24, c = 6·(2 * p + 4)/95
+                                        have hdiv95a : 95 ∣ (p + 192) := by omega
+                                        have hdiv95b : 95 ∣ (2 * p + 4) := by omega
+                                        refine ⟨(p + 192) / 95, 24, 6 * ((2 * p + 4) / 95), ?_, by norm_num, ?_, ?_⟩
+                                        · have : p % 2280 = 1993 := by omega
+                                          have h95div : (p + 192) / 95 * 95 = p + 192 := Nat.div_mul_cancel hdiv95a
+                                          omega
+                                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                        · set δ := (p + 192) / 95 with hδ_def
+                                          set c₀ := (2 * p + 4) / 95 with hc₀_def
+                                          have hδ_mul : δ * 95 = p + 192 := Nat.div_mul_cancel hdiv95a
+                                          have hc₀_mul : c₀ * 95 = 2 * p + 4 := Nat.div_mul_cancel hdiv95b
+                                          have hδ_int : (↑δ : ℤ) * 95 = ↑p + 192 := by exact_mod_cast hδ_mul
+                                          have hc₀_int : (↑c₀ : ℤ) * 95 = 2 * ↑p + 4 := by exact_mod_cast hc₀_mul
+                                          push_cast
+                                          nlinarith [hδ_int, hc₀_int]
+                                      · by_cases hp95_94 : p % 95 = 94
+                                        · -- p ≡ 94 (mod 95): (α=6, r=2, s=2), M = 4·6·2·2 - 1 = 95
+                                          -- offset = (p+96)/95, b = 24, c = 12·(2 * p + 2)/95
+                                          have hdiv95a : 95 ∣ (p + 96) := by omega
+                                          have hdiv95b : 95 ∣ (2 * p + 2) := by omega
+                                          refine ⟨(p + 96) / 95, 24, 12 * ((2 * p + 2) / 95), ?_, by norm_num, ?_, ?_⟩
+                                          · have : p % 2280 = 2089 := by omega
+                                            have h95div : (p + 96) / 95 * 95 = p + 96 := Nat.div_mul_cancel hdiv95a
+                                            omega
+                                          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                          · set δ := (p + 96) / 95 with hδ_def
+                                            set c₀ := (2 * p + 2) / 95 with hc₀_def
+                                            have hδ_mul : δ * 95 = p + 96 := Nat.div_mul_cancel hdiv95a
+                                            have hc₀_mul : c₀ * 95 = 2 * p + 2 := Nat.div_mul_cancel hdiv95b
+                                            have hδ_int : (↑δ : ℤ) * 95 = ↑p + 96 := by exact_mod_cast hδ_mul
+                                            have hc₀_int : (↑c₀ : ℤ) * 95 = 2 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                                            push_cast
+                                            nlinarith [hδ_int, hc₀_int]
+                                        · sorry

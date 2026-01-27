@@ -1,0 +1,38 @@
+        -- M = 99 subcases via Lemma D.6
+        by_cases hp99_79 : p % 99 = 79
+        · -- p ≡ 79 (mod 99): (α=5, r=5, s=1), M = 4·5·1·5 - 1 = 99
+          -- offset = (p+20)/99, b = 25, c = 25·(5 * p + 1)/99
+          have hdiv99a : 99 ∣ (p + 20) := by omega
+          have hdiv99b : 99 ∣ (5 * p + 1) := by omega
+          refine ⟨(p + 20) / 99, 25, 25 * ((5 * p + 1) / 99), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 792 = 673 := by omega
+            have h99div : (p + 20) / 99 * 99 = p + 20 := Nat.div_mul_cancel hdiv99a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 20) / 99 with hδ_def
+            set c₀ := (5 * p + 1) / 99 with hc₀_def
+            have hδ_mul : δ * 99 = p + 20 := Nat.div_mul_cancel hdiv99a
+            have hc₀_mul : c₀ * 99 = 5 * p + 1 := Nat.div_mul_cancel hdiv99b
+            have hδ_int : (↑δ : ℤ) * 99 = ↑p + 20 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 99 = 5 * ↑p + 1 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp99_94 : p % 99 = 94
+          · -- p ≡ 94 (mod 99): (α=5, r=1, s=5), M = 4·5·5·1 - 1 = 99
+            -- offset = (p+500)/99, b = 25, c = 5·(p + 5)/99
+            have hdiv99a : 99 ∣ (p + 500) := by omega
+            have hdiv99b : 99 ∣ (p + 5) := by omega
+            refine ⟨(p + 500) / 99, 25, 5 * ((p + 5) / 99), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 792 = 193 := by omega
+              have h99div : (p + 500) / 99 * 99 = p + 500 := Nat.div_mul_cancel hdiv99a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 500) / 99 with hδ_def
+              set c₀ := (p + 5) / 99 with hc₀_def
+              have hδ_mul : δ * 99 = p + 500 := Nat.div_mul_cancel hdiv99a
+              have hc₀_mul : c₀ * 99 = p + 5 := Nat.div_mul_cancel hdiv99b
+              have hδ_int : (↑δ : ℤ) * 99 = ↑p + 500 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 99 = ↑p + 5 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · sorry

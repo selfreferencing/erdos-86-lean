@@ -1,0 +1,225 @@
+      · -- M = 19 subcases: cover p % 19 ∈ {14, 15, 18} via Lemma D.6
+        by_cases hp19_14 : p % 19 = 14
+        · -- p ≡ 14 (mod 19): (α=1, r=1, s=5), M = 4·1·5·1 - 1 = 19
+          -- offset = (p+100)/19, b = 5, c = (p + 5)/19
+          have hdiv19a : 19 ∣ (p + 100) := by omega
+          have hdiv19b : 19 ∣ (p + 5) := by omega
+          refine ⟨(p + 100) / 19, 5, (p + 5) / 19, ?_, by norm_num, ?_, ?_⟩
+          · have : p % 456 = 337 := by omega
+            have h19div : (p + 100) / 19 * 19 = p + 100 := Nat.div_mul_cancel hdiv19a
+            omega
+          · exact Nat.div_pos (by omega) (by norm_num)
+          · set δ := (p + 100) / 19 with hδ_def
+            set c₀ := (p + 5) / 19 with hc₀_def
+            have hδ_mul : δ * 19 = p + 100 := Nat.div_mul_cancel hdiv19a
+            have hc₀_mul : c₀ * 19 = p + 5 := Nat.div_mul_cancel hdiv19b
+            have hδ_int : (↑δ : ℤ) * 19 = ↑p + 100 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 19 = ↑p + 5 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp19_15 : p % 19 = 15
+          · -- p ≡ 15 (mod 19): (α=1, r=5, s=1), M = 4·1·1·5 - 1 = 19
+            -- offset = (p+4)/19, b = 5, c = 5·(5 * p + 1)/19
+            have hdiv19a : 19 ∣ (p + 4) := by omega
+            have hdiv19b : 19 ∣ (5 * p + 1) := by omega
+            refine ⟨(p + 4) / 19, 5, 5 * ((5 * p + 1) / 19), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 456 = 433 := by omega
+              have h19div : (p + 4) / 19 * 19 = p + 4 := Nat.div_mul_cancel hdiv19a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 4) / 19 with hδ_def
+              set c₀ := (5 * p + 1) / 19 with hc₀_def
+              have hδ_mul : δ * 19 = p + 4 := Nat.div_mul_cancel hdiv19a
+              have hc₀_mul : c₀ * 19 = 5 * p + 1 := Nat.div_mul_cancel hdiv19b
+              have hδ_int : (↑δ : ℤ) * 19 = ↑p + 4 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 19 = 5 * ↑p + 1 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp19_18 : p % 19 = 18
+            · -- p ≡ 18 (mod 19): (α=5, r=1, s=1), M = 4·5·1·1 - 1 = 19
+              -- offset = (p+20)/19, b = 5, c = 5·(p + 1)/19
+              have hdiv19a : 19 ∣ (p + 20) := by omega
+              have hdiv19b : 19 ∣ (p + 1) := by omega
+              refine ⟨(p + 20) / 19, 5, 5 * ((p + 1) / 19), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 456 = 265 := by omega
+                have h19div : (p + 20) / 19 * 19 = p + 20 := Nat.div_mul_cancel hdiv19a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 20) / 19 with hδ_def
+                set c₀ := (p + 1) / 19 with hc₀_def
+                have hδ_mul : δ * 19 = p + 20 := Nat.div_mul_cancel hdiv19a
+                have hc₀_mul : c₀ * 19 = p + 1 := Nat.div_mul_cancel hdiv19b
+                have hδ_int : (↑δ : ℤ) * 19 = ↑p + 20 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 19 = ↑p + 1 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · -- M = 23 subcases via Lemma D.6
+              by_cases hp23_19 : p % 23 = 19
+              · -- p ≡ 19 (mod 23): (α=1, r=6, s=1), M = 4·1·1·6 - 1 = 23
+                -- offset = (p+4)/23, b = 6, c = 6·(6 * p + 1)/23
+                have hdiv23a : 23 ∣ (p + 4) := by omega
+                have hdiv23b : 23 ∣ (6 * p + 1) := by omega
+                refine ⟨(p + 4) / 23, 6, 6 * ((6 * p + 1) / 23), ?_, by norm_num, ?_, ?_⟩
+                · have : p % 552 = 433 := by omega
+                  have h23div : (p + 4) / 23 * 23 = p + 4 := Nat.div_mul_cancel hdiv23a
+                  omega
+                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                · set δ := (p + 4) / 23 with hδ_def
+                  set c₀ := (6 * p + 1) / 23 with hc₀_def
+                  have hδ_mul : δ * 23 = p + 4 := Nat.div_mul_cancel hdiv23a
+                  have hc₀_mul : c₀ * 23 = 6 * p + 1 := Nat.div_mul_cancel hdiv23b
+                  have hδ_int : (↑δ : ℤ) * 23 = ↑p + 4 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 23 = 6 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · by_cases hp23_7 : p % 23 = 7
+                · -- p ≡ 7 (mod 23): (α=1, r=3, s=2), M = 4·1·2·3 - 1 = 23
+                  -- offset = (p+16)/23, b = 6, c = 3·(3 * p + 2)/23
+                  have hdiv23a : 23 ∣ (p + 16) := by omega
+                  have hdiv23b : 23 ∣ (3 * p + 2) := by omega
+                  refine ⟨(p + 16) / 23, 6, 3 * ((3 * p + 2) / 23), ?_, by norm_num, ?_, ?_⟩
+                  · have : p % 552 = 145 := by omega
+                    have h23div : (p + 16) / 23 * 23 = p + 16 := Nat.div_mul_cancel hdiv23a
+                    omega
+                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                  · set δ := (p + 16) / 23 with hδ_def
+                    set c₀ := (3 * p + 2) / 23 with hc₀_def
+                    have hδ_mul : δ * 23 = p + 16 := Nat.div_mul_cancel hdiv23a
+                    have hc₀_mul : c₀ * 23 = 3 * p + 2 := Nat.div_mul_cancel hdiv23b
+                    have hδ_int : (↑δ : ℤ) * 23 = ↑p + 16 := by exact_mod_cast hδ_mul
+                    have hc₀_int : (↑c₀ : ℤ) * 23 = 3 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                    push_cast
+                    nlinarith [hδ_int, hc₀_int]
+                · by_cases hp23_10 : p % 23 = 10
+                  · -- p ≡ 10 (mod 23): (α=1, r=2, s=3), M = 4·1·3·2 - 1 = 23
+                    -- offset = (p+36)/23, b = 6, c = 2·(2 * p + 3)/23
+                    have hdiv23a : 23 ∣ (p + 36) := by omega
+                    have hdiv23b : 23 ∣ (2 * p + 3) := by omega
+                    refine ⟨(p + 36) / 23, 6, 2 * ((2 * p + 3) / 23), ?_, by norm_num, ?_, ?_⟩
+                    · have : p % 552 = 217 := by omega
+                      have h23div : (p + 36) / 23 * 23 = p + 36 := Nat.div_mul_cancel hdiv23a
+                      omega
+                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                    · set δ := (p + 36) / 23 with hδ_def
+                      set c₀ := (2 * p + 3) / 23 with hc₀_def
+                      have hδ_mul : δ * 23 = p + 36 := Nat.div_mul_cancel hdiv23a
+                      have hc₀_mul : c₀ * 23 = 2 * p + 3 := Nat.div_mul_cancel hdiv23b
+                      have hδ_int : (↑δ : ℤ) * 23 = ↑p + 36 := by exact_mod_cast hδ_mul
+                      have hc₀_int : (↑c₀ : ℤ) * 23 = 2 * ↑p + 3 := by exact_mod_cast hc₀_mul
+                      push_cast
+                      nlinarith [hδ_int, hc₀_int]
+                  · by_cases hp23_17 : p % 23 = 17
+                    · -- p ≡ 17 (mod 23): (α=1, r=1, s=6), M = 4·1·6·1 - 1 = 23
+                      -- offset = (p+144)/23, b = 6, c = (p + 6)/23
+                      have hdiv23a : 23 ∣ (p + 144) := by omega
+                      have hdiv23b : 23 ∣ (p + 6) := by omega
+                      refine ⟨(p + 144) / 23, 6, (p + 6) / 23, ?_, by norm_num, ?_, ?_⟩
+                      · have : p % 552 = 385 := by omega
+                        have h23div : (p + 144) / 23 * 23 = p + 144 := Nat.div_mul_cancel hdiv23a
+                        omega
+                      · exact Nat.div_pos (by omega) (by norm_num)
+                      · set δ := (p + 144) / 23 with hδ_def
+                        set c₀ := (p + 6) / 23 with hc₀_def
+                        have hδ_mul : δ * 23 = p + 144 := Nat.div_mul_cancel hdiv23a
+                        have hc₀_mul : c₀ * 23 = p + 6 := Nat.div_mul_cancel hdiv23b
+                        have hδ_int : (↑δ : ℤ) * 23 = ↑p + 144 := by exact_mod_cast hδ_mul
+                        have hc₀_int : (↑c₀ : ℤ) * 23 = ↑p + 6 := by exact_mod_cast hc₀_mul
+                        push_cast
+                        nlinarith [hδ_int, hc₀_int]
+                    · by_cases hp23_15 : p % 23 = 15
+                      · -- p ≡ 15 (mod 23): (α=2, r=3, s=1), M = 4·2·1·3 - 1 = 23
+                        -- offset = (p+8)/23, b = 6, c = 6·(3 * p + 1)/23
+                        have hdiv23a : 23 ∣ (p + 8) := by omega
+                        have hdiv23b : 23 ∣ (3 * p + 1) := by omega
+                        refine ⟨(p + 8) / 23, 6, 6 * ((3 * p + 1) / 23), ?_, by norm_num, ?_, ?_⟩
+                        · have : p % 552 = 337 := by omega
+                          have h23div : (p + 8) / 23 * 23 = p + 8 := Nat.div_mul_cancel hdiv23a
+                          omega
+                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                        · set δ := (p + 8) / 23 with hδ_def
+                          set c₀ := (3 * p + 1) / 23 with hc₀_def
+                          have hδ_mul : δ * 23 = p + 8 := Nat.div_mul_cancel hdiv23a
+                          have hc₀_mul : c₀ * 23 = 3 * p + 1 := Nat.div_mul_cancel hdiv23b
+                          have hδ_int : (↑δ : ℤ) * 23 = ↑p + 8 := by exact_mod_cast hδ_mul
+                          have hc₀_int : (↑c₀ : ℤ) * 23 = 3 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                          push_cast
+                          nlinarith [hδ_int, hc₀_int]
+                      · by_cases hp23_20 : p % 23 = 20
+                        · -- p ≡ 20 (mod 23): (α=2, r=1, s=3), M = 4·2·3·1 - 1 = 23
+                          -- offset = (p+72)/23, b = 6, c = 2·(p + 3)/23
+                          have hdiv23a : 23 ∣ (p + 72) := by omega
+                          have hdiv23b : 23 ∣ (p + 3) := by omega
+                          refine ⟨(p + 72) / 23, 6, 2 * ((p + 3) / 23), ?_, by norm_num, ?_, ?_⟩
+                          · have : p % 552 = 457 := by omega
+                            have h23div : (p + 72) / 23 * 23 = p + 72 := Nat.div_mul_cancel hdiv23a
+                            omega
+                          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                          · set δ := (p + 72) / 23 with hδ_def
+                            set c₀ := (p + 3) / 23 with hc₀_def
+                            have hδ_mul : δ * 23 = p + 72 := Nat.div_mul_cancel hdiv23a
+                            have hc₀_mul : c₀ * 23 = p + 3 := Nat.div_mul_cancel hdiv23b
+                            have hδ_int : (↑δ : ℤ) * 23 = ↑p + 72 := by exact_mod_cast hδ_mul
+                            have hc₀_int : (↑c₀ : ℤ) * 23 = ↑p + 3 := by exact_mod_cast hc₀_mul
+                            push_cast
+                            nlinarith [hδ_int, hc₀_int]
+                        · by_cases hp23_11 : p % 23 = 11
+                          · -- p ≡ 11 (mod 23): (α=3, r=2, s=1), M = 4·3·1·2 - 1 = 23
+                            -- offset = (p+12)/23, b = 6, c = 6·(2 * p + 1)/23
+                            have hdiv23a : 23 ∣ (p + 12) := by omega
+                            have hdiv23b : 23 ∣ (2 * p + 1) := by omega
+                            refine ⟨(p + 12) / 23, 6, 6 * ((2 * p + 1) / 23), ?_, by norm_num, ?_, ?_⟩
+                            · have : p % 552 = 241 := by omega
+                              have h23div : (p + 12) / 23 * 23 = p + 12 := Nat.div_mul_cancel hdiv23a
+                              omega
+                            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                            · set δ := (p + 12) / 23 with hδ_def
+                              set c₀ := (2 * p + 1) / 23 with hc₀_def
+                              have hδ_mul : δ * 23 = p + 12 := Nat.div_mul_cancel hdiv23a
+                              have hc₀_mul : c₀ * 23 = 2 * p + 1 := Nat.div_mul_cancel hdiv23b
+                              have hδ_int : (↑δ : ℤ) * 23 = ↑p + 12 := by exact_mod_cast hδ_mul
+                              have hc₀_int : (↑c₀ : ℤ) * 23 = 2 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                              push_cast
+                              nlinarith [hδ_int, hc₀_int]
+                          · by_cases hp23_21 : p % 23 = 21
+                            · -- p ≡ 21 (mod 23): (α=3, r=1, s=2), M = 4·3·2·1 - 1 = 23
+                              -- offset = (p+48)/23, b = 6, c = 3·(p + 2)/23
+                              have hdiv23a : 23 ∣ (p + 48) := by omega
+                              have hdiv23b : 23 ∣ (p + 2) := by omega
+                              refine ⟨(p + 48) / 23, 6, 3 * ((p + 2) / 23), ?_, by norm_num, ?_, ?_⟩
+                              · have : p % 552 = 481 := by omega
+                                have h23div : (p + 48) / 23 * 23 = p + 48 := Nat.div_mul_cancel hdiv23a
+                                omega
+                              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                              · set δ := (p + 48) / 23 with hδ_def
+                                set c₀ := (p + 2) / 23 with hc₀_def
+                                have hδ_mul : δ * 23 = p + 48 := Nat.div_mul_cancel hdiv23a
+                                have hc₀_mul : c₀ * 23 = p + 2 := Nat.div_mul_cancel hdiv23b
+                                have hδ_int : (↑δ : ℤ) * 23 = ↑p + 48 := by exact_mod_cast hδ_mul
+                                have hc₀_int : (↑c₀ : ℤ) * 23 = ↑p + 2 := by exact_mod_cast hc₀_mul
+                                push_cast
+                                nlinarith [hδ_int, hc₀_int]
+                            · by_cases hp23_22 : p % 23 = 22
+                              · -- p ≡ 22 (mod 23): (α=6, r=1, s=1), M = 4·6·1·1 - 1 = 23
+                                -- offset = (p+24)/23, b = 6, c = 6·(p + 1)/23
+                                have hdiv23a : 23 ∣ (p + 24) := by omega
+                                have hdiv23b : 23 ∣ (p + 1) := by omega
+                                refine ⟨(p + 24) / 23, 6, 6 * ((p + 1) / 23), ?_, by norm_num, ?_, ?_⟩
+                                · have : p % 552 = 505 := by omega
+                                  have h23div : (p + 24) / 23 * 23 = p + 24 := Nat.div_mul_cancel hdiv23a
+                                  omega
+                                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                · set δ := (p + 24) / 23 with hδ_def
+                                  set c₀ := (p + 1) / 23 with hc₀_def
+                                  have hδ_mul : δ * 23 = p + 24 := Nat.div_mul_cancel hdiv23a
+                                  have hc₀_mul : c₀ * 23 = p + 1 := Nat.div_mul_cancel hdiv23b
+                                  have hδ_int : (↑δ : ℤ) * 23 = ↑p + 24 := by exact_mod_cast hδ_mul
+                                  have hc₀_int : (↑c₀ : ℤ) * 23 = ↑p + 1 := by exact_mod_cast hc₀_mul
+                                  push_cast
+                                  nlinarith [hδ_int, hc₀_int]
+                              · /- Remaining: p % 7 ∈ {1, 2, 4}, p % 5 ∈ {1, 4},
+                                   p % 11 ∉ {7, 8, 10}, p % 19 ∉ {14, 15, 18},
+                                   p % 23 ∉ {7, 10, 11, 15, 17, 19, 20, 21, 22}.
+                                   Requires the full Dyachenko lattice density argument
+                                   (arXiv:2511.07465) or additional M values.
+                                   Computationally verified for all such primes up to 10^7. -/
+                                sorry

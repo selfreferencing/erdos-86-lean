@@ -1,0 +1,272 @@
+        -- M = 199 subcases via Lemma D.6
+        by_cases hp199_87 : p % 199 = 87
+        · -- p ≡ 87 (mod 199): (α=1, r=2, s=25), M = 4·1·25·2 - 1 = 199
+          -- offset = (p+2500)/199, b = 50, c = 2·(2 * p + 25)/199
+          have hdiv199a : 199 ∣ (p + 2500) := by omega
+          have hdiv199b : 199 ∣ (2 * p + 25) := by omega
+          refine ⟨(p + 2500) / 199, 50, 2 * ((2 * p + 25) / 199), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 4776 = 4465 := by omega
+            have h199div : (p + 2500) / 199 * 199 = p + 2500 := Nat.div_mul_cancel hdiv199a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 2500) / 199 with hδ_def
+            set c₀ := (2 * p + 25) / 199 with hc₀_def
+            have hδ_mul : δ * 199 = p + 2500 := Nat.div_mul_cancel hdiv199a
+            have hc₀_mul : c₀ * 199 = 2 * p + 25 := Nat.div_mul_cancel hdiv199b
+            have hδ_int : (↑δ : ℤ) * 199 = ↑p + 2500 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 199 = 2 * ↑p + 25 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp199_97 : p % 199 = 97
+          · -- p ≡ 97 (mod 199): (α=5, r=2, s=5), M = 4·5·5·2 - 1 = 199
+            -- offset = (p+500)/199, b = 50, c = 10·(2 * p + 5)/199
+            have hdiv199a : 199 ∣ (p + 500) := by omega
+            have hdiv199b : 199 ∣ (2 * p + 5) := by omega
+            refine ⟨(p + 500) / 199, 50, 10 * ((2 * p + 5) / 199), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 4776 = 97 := by omega
+              have h199div : (p + 500) / 199 * 199 = p + 500 := Nat.div_mul_cancel hdiv199a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 500) / 199 with hδ_def
+              set c₀ := (2 * p + 5) / 199 with hc₀_def
+              have hδ_mul : δ * 199 = p + 500 := Nat.div_mul_cancel hdiv199a
+              have hc₀_mul : c₀ * 199 = 2 * p + 5 := Nat.div_mul_cancel hdiv199b
+              have hδ_int : (↑δ : ℤ) * 199 = ↑p + 500 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 199 = 2 * ↑p + 5 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp199_99 : p % 199 = 99
+            · -- p ≡ 99 (mod 199): (α=1, r=10, s=5), M = 4·1·5·10 - 1 = 199
+              -- offset = (p+100)/199, b = 50, c = 10·(10 * p + 5)/199
+              have hdiv199a : 199 ∣ (p + 100) := by omega
+              have hdiv199b : 199 ∣ (10 * p + 5) := by omega
+              refine ⟨(p + 100) / 199, 50, 10 * ((10 * p + 5) / 199), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 4776 = 2089 := by omega
+                have h199div : (p + 100) / 199 * 199 = p + 100 := Nat.div_mul_cancel hdiv199a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 100) / 199 with hδ_def
+                set c₀ := (10 * p + 5) / 199 with hc₀_def
+                have hδ_mul : δ * 199 = p + 100 := Nat.div_mul_cancel hdiv199a
+                have hc₀_mul : c₀ * 199 = 10 * p + 5 := Nat.div_mul_cancel hdiv199b
+                have hδ_int : (↑δ : ℤ) * 199 = ↑p + 100 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 199 = 10 * ↑p + 5 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · by_cases hp199_119 : p % 199 = 119
+              · -- p ≡ 119 (mod 199): (α=5, r=5, s=2), M = 4·5·2·5 - 1 = 199
+                -- offset = (p+80)/199, b = 50, c = 25·(5 * p + 2)/199
+                have hdiv199a : 199 ∣ (p + 80) := by omega
+                have hdiv199b : 199 ∣ (5 * p + 2) := by omega
+                refine ⟨(p + 80) / 199, 50, 25 * ((5 * p + 2) / 199), ?_, by norm_num, ?_, ?_⟩
+                · have : p % 4776 = 2905 := by omega
+                  have h199div : (p + 80) / 199 * 199 = p + 80 := Nat.div_mul_cancel hdiv199a
+                  omega
+                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                · set δ := (p + 80) / 199 with hδ_def
+                  set c₀ := (5 * p + 2) / 199 with hc₀_def
+                  have hδ_mul : δ * 199 = p + 80 := Nat.div_mul_cancel hdiv199a
+                  have hc₀_mul : c₀ * 199 = 5 * p + 2 := Nat.div_mul_cancel hdiv199b
+                  have hδ_int : (↑δ : ℤ) * 199 = ↑p + 80 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 199 = 5 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · by_cases hp199_149 : p % 199 = 149
+                · -- p ≡ 149 (mod 199): (α=1, r=1, s=50), M = 4·1·50·1 - 1 = 199
+                  -- offset = (p+10000)/199, b = 50, c = (p + 50)/199
+                  have hdiv199a : 199 ∣ (p + 10000) := by omega
+                  have hdiv199b : 199 ∣ (p + 50) := by omega
+                  refine ⟨(p + 10000) / 199, 50, (p + 50) / 199, ?_, by norm_num, ?_, ?_⟩
+                  · have : p % 4776 = 4129 := by omega
+                    have h199div : (p + 10000) / 199 * 199 = p + 10000 := Nat.div_mul_cancel hdiv199a
+                    omega
+                  · exact Nat.div_pos (by omega) (by norm_num)
+                  · set δ := (p + 10000) / 199 with hδ_def
+                    set c₀ := (p + 50) / 199 with hc₀_def
+                    have hδ_mul : δ * 199 = p + 10000 := Nat.div_mul_cancel hdiv199a
+                    have hc₀_mul : c₀ * 199 = p + 50 := Nat.div_mul_cancel hdiv199b
+                    have hδ_int : (↑δ : ℤ) * 199 = ↑p + 10000 := by exact_mod_cast hδ_mul
+                    have hc₀_int : (↑c₀ : ℤ) * 199 = ↑p + 50 := by exact_mod_cast hc₀_mul
+                    push_cast
+                    nlinarith [hδ_int, hc₀_int]
+                · by_cases hp199_159 : p % 199 = 159
+                  · -- p ≡ 159 (mod 199): (α=10, r=5, s=1), M = 4·10·1·5 - 1 = 199
+                    -- offset = (p+40)/199, b = 50, c = 50·(5 * p + 1)/199
+                    have hdiv199a : 199 ∣ (p + 40) := by omega
+                    have hdiv199b : 199 ∣ (5 * p + 1) := by omega
+                    refine ⟨(p + 40) / 199, 50, 50 * ((5 * p + 1) / 199), ?_, by norm_num, ?_, ?_⟩
+                    · have : p % 4776 = 4537 := by omega
+                      have h199div : (p + 40) / 199 * 199 = p + 40 := Nat.div_mul_cancel hdiv199a
+                      omega
+                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                    · set δ := (p + 40) / 199 with hδ_def
+                      set c₀ := (5 * p + 1) / 199 with hc₀_def
+                      have hδ_mul : δ * 199 = p + 40 := Nat.div_mul_cancel hdiv199a
+                      have hc₀_mul : c₀ * 199 = 5 * p + 1 := Nat.div_mul_cancel hdiv199b
+                      have hδ_int : (↑δ : ℤ) * 199 = ↑p + 40 := by exact_mod_cast hδ_mul
+                      have hc₀_int : (↑c₀ : ℤ) * 199 = 5 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                      push_cast
+                      nlinarith [hδ_int, hc₀_int]
+                  · by_cases hp199_174 : p % 199 = 174
+                    · -- p ≡ 174 (mod 199): (α=2, r=1, s=25), M = 4·2·25·1 - 1 = 199
+                      -- offset = (p+5000)/199, b = 50, c = 2·(p + 25)/199
+                      have hdiv199a : 199 ∣ (p + 5000) := by omega
+                      have hdiv199b : 199 ∣ (p + 25) := by omega
+                      refine ⟨(p + 5000) / 199, 50, 2 * ((p + 25) / 199), ?_, by norm_num, ?_, ?_⟩
+                      · have : p % 4776 = 2761 := by omega
+                        have h199div : (p + 5000) / 199 * 199 = p + 5000 := Nat.div_mul_cancel hdiv199a
+                        omega
+                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                      · set δ := (p + 5000) / 199 with hδ_def
+                        set c₀ := (p + 25) / 199 with hc₀_def
+                        have hδ_mul : δ * 199 = p + 5000 := Nat.div_mul_cancel hdiv199a
+                        have hc₀_mul : c₀ * 199 = p + 25 := Nat.div_mul_cancel hdiv199b
+                        have hδ_int : (↑δ : ℤ) * 199 = ↑p + 5000 := by exact_mod_cast hδ_mul
+                        have hc₀_int : (↑c₀ : ℤ) * 199 = ↑p + 25 := by exact_mod_cast hc₀_mul
+                        push_cast
+                        nlinarith [hδ_int, hc₀_int]
+                    · by_cases hp199_179 : p % 199 = 179
+                      · -- p ≡ 179 (mod 199): (α=5, r=10, s=1), M = 4·5·1·10 - 1 = 199
+                        -- offset = (p+20)/199, b = 50, c = 50·(10 * p + 1)/199
+                        have hdiv199a : 199 ∣ (p + 20) := by omega
+                        have hdiv199b : 199 ∣ (10 * p + 1) := by omega
+                        refine ⟨(p + 20) / 199, 50, 50 * ((10 * p + 1) / 199), ?_, by norm_num, ?_, ?_⟩
+                        · have : p % 4776 = 577 := by omega
+                          have h199div : (p + 20) / 199 * 199 = p + 20 := Nat.div_mul_cancel hdiv199a
+                          omega
+                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                        · set δ := (p + 20) / 199 with hδ_def
+                          set c₀ := (10 * p + 1) / 199 with hc₀_def
+                          have hδ_mul : δ * 199 = p + 20 := Nat.div_mul_cancel hdiv199a
+                          have hc₀_mul : c₀ * 199 = 10 * p + 1 := Nat.div_mul_cancel hdiv199b
+                          have hδ_int : (↑δ : ℤ) * 199 = ↑p + 20 := by exact_mod_cast hδ_mul
+                          have hc₀_int : (↑c₀ : ℤ) * 199 = 10 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                          push_cast
+                          nlinarith [hδ_int, hc₀_int]
+                      · by_cases hp199_183 : p % 199 = 183
+                        · -- p ≡ 183 (mod 199): (α=1, r=25, s=2), M = 4·1·2·25 - 1 = 199
+                          -- offset = (p+16)/199, b = 50, c = 25·(25 * p + 2)/199
+                          have hdiv199a : 199 ∣ (p + 16) := by omega
+                          have hdiv199b : 199 ∣ (25 * p + 2) := by omega
+                          refine ⟨(p + 16) / 199, 50, 25 * ((25 * p + 2) / 199), ?_, by norm_num, ?_, ?_⟩
+                          · have : p % 4776 = 4561 := by omega
+                            have h199div : (p + 16) / 199 * 199 = p + 16 := Nat.div_mul_cancel hdiv199a
+                            omega
+                          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                          · set δ := (p + 16) / 199 with hδ_def
+                            set c₀ := (25 * p + 2) / 199 with hc₀_def
+                            have hδ_mul : δ * 199 = p + 16 := Nat.div_mul_cancel hdiv199a
+                            have hc₀_mul : c₀ * 199 = 25 * p + 2 := Nat.div_mul_cancel hdiv199b
+                            have hδ_int : (↑δ : ℤ) * 199 = ↑p + 16 := by exact_mod_cast hδ_mul
+                            have hc₀_int : (↑c₀ : ℤ) * 199 = 25 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                            push_cast
+                            nlinarith [hδ_int, hc₀_int]
+                        · by_cases hp199_189 : p % 199 = 189
+                          · -- p ≡ 189 (mod 199): (α=5, r=1, s=10), M = 4·5·10·1 - 1 = 199
+                            -- offset = (p+2000)/199, b = 50, c = 5·(p + 10)/199
+                            have hdiv199a : 199 ∣ (p + 2000) := by omega
+                            have hdiv199b : 199 ∣ (p + 10) := by omega
+                            refine ⟨(p + 2000) / 199, 50, 5 * ((p + 10) / 199), ?_, by norm_num, ?_, ?_⟩
+                            · have : p % 4776 = 985 := by omega
+                              have h199div : (p + 2000) / 199 * 199 = p + 2000 := Nat.div_mul_cancel hdiv199a
+                              omega
+                            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                            · set δ := (p + 2000) / 199 with hδ_def
+                              set c₀ := (p + 10) / 199 with hc₀_def
+                              have hδ_mul : δ * 199 = p + 2000 := Nat.div_mul_cancel hdiv199a
+                              have hc₀_mul : c₀ * 199 = p + 10 := Nat.div_mul_cancel hdiv199b
+                              have hδ_int : (↑δ : ℤ) * 199 = ↑p + 2000 := by exact_mod_cast hδ_mul
+                              have hc₀_int : (↑c₀ : ℤ) * 199 = ↑p + 10 := by exact_mod_cast hc₀_mul
+                              push_cast
+                              nlinarith [hδ_int, hc₀_int]
+                          · by_cases hp199_191 : p % 199 = 191
+                            · -- p ≡ 191 (mod 199): (α=2, r=25, s=1), M = 4·2·1·25 - 1 = 199
+                              -- offset = (p+8)/199, b = 50, c = 50·(25 * p + 1)/199
+                              have hdiv199a : 199 ∣ (p + 8) := by omega
+                              have hdiv199b : 199 ∣ (25 * p + 1) := by omega
+                              refine ⟨(p + 8) / 199, 50, 50 * ((25 * p + 1) / 199), ?_, by norm_num, ?_, ?_⟩
+                              · have : p % 4776 = 2977 := by omega
+                                have h199div : (p + 8) / 199 * 199 = p + 8 := Nat.div_mul_cancel hdiv199a
+                                omega
+                              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                              · set δ := (p + 8) / 199 with hδ_def
+                                set c₀ := (25 * p + 1) / 199 with hc₀_def
+                                have hδ_mul : δ * 199 = p + 8 := Nat.div_mul_cancel hdiv199a
+                                have hc₀_mul : c₀ * 199 = 25 * p + 1 := Nat.div_mul_cancel hdiv199b
+                                have hδ_int : (↑δ : ℤ) * 199 = ↑p + 8 := by exact_mod_cast hδ_mul
+                                have hc₀_int : (↑c₀ : ℤ) * 199 = 25 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                push_cast
+                                nlinarith [hδ_int, hc₀_int]
+                            · by_cases hp199_194 : p % 199 = 194
+                              · -- p ≡ 194 (mod 199): (α=10, r=1, s=5), M = 4·10·5·1 - 1 = 199
+                                -- offset = (p+1000)/199, b = 50, c = 10·(p + 5)/199
+                                have hdiv199a : 199 ∣ (p + 1000) := by omega
+                                have hdiv199b : 199 ∣ (p + 5) := by omega
+                                refine ⟨(p + 1000) / 199, 50, 10 * ((p + 5) / 199), ?_, by norm_num, ?_, ?_⟩
+                                · have : p % 4776 = 3577 := by omega
+                                  have h199div : (p + 1000) / 199 * 199 = p + 1000 := Nat.div_mul_cancel hdiv199a
+                                  omega
+                                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                · set δ := (p + 1000) / 199 with hδ_def
+                                  set c₀ := (p + 5) / 199 with hc₀_def
+                                  have hδ_mul : δ * 199 = p + 1000 := Nat.div_mul_cancel hdiv199a
+                                  have hc₀_mul : c₀ * 199 = p + 5 := Nat.div_mul_cancel hdiv199b
+                                  have hδ_int : (↑δ : ℤ) * 199 = ↑p + 1000 := by exact_mod_cast hδ_mul
+                                  have hc₀_int : (↑c₀ : ℤ) * 199 = ↑p + 5 := by exact_mod_cast hc₀_mul
+                                  push_cast
+                                  nlinarith [hδ_int, hc₀_int]
+                              · by_cases hp199_195 : p % 199 = 195
+                                · -- p ≡ 195 (mod 199): (α=1, r=50, s=1), M = 4·1·1·50 - 1 = 199
+                                  -- offset = (p+4)/199, b = 50, c = 50·(50 * p + 1)/199
+                                  have hdiv199a : 199 ∣ (p + 4) := by omega
+                                  have hdiv199b : 199 ∣ (50 * p + 1) := by omega
+                                  refine ⟨(p + 4) / 199, 50, 50 * ((50 * p + 1) / 199), ?_, by norm_num, ?_, ?_⟩
+                                  · have : p % 4776 = 2185 := by omega
+                                    have h199div : (p + 4) / 199 * 199 = p + 4 := Nat.div_mul_cancel hdiv199a
+                                    omega
+                                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                  · set δ := (p + 4) / 199 with hδ_def
+                                    set c₀ := (50 * p + 1) / 199 with hc₀_def
+                                    have hδ_mul : δ * 199 = p + 4 := Nat.div_mul_cancel hdiv199a
+                                    have hc₀_mul : c₀ * 199 = 50 * p + 1 := Nat.div_mul_cancel hdiv199b
+                                    have hδ_int : (↑δ : ℤ) * 199 = ↑p + 4 := by exact_mod_cast hδ_mul
+                                    have hc₀_int : (↑c₀ : ℤ) * 199 = 50 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                    push_cast
+                                    nlinarith [hδ_int, hc₀_int]
+                                · by_cases hp199_197 : p % 199 = 197
+                                  · -- p ≡ 197 (mod 199): (α=1, r=5, s=10), M = 4·1·10·5 - 1 = 199
+                                    -- offset = (p+400)/199, b = 50, c = 5·(5 * p + 10)/199
+                                    have hdiv199a : 199 ∣ (p + 400) := by omega
+                                    have hdiv199b : 199 ∣ (5 * p + 10) := by omega
+                                    refine ⟨(p + 400) / 199, 50, 5 * ((5 * p + 10) / 199), ?_, by norm_num, ?_, ?_⟩
+                                    · have : p % 4776 = 4177 := by omega
+                                      have h199div : (p + 400) / 199 * 199 = p + 400 := Nat.div_mul_cancel hdiv199a
+                                      omega
+                                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                    · set δ := (p + 400) / 199 with hδ_def
+                                      set c₀ := (5 * p + 10) / 199 with hc₀_def
+                                      have hδ_mul : δ * 199 = p + 400 := Nat.div_mul_cancel hdiv199a
+                                      have hc₀_mul : c₀ * 199 = 5 * p + 10 := Nat.div_mul_cancel hdiv199b
+                                      have hδ_int : (↑δ : ℤ) * 199 = ↑p + 400 := by exact_mod_cast hδ_mul
+                                      have hc₀_int : (↑c₀ : ℤ) * 199 = 5 * ↑p + 10 := by exact_mod_cast hc₀_mul
+                                      push_cast
+                                      nlinarith [hδ_int, hc₀_int]
+                                  · by_cases hp199_198 : p % 199 = 198
+                                    · -- p ≡ 198 (mod 199): (α=2, r=5, s=5), M = 4·2·5·5 - 1 = 199
+                                      -- offset = (p+200)/199, b = 50, c = 10·(5 * p + 5)/199
+                                      have hdiv199a : 199 ∣ (p + 200) := by omega
+                                      have hdiv199b : 199 ∣ (5 * p + 5) := by omega
+                                      refine ⟨(p + 200) / 199, 50, 10 * ((5 * p + 5) / 199), ?_, by norm_num, ?_, ?_⟩
+                                      · have : p % 4776 = 2785 := by omega
+                                        have h199div : (p + 200) / 199 * 199 = p + 200 := Nat.div_mul_cancel hdiv199a
+                                        omega
+                                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                      · set δ := (p + 200) / 199 with hδ_def
+                                        set c₀ := (5 * p + 5) / 199 with hc₀_def
+                                        have hδ_mul : δ * 199 = p + 200 := Nat.div_mul_cancel hdiv199a
+                                        have hc₀_mul : c₀ * 199 = 5 * p + 5 := Nat.div_mul_cancel hdiv199b
+                                        have hδ_int : (↑δ : ℤ) * 199 = ↑p + 200 := by exact_mod_cast hδ_mul
+                                        have hc₀_int : (↑c₀ : ℤ) * 199 = 5 * ↑p + 5 := by exact_mod_cast hc₀_mul
+                                        push_cast
+                                        nlinarith [hδ_int, hc₀_int]
+                                    · sorry

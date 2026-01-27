@@ -1,0 +1,56 @@
+        -- M = 43 subcases via Lemma D.6
+        by_cases hp43_32 : p % 43 = 32
+        · -- p ≡ 32 (mod 43): (α=1, r=1, s=11), M = 4·1·11·1 - 1 = 43
+          -- offset = (p+484)/43, b = 11, c = (p + 11)/43
+          have hdiv43a : 43 ∣ (p + 484) := by omega
+          have hdiv43b : 43 ∣ (p + 11) := by omega
+          refine ⟨(p + 484) / 43, 11, (p + 11) / 43, ?_, by norm_num, ?_, ?_⟩
+          · have : p % 1032 = 505 := by omega
+            have h43div : (p + 484) / 43 * 43 = p + 484 := Nat.div_mul_cancel hdiv43a
+            omega
+          · exact Nat.div_pos (by omega) (by norm_num)
+          · set δ := (p + 484) / 43 with hδ_def
+            set c₀ := (p + 11) / 43 with hc₀_def
+            have hδ_mul : δ * 43 = p + 484 := Nat.div_mul_cancel hdiv43a
+            have hc₀_mul : c₀ * 43 = p + 11 := Nat.div_mul_cancel hdiv43b
+            have hδ_int : (↑δ : ℤ) * 43 = ↑p + 484 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 43 = ↑p + 11 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp43_39 : p % 43 = 39
+          · -- p ≡ 39 (mod 43): (α=1, r=11, s=1), M = 4·1·1·11 - 1 = 43
+            -- offset = (p+4)/43, b = 11, c = 11·(11 * p + 1)/43
+            have hdiv43a : 43 ∣ (p + 4) := by omega
+            have hdiv43b : 43 ∣ (11 * p + 1) := by omega
+            refine ⟨(p + 4) / 43, 11, 11 * ((11 * p + 1) / 43), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 1032 = 985 := by omega
+              have h43div : (p + 4) / 43 * 43 = p + 4 := Nat.div_mul_cancel hdiv43a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 4) / 43 with hδ_def
+              set c₀ := (11 * p + 1) / 43 with hc₀_def
+              have hδ_mul : δ * 43 = p + 4 := Nat.div_mul_cancel hdiv43a
+              have hc₀_mul : c₀ * 43 = 11 * p + 1 := Nat.div_mul_cancel hdiv43b
+              have hδ_int : (↑δ : ℤ) * 43 = ↑p + 4 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 43 = 11 * ↑p + 1 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp43_42 : p % 43 = 42
+            · -- p ≡ 42 (mod 43): (α=11, r=1, s=1), M = 4·11·1·1 - 1 = 43
+              -- offset = (p+44)/43, b = 11, c = 11·(p + 1)/43
+              have hdiv43a : 43 ∣ (p + 44) := by omega
+              have hdiv43b : 43 ∣ (p + 1) := by omega
+              refine ⟨(p + 44) / 43, 11, 11 * ((p + 1) / 43), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 1032 = 601 := by omega
+                have h43div : (p + 44) / 43 * 43 = p + 44 := Nat.div_mul_cancel hdiv43a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 44) / 43 with hδ_def
+                set c₀ := (p + 1) / 43 with hc₀_def
+                have hδ_mul : δ * 43 = p + 44 := Nat.div_mul_cancel hdiv43a
+                have hc₀_mul : c₀ * 43 = p + 1 := Nat.div_mul_cancel hdiv43b
+                have hδ_int : (↑δ : ℤ) * 43 = ↑p + 44 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 43 = ↑p + 1 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · sorry

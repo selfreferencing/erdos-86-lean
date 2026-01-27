@@ -1,0 +1,236 @@
+        -- M = 79 subcases via Lemma D.6
+        by_cases hp79_15 : p % 79 = 15
+        · -- p ≡ 15 (mod 79): (α=1, r=5, s=4), M = 4·1·4·5 - 1 = 79
+          -- offset = (p+64)/79, b = 20, c = 5·(5 * p + 4)/79
+          have hdiv79a : 79 ∣ (p + 64) := by omega
+          have hdiv79b : 79 ∣ (5 * p + 4) := by omega
+          refine ⟨(p + 64) / 79, 20, 5 * ((5 * p + 4) / 79), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 1896 = 1753 := by omega
+            have h79div : (p + 64) / 79 * 79 = p + 64 := Nat.div_mul_cancel hdiv79a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 64) / 79 with hδ_def
+            set c₀ := (5 * p + 4) / 79 with hc₀_def
+            have hδ_mul : δ * 79 = p + 64 := Nat.div_mul_cancel hdiv79a
+            have hc₀_mul : c₀ * 79 = 5 * p + 4 := Nat.div_mul_cancel hdiv79b
+            have hδ_int : (↑δ : ℤ) * 79 = ↑p + 64 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 79 = 5 * ↑p + 4 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp79_37 : p % 79 = 37
+          · -- p ≡ 37 (mod 79): (α=2, r=2, s=5), M = 4·2·5·2 - 1 = 79
+            -- offset = (p+200)/79, b = 20, c = 4·(2 * p + 5)/79
+            have hdiv79a : 79 ∣ (p + 200) := by omega
+            have hdiv79b : 79 ∣ (2 * p + 5) := by omega
+            refine ⟨(p + 200) / 79, 20, 4 * ((2 * p + 5) / 79), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 1896 = 985 := by omega
+              have h79div : (p + 200) / 79 * 79 = p + 200 := Nat.div_mul_cancel hdiv79a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 200) / 79 with hδ_def
+              set c₀ := (2 * p + 5) / 79 with hc₀_def
+              have hδ_mul : δ * 79 = p + 200 := Nat.div_mul_cancel hdiv79a
+              have hc₀_mul : c₀ * 79 = 2 * p + 5 := Nat.div_mul_cancel hdiv79b
+              have hδ_int : (↑δ : ℤ) * 79 = ↑p + 200 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 79 = 2 * ↑p + 5 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp79_39 : p % 79 = 39
+            · -- p ≡ 39 (mod 79): (α=10, r=2, s=1), M = 4·10·1·2 - 1 = 79
+              -- offset = (p+40)/79, b = 20, c = 20·(2 * p + 1)/79
+              have hdiv79a : 79 ∣ (p + 40) := by omega
+              have hdiv79b : 79 ∣ (2 * p + 1) := by omega
+              refine ⟨(p + 40) / 79, 20, 20 * ((2 * p + 1) / 79), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 1896 = 1777 := by omega
+                have h79div : (p + 40) / 79 * 79 = p + 40 := Nat.div_mul_cancel hdiv79a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 40) / 79 with hδ_def
+                set c₀ := (2 * p + 1) / 79 with hc₀_def
+                have hδ_mul : δ * 79 = p + 40 := Nat.div_mul_cancel hdiv79a
+                have hc₀_mul : c₀ * 79 = 2 * p + 1 := Nat.div_mul_cancel hdiv79b
+                have hδ_int : (↑δ : ℤ) * 79 = ↑p + 40 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 79 = 2 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · by_cases hp79_47 : p % 79 = 47
+              · -- p ≡ 47 (mod 79): (α=2, r=5, s=2), M = 4·2·2·5 - 1 = 79
+                -- offset = (p+32)/79, b = 20, c = 10·(5 * p + 2)/79
+                have hdiv79a : 79 ∣ (p + 32) := by omega
+                have hdiv79b : 79 ∣ (5 * p + 2) := by omega
+                refine ⟨(p + 32) / 79, 20, 10 * ((5 * p + 2) / 79), ?_, by norm_num, ?_, ?_⟩
+                · have : p % 1896 = 1153 := by omega
+                  have h79div : (p + 32) / 79 * 79 = p + 32 := Nat.div_mul_cancel hdiv79a
+                  omega
+                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                · set δ := (p + 32) / 79 with hδ_def
+                  set c₀ := (5 * p + 2) / 79 with hc₀_def
+                  have hδ_mul : δ * 79 = p + 32 := Nat.div_mul_cancel hdiv79a
+                  have hc₀_mul : c₀ * 79 = 5 * p + 2 := Nat.div_mul_cancel hdiv79b
+                  have hδ_int : (↑δ : ℤ) * 79 = ↑p + 32 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 79 = 5 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · by_cases hp79_58 : p % 79 = 58
+                · -- p ≡ 58 (mod 79): (α=1, r=4, s=5), M = 4·1·5·4 - 1 = 79
+                  -- offset = (p+100)/79, b = 20, c = 4·(4 * p + 5)/79
+                  have hdiv79a : 79 ∣ (p + 100) := by omega
+                  have hdiv79b : 79 ∣ (4 * p + 5) := by omega
+                  refine ⟨(p + 100) / 79, 20, 4 * ((4 * p + 5) / 79), ?_, by norm_num, ?_, ?_⟩
+                  · have : p % 1896 = 769 := by omega
+                    have h79div : (p + 100) / 79 * 79 = p + 100 := Nat.div_mul_cancel hdiv79a
+                    omega
+                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                  · set δ := (p + 100) / 79 with hδ_def
+                    set c₀ := (4 * p + 5) / 79 with hc₀_def
+                    have hδ_mul : δ * 79 = p + 100 := Nat.div_mul_cancel hdiv79a
+                    have hc₀_mul : c₀ * 79 = 4 * p + 5 := Nat.div_mul_cancel hdiv79b
+                    have hδ_int : (↑δ : ℤ) * 79 = ↑p + 100 := by exact_mod_cast hδ_mul
+                    have hc₀_int : (↑c₀ : ℤ) * 79 = 4 * ↑p + 5 := by exact_mod_cast hc₀_mul
+                    push_cast
+                    nlinarith [hδ_int, hc₀_int]
+                · by_cases hp79_59 : p % 79 = 59
+                  · -- p ≡ 59 (mod 79): (α=5, r=4, s=1), M = 4·5·1·4 - 1 = 79
+                    -- offset = (p+20)/79, b = 20, c = 20·(4 * p + 1)/79
+                    have hdiv79a : 79 ∣ (p + 20) := by omega
+                    have hdiv79b : 79 ∣ (4 * p + 1) := by omega
+                    refine ⟨(p + 20) / 79, 20, 20 * ((4 * p + 1) / 79), ?_, by norm_num, ?_, ?_⟩
+                    · have : p % 1896 = 217 := by omega
+                      have h79div : (p + 20) / 79 * 79 = p + 20 := Nat.div_mul_cancel hdiv79a
+                      omega
+                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                    · set δ := (p + 20) / 79 with hδ_def
+                      set c₀ := (4 * p + 1) / 79 with hc₀_def
+                      have hδ_mul : δ * 79 = p + 20 := Nat.div_mul_cancel hdiv79a
+                      have hc₀_mul : c₀ * 79 = 4 * p + 1 := Nat.div_mul_cancel hdiv79b
+                      have hδ_int : (↑δ : ℤ) * 79 = ↑p + 20 := by exact_mod_cast hδ_mul
+                      have hc₀_int : (↑c₀ : ℤ) * 79 = 4 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                      push_cast
+                      nlinarith [hδ_int, hc₀_int]
+                  · by_cases hp79_63 : p % 79 = 63
+                    · -- p ≡ 63 (mod 79): (α=1, r=10, s=2), M = 4·1·2·10 - 1 = 79
+                      -- offset = (p+16)/79, b = 20, c = 10·(10 * p + 2)/79
+                      have hdiv79a : 79 ∣ (p + 16) := by omega
+                      have hdiv79b : 79 ∣ (10 * p + 2) := by omega
+                      refine ⟨(p + 16) / 79, 20, 10 * ((10 * p + 2) / 79), ?_, by norm_num, ?_, ?_⟩
+                      · have : p % 1896 = 1801 := by omega
+                        have h79div : (p + 16) / 79 * 79 = p + 16 := Nat.div_mul_cancel hdiv79a
+                        omega
+                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                      · set δ := (p + 16) / 79 with hδ_def
+                        set c₀ := (10 * p + 2) / 79 with hc₀_def
+                        have hδ_mul : δ * 79 = p + 16 := Nat.div_mul_cancel hdiv79a
+                        have hc₀_mul : c₀ * 79 = 10 * p + 2 := Nat.div_mul_cancel hdiv79b
+                        have hδ_int : (↑δ : ℤ) * 79 = ↑p + 16 := by exact_mod_cast hδ_mul
+                        have hc₀_int : (↑c₀ : ℤ) * 79 = 10 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                        push_cast
+                        nlinarith [hδ_int, hc₀_int]
+                    · by_cases hp79_69 : p % 79 = 69
+                      · -- p ≡ 69 (mod 79): (α=2, r=1, s=10), M = 4·2·10·1 - 1 = 79
+                        -- offset = (p+800)/79, b = 20, c = 2·(p + 10)/79
+                        have hdiv79a : 79 ∣ (p + 800) := by omega
+                        have hdiv79b : 79 ∣ (p + 10) := by omega
+                        refine ⟨(p + 800) / 79, 20, 2 * ((p + 10) / 79), ?_, by norm_num, ?_, ?_⟩
+                        · have : p % 1896 = 385 := by omega
+                          have h79div : (p + 800) / 79 * 79 = p + 800 := Nat.div_mul_cancel hdiv79a
+                          omega
+                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                        · set δ := (p + 800) / 79 with hδ_def
+                          set c₀ := (p + 10) / 79 with hc₀_def
+                          have hδ_mul : δ * 79 = p + 800 := Nat.div_mul_cancel hdiv79a
+                          have hc₀_mul : c₀ * 79 = p + 10 := Nat.div_mul_cancel hdiv79b
+                          have hδ_int : (↑δ : ℤ) * 79 = ↑p + 800 := by exact_mod_cast hδ_mul
+                          have hc₀_int : (↑c₀ : ℤ) * 79 = ↑p + 10 := by exact_mod_cast hc₀_mul
+                          push_cast
+                          nlinarith [hδ_int, hc₀_int]
+                      · by_cases hp79_71 : p % 79 = 71
+                        · -- p ≡ 71 (mod 79): (α=2, r=10, s=1), M = 4·2·1·10 - 1 = 79
+                          -- offset = (p+8)/79, b = 20, c = 20·(10 * p + 1)/79
+                          have hdiv79a : 79 ∣ (p + 8) := by omega
+                          have hdiv79b : 79 ∣ (10 * p + 1) := by omega
+                          refine ⟨(p + 8) / 79, 20, 20 * ((10 * p + 1) / 79), ?_, by norm_num, ?_, ?_⟩
+                          · have : p % 1896 = 1177 := by omega
+                            have h79div : (p + 8) / 79 * 79 = p + 8 := Nat.div_mul_cancel hdiv79a
+                            omega
+                          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                          · set δ := (p + 8) / 79 with hδ_def
+                            set c₀ := (10 * p + 1) / 79 with hc₀_def
+                            have hδ_mul : δ * 79 = p + 8 := Nat.div_mul_cancel hdiv79a
+                            have hc₀_mul : c₀ * 79 = 10 * p + 1 := Nat.div_mul_cancel hdiv79b
+                            have hδ_int : (↑δ : ℤ) * 79 = ↑p + 8 := by exact_mod_cast hδ_mul
+                            have hc₀_int : (↑c₀ : ℤ) * 79 = 10 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                            push_cast
+                            nlinarith [hδ_int, hc₀_int]
+                        · by_cases hp79_74 : p % 79 = 74
+                          · -- p ≡ 74 (mod 79): (α=1, r=2, s=10), M = 4·1·10·2 - 1 = 79
+                            -- offset = (p+400)/79, b = 20, c = 2·(2 * p + 10)/79
+                            have hdiv79a : 79 ∣ (p + 400) := by omega
+                            have hdiv79b : 79 ∣ (2 * p + 10) := by omega
+                            refine ⟨(p + 400) / 79, 20, 2 * ((2 * p + 10) / 79), ?_, by norm_num, ?_, ?_⟩
+                            · have : p % 1896 = 1417 := by omega
+                              have h79div : (p + 400) / 79 * 79 = p + 400 := Nat.div_mul_cancel hdiv79a
+                              omega
+                            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                            · set δ := (p + 400) / 79 with hδ_def
+                              set c₀ := (2 * p + 10) / 79 with hc₀_def
+                              have hδ_mul : δ * 79 = p + 400 := Nat.div_mul_cancel hdiv79a
+                              have hc₀_mul : c₀ * 79 = 2 * p + 10 := Nat.div_mul_cancel hdiv79b
+                              have hδ_int : (↑δ : ℤ) * 79 = ↑p + 400 := by exact_mod_cast hδ_mul
+                              have hc₀_int : (↑c₀ : ℤ) * 79 = 2 * ↑p + 10 := by exact_mod_cast hc₀_mul
+                              push_cast
+                              nlinarith [hδ_int, hc₀_int]
+                          · by_cases hp79_75 : p % 79 = 75
+                            · -- p ≡ 75 (mod 79): (α=1, r=20, s=1), M = 4·1·1·20 - 1 = 79
+                              -- offset = (p+4)/79, b = 20, c = 20·(20 * p + 1)/79
+                              have hdiv79a : 79 ∣ (p + 4) := by omega
+                              have hdiv79b : 79 ∣ (20 * p + 1) := by omega
+                              refine ⟨(p + 4) / 79, 20, 20 * ((20 * p + 1) / 79), ?_, by norm_num, ?_, ?_⟩
+                              · have : p % 1896 = 865 := by omega
+                                have h79div : (p + 4) / 79 * 79 = p + 4 := Nat.div_mul_cancel hdiv79a
+                                omega
+                              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                              · set δ := (p + 4) / 79 with hδ_def
+                                set c₀ := (20 * p + 1) / 79 with hc₀_def
+                                have hδ_mul : δ * 79 = p + 4 := Nat.div_mul_cancel hdiv79a
+                                have hc₀_mul : c₀ * 79 = 20 * p + 1 := Nat.div_mul_cancel hdiv79b
+                                have hδ_int : (↑δ : ℤ) * 79 = ↑p + 4 := by exact_mod_cast hδ_mul
+                                have hc₀_int : (↑c₀ : ℤ) * 79 = 20 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                push_cast
+                                nlinarith [hδ_int, hc₀_int]
+                            · by_cases hp79_77 : p % 79 = 77
+                              · -- p ≡ 77 (mod 79): (α=10, r=1, s=2), M = 4·10·2·1 - 1 = 79
+                                -- offset = (p+160)/79, b = 20, c = 10·(p + 2)/79
+                                have hdiv79a : 79 ∣ (p + 160) := by omega
+                                have hdiv79b : 79 ∣ (p + 2) := by omega
+                                refine ⟨(p + 160) / 79, 20, 10 * ((p + 2) / 79), ?_, by norm_num, ?_, ?_⟩
+                                · have : p % 1896 = 1657 := by omega
+                                  have h79div : (p + 160) / 79 * 79 = p + 160 := Nat.div_mul_cancel hdiv79a
+                                  omega
+                                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                · set δ := (p + 160) / 79 with hδ_def
+                                  set c₀ := (p + 2) / 79 with hc₀_def
+                                  have hδ_mul : δ * 79 = p + 160 := Nat.div_mul_cancel hdiv79a
+                                  have hc₀_mul : c₀ * 79 = p + 2 := Nat.div_mul_cancel hdiv79b
+                                  have hδ_int : (↑δ : ℤ) * 79 = ↑p + 160 := by exact_mod_cast hδ_mul
+                                  have hc₀_int : (↑c₀ : ℤ) * 79 = ↑p + 2 := by exact_mod_cast hc₀_mul
+                                  push_cast
+                                  nlinarith [hδ_int, hc₀_int]
+                              · by_cases hp79_78 : p % 79 = 78
+                                · -- p ≡ 78 (mod 79): (α=5, r=2, s=2), M = 4·5·2·2 - 1 = 79
+                                  -- offset = (p+80)/79, b = 20, c = 10·(2 * p + 2)/79
+                                  have hdiv79a : 79 ∣ (p + 80) := by omega
+                                  have hdiv79b : 79 ∣ (2 * p + 2) := by omega
+                                  refine ⟨(p + 80) / 79, 20, 10 * ((2 * p + 2) / 79), ?_, by norm_num, ?_, ?_⟩
+                                  · have : p % 1896 = 1105 := by omega
+                                    have h79div : (p + 80) / 79 * 79 = p + 80 := Nat.div_mul_cancel hdiv79a
+                                    omega
+                                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                  · set δ := (p + 80) / 79 with hδ_def
+                                    set c₀ := (2 * p + 2) / 79 with hc₀_def
+                                    have hδ_mul : δ * 79 = p + 80 := Nat.div_mul_cancel hdiv79a
+                                    have hc₀_mul : c₀ * 79 = 2 * p + 2 := Nat.div_mul_cancel hdiv79b
+                                    have hδ_int : (↑δ : ℤ) * 79 = ↑p + 80 := by exact_mod_cast hδ_mul
+                                    have hc₀_int : (↑c₀ : ℤ) * 79 = 2 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                                    push_cast
+                                    nlinarith [hδ_int, hc₀_int]
+                                · sorry

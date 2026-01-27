@@ -17,3 +17,9 @@ lean_lib Zeroless where
 
 lean_lib Dyachenko where
   roots := #[`Dyachenko]
+
+lean_lib EGZ where
+  roots := #[`EGZ]
+
+lean_lib CoveringSystem where
+  roots := #[`CoveringSystem]

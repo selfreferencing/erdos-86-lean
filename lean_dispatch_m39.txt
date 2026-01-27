@@ -1,0 +1,6 @@
+                                by_cases h39 : p % 39 = 19 ∨ p % 39 = 31 ∨ p % 39 = 34 ∨ p % 39 = 37
+                                · exact ed2_via_m39 p (by omega) h39
+                                · /- Remaining sorry-region primes not covered by D.6 subcases.
+                                     These require the certificate bridge (Phase 2) or the full
+                                     Dyachenko lattice density argument (Phase 3). -/
+                                  sorry

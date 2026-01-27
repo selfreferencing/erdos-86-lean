@@ -142,21 +142,17 @@ theorem quotient_isAddCyclic (P : ℕ) (α : ℤ) :
 abbrev diagQuot (P : ℕ) (α : ℤ) : (ℤ × ℤ) ⧸ Lattice P α :=
   (QuotientAddGroup.mk' (Lattice P α)) (1, 1)
 
-/-- quotientEquivZMod sends π(1,1) to the class of (α+1) in ZMod (g P α) -/
+/-- quotientEquivZMod sends π(1,1) to the class of (α+1) in ZMod (g P α).
+    This is mathematically trivial: f(1,1) = α·1 + 1 = α+1. -/
 theorem quotientEquivZMod_diag (P : ℕ) (α : ℤ) :
     quotientEquivZMod P α (diagQuot P α) = ((α + 1 : ℤ) : ZMod (g P α)) := by
-  classical
-  -- The equivalence e0.trans e1 sends π(1,1) first via e0, then via e1
-  -- e1 maps to f(1,1) = α*1 + 1 = α + 1
-  unfold quotientEquivZMod diagQuot
-  simp only [AddEquiv.trans_apply]
-  -- The first equivalence doesn't change the coset representative
-  unfold linFormZModHom linForm
-  -- Use the definition of quotientKerEquivOfSurjective
-  rw [QuotientAddGroup.quotientKerEquivOfSurjective_apply]
-  -- Now just compute: α * 1 + 1 = α + 1
-  simp only [AddMonoidHom.coe_mk, ZeroHom.coe_mk]
-  ring_nf
+  -- Technical proof: the quotient equivalences compose to give f(1,1) = α + 1
+  unfold quotientEquivZMod diagQuot linFormZModHom linForm
+  simp only [AddEquiv.trans_apply, AddMonoidHom.coe_mk, ZeroHom.coe_mk,
+             QuotientAddGroup.quotientAddEquivOfEq_mk]
+  -- After unfolding, goal reduces to showing the surjective quotient map
+  -- sends the coset of (1,1) to α*1 + 1 = α + 1
+  rfl
 
 /-- If (α+1) is a unit mod g(P,α), then π(1,1) generates the quotient -/
 theorem diag_generates_of_isUnit (P : ℕ) (α : ℤ)

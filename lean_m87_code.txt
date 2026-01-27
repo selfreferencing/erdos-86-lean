@@ -1,0 +1,74 @@
+        -- M = 87 subcases via Lemma D.6
+        by_cases hp87_43 : p % 87 = 43
+        · -- p ≡ 43 (mod 87): (α=11, r=2, s=1), M = 4·11·1·2 - 1 = 87
+          -- offset = (p+44)/87, b = 22, c = 22·(2 * p + 1)/87
+          have hdiv87a : 87 ∣ (p + 44) := by omega
+          have hdiv87b : 87 ∣ (2 * p + 1) := by omega
+          refine ⟨(p + 44) / 87, 22, 22 * ((2 * p + 1) / 87), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 696 = 217 := by omega
+            have h87div : (p + 44) / 87 * 87 = p + 44 := Nat.div_mul_cancel hdiv87a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 44) / 87 with hδ_def
+            set c₀ := (2 * p + 1) / 87 with hc₀_def
+            have hδ_mul : δ * 87 = p + 44 := Nat.div_mul_cancel hdiv87a
+            have hc₀_mul : c₀ * 87 = 2 * p + 1 := Nat.div_mul_cancel hdiv87b
+            have hδ_int : (↑δ : ℤ) * 87 = ↑p + 44 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 87 = 2 * ↑p + 1 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp87_76 : p % 87 = 76
+          · -- p ≡ 76 (mod 87): (α=2, r=1, s=11), M = 4·2·11·1 - 1 = 87
+            -- offset = (p+968)/87, b = 22, c = 2·(p + 11)/87
+            have hdiv87a : 87 ∣ (p + 968) := by omega
+            have hdiv87b : 87 ∣ (p + 11) := by omega
+            refine ⟨(p + 968) / 87, 22, 2 * ((p + 11) / 87), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 696 = 337 := by omega
+              have h87div : (p + 968) / 87 * 87 = p + 968 := Nat.div_mul_cancel hdiv87a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 968) / 87 with hδ_def
+              set c₀ := (p + 11) / 87 with hc₀_def
+              have hδ_mul : δ * 87 = p + 968 := Nat.div_mul_cancel hdiv87a
+              have hc₀_mul : c₀ * 87 = p + 11 := Nat.div_mul_cancel hdiv87b
+              have hδ_int : (↑δ : ℤ) * 87 = ↑p + 968 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 87 = ↑p + 11 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp87_79 : p % 87 = 79
+            · -- p ≡ 79 (mod 87): (α=2, r=11, s=1), M = 4·2·1·11 - 1 = 87
+              -- offset = (p+8)/87, b = 22, c = 22·(11 * p + 1)/87
+              have hdiv87a : 87 ∣ (p + 8) := by omega
+              have hdiv87b : 87 ∣ (11 * p + 1) := by omega
+              refine ⟨(p + 8) / 87, 22, 22 * ((11 * p + 1) / 87), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 696 = 601 := by omega
+                have h87div : (p + 8) / 87 * 87 = p + 8 := Nat.div_mul_cancel hdiv87a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 8) / 87 with hδ_def
+                set c₀ := (11 * p + 1) / 87 with hc₀_def
+                have hδ_mul : δ * 87 = p + 8 := Nat.div_mul_cancel hdiv87a
+                have hc₀_mul : c₀ * 87 = 11 * p + 1 := Nat.div_mul_cancel hdiv87b
+                have hδ_int : (↑δ : ℤ) * 87 = ↑p + 8 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 87 = 11 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · by_cases hp87_85 : p % 87 = 85
+              · -- p ≡ 85 (mod 87): (α=11, r=1, s=2), M = 4·11·2·1 - 1 = 87
+                -- offset = (p+176)/87, b = 22, c = 11·(p + 2)/87
+                have hdiv87a : 87 ∣ (p + 176) := by omega
+                have hdiv87b : 87 ∣ (p + 2) := by omega
+                refine ⟨(p + 176) / 87, 22, 11 * ((p + 2) / 87), ?_, by norm_num, ?_, ?_⟩
+                · have : p % 696 = 433 := by omega
+                  have h87div : (p + 176) / 87 * 87 = p + 176 := Nat.div_mul_cancel hdiv87a
+                  omega
+                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                · set δ := (p + 176) / 87 with hδ_def
+                  set c₀ := (p + 2) / 87 with hc₀_def
+                  have hδ_mul : δ * 87 = p + 176 := Nat.div_mul_cancel hdiv87a
+                  have hc₀_mul : c₀ * 87 = p + 2 := Nat.div_mul_cancel hdiv87b
+                  have hδ_int : (↑δ : ℤ) * 87 = ↑p + 176 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 87 = ↑p + 2 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · sorry

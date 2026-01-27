@@ -1,0 +1,110 @@
+        -- M = 111 subcases via Lemma D.6
+        by_cases hp111_52 : p % 111 = 52
+        · -- p ≡ 52 (mod 111): (α=2, r=2, s=7), M = 4·2·7·2 - 1 = 111
+          -- offset = (p+392)/111, b = 28, c = 4·(2 * p + 7)/111
+          have hdiv111a : 111 ∣ (p + 392) := by omega
+          have hdiv111b : 111 ∣ (2 * p + 7) := by omega
+          refine ⟨(p + 392) / 111, 28, 4 * ((2 * p + 7) / 111), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 888 = 385 := by omega
+            have h111div : (p + 392) / 111 * 111 = p + 392 := Nat.div_mul_cancel hdiv111a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 392) / 111 with hδ_def
+            set c₀ := (2 * p + 7) / 111 with hc₀_def
+            have hδ_mul : δ * 111 = p + 392 := Nat.div_mul_cancel hdiv111a
+            have hc₀_mul : c₀ * 111 = 2 * p + 7 := Nat.div_mul_cancel hdiv111b
+            have hδ_int : (↑δ : ℤ) * 111 = ↑p + 392 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 111 = 2 * ↑p + 7 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp111_55 : p % 111 = 55
+          · -- p ≡ 55 (mod 111): (α=14, r=2, s=1), M = 4·14·1·2 - 1 = 111
+            -- offset = (p+56)/111, b = 28, c = 28·(2 * p + 1)/111
+            have hdiv111a : 111 ∣ (p + 56) := by omega
+            have hdiv111b : 111 ∣ (2 * p + 1) := by omega
+            refine ⟨(p + 56) / 111, 28, 28 * ((2 * p + 1) / 111), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 888 = 721 := by omega
+              have h111div : (p + 56) / 111 * 111 = p + 56 := Nat.div_mul_cancel hdiv111a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 56) / 111 with hδ_def
+              set c₀ := (2 * p + 1) / 111 with hc₀_def
+              have hδ_mul : δ * 111 = p + 56 := Nat.div_mul_cancel hdiv111a
+              have hc₀_mul : c₀ * 111 = 2 * p + 1 := Nat.div_mul_cancel hdiv111b
+              have hδ_int : (↑δ : ℤ) * 111 = ↑p + 56 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 111 = 2 * ↑p + 1 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp111_79 : p % 111 = 79
+            · -- p ≡ 79 (mod 111): (α=2, r=7, s=2), M = 4·2·2·7 - 1 = 111
+              -- offset = (p+32)/111, b = 28, c = 14·(7 * p + 2)/111
+              have hdiv111a : 111 ∣ (p + 32) := by omega
+              have hdiv111b : 111 ∣ (7 * p + 2) := by omega
+              refine ⟨(p + 32) / 111, 28, 14 * ((7 * p + 2) / 111), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 888 = 745 := by omega
+                have h111div : (p + 32) / 111 * 111 = p + 32 := Nat.div_mul_cancel hdiv111a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 32) / 111 with hδ_def
+                set c₀ := (7 * p + 2) / 111 with hc₀_def
+                have hδ_mul : δ * 111 = p + 32 := Nat.div_mul_cancel hdiv111a
+                have hc₀_mul : c₀ * 111 = 7 * p + 2 := Nat.div_mul_cancel hdiv111b
+                have hδ_int : (↑δ : ℤ) * 111 = ↑p + 32 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 111 = 7 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · by_cases hp111_97 : p % 111 = 97
+              · -- p ≡ 97 (mod 111): (α=2, r=1, s=14), M = 4·2·14·1 - 1 = 111
+                -- offset = (p+1568)/111, b = 28, c = 2·(p + 14)/111
+                have hdiv111a : 111 ∣ (p + 1568) := by omega
+                have hdiv111b : 111 ∣ (p + 14) := by omega
+                refine ⟨(p + 1568) / 111, 28, 2 * ((p + 14) / 111), ?_, by norm_num, ?_, ?_⟩
+                · have : p % 888 = 97 := by omega
+                  have h111div : (p + 1568) / 111 * 111 = p + 1568 := Nat.div_mul_cancel hdiv111a
+                  omega
+                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                · set δ := (p + 1568) / 111 with hδ_def
+                  set c₀ := (p + 14) / 111 with hc₀_def
+                  have hδ_mul : δ * 111 = p + 1568 := Nat.div_mul_cancel hdiv111a
+                  have hc₀_mul : c₀ * 111 = p + 14 := Nat.div_mul_cancel hdiv111b
+                  have hδ_int : (↑δ : ℤ) * 111 = ↑p + 1568 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 111 = ↑p + 14 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · by_cases hp111_103 : p % 111 = 103
+                · -- p ≡ 103 (mod 111): (α=2, r=14, s=1), M = 4·2·1·14 - 1 = 111
+                  -- offset = (p+8)/111, b = 28, c = 28·(14 * p + 1)/111
+                  have hdiv111a : 111 ∣ (p + 8) := by omega
+                  have hdiv111b : 111 ∣ (14 * p + 1) := by omega
+                  refine ⟨(p + 8) / 111, 28, 28 * ((14 * p + 1) / 111), ?_, by norm_num, ?_, ?_⟩
+                  · have : p % 888 = 769 := by omega
+                    have h111div : (p + 8) / 111 * 111 = p + 8 := Nat.div_mul_cancel hdiv111a
+                    omega
+                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                  · set δ := (p + 8) / 111 with hδ_def
+                    set c₀ := (14 * p + 1) / 111 with hc₀_def
+                    have hδ_mul : δ * 111 = p + 8 := Nat.div_mul_cancel hdiv111a
+                    have hc₀_mul : c₀ * 111 = 14 * p + 1 := Nat.div_mul_cancel hdiv111b
+                    have hδ_int : (↑δ : ℤ) * 111 = ↑p + 8 := by exact_mod_cast hδ_mul
+                    have hc₀_int : (↑c₀ : ℤ) * 111 = 14 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                    push_cast
+                    nlinarith [hδ_int, hc₀_int]
+                · by_cases hp111_109 : p % 111 = 109
+                  · -- p ≡ 109 (mod 111): (α=14, r=1, s=2), M = 4·14·2·1 - 1 = 111
+                    -- offset = (p+224)/111, b = 28, c = 14·(p + 2)/111
+                    have hdiv111a : 111 ∣ (p + 224) := by omega
+                    have hdiv111b : 111 ∣ (p + 2) := by omega
+                    refine ⟨(p + 224) / 111, 28, 14 * ((p + 2) / 111), ?_, by norm_num, ?_, ?_⟩
+                    · have : p % 888 = 553 := by omega
+                      have h111div : (p + 224) / 111 * 111 = p + 224 := Nat.div_mul_cancel hdiv111a
+                      omega
+                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                    · set δ := (p + 224) / 111 with hδ_def
+                      set c₀ := (p + 2) / 111 with hc₀_def
+                      have hδ_mul : δ * 111 = p + 224 := Nat.div_mul_cancel hdiv111a
+                      have hc₀_mul : c₀ * 111 = p + 2 := Nat.div_mul_cancel hdiv111b
+                      have hδ_int : (↑δ : ℤ) * 111 = ↑p + 224 := by exact_mod_cast hδ_mul
+                      have hc₀_int : (↑c₀ : ℤ) * 111 = ↑p + 2 := by exact_mod_cast hc₀_mul
+                      push_cast
+                      nlinarith [hδ_int, hc₀_int]
+                  · sorry

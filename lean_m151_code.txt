@@ -1,0 +1,164 @@
+        -- M = 151 subcases via Lemma D.6
+        by_cases hp151_66 : p % 151 = 66
+        · -- p ≡ 66 (mod 151): (α=1, r=2, s=19), M = 4·1·19·2 - 1 = 151
+          -- offset = (p+1444)/151, b = 38, c = 2·(2 * p + 19)/151
+          have hdiv151a : 151 ∣ (p + 1444) := by omega
+          have hdiv151b : 151 ∣ (2 * p + 19) := by omega
+          refine ⟨(p + 1444) / 151, 38, 2 * ((2 * p + 19) / 151), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 3624 = 217 := by omega
+            have h151div : (p + 1444) / 151 * 151 = p + 1444 := Nat.div_mul_cancel hdiv151a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 1444) / 151 with hδ_def
+            set c₀ := (2 * p + 19) / 151 with hc₀_def
+            have hδ_mul : δ * 151 = p + 1444 := Nat.div_mul_cancel hdiv151a
+            have hc₀_mul : c₀ * 151 = 2 * p + 19 := Nat.div_mul_cancel hdiv151b
+            have hδ_int : (↑δ : ℤ) * 151 = ↑p + 1444 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 151 = 2 * ↑p + 19 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp151_75 : p % 151 = 75
+          · -- p ≡ 75 (mod 151): (α=19, r=2, s=1), M = 4·19·1·2 - 1 = 151
+            -- offset = (p+76)/151, b = 38, c = 38·(2 * p + 1)/151
+            have hdiv151a : 151 ∣ (p + 76) := by omega
+            have hdiv151b : 151 ∣ (2 * p + 1) := by omega
+            refine ⟨(p + 76) / 151, 38, 38 * ((2 * p + 1) / 151), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 3624 = 1585 := by omega
+              have h151div : (p + 76) / 151 * 151 = p + 76 := Nat.div_mul_cancel hdiv151a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 76) / 151 with hδ_def
+              set c₀ := (2 * p + 1) / 151 with hc₀_def
+              have hδ_mul : δ * 151 = p + 76 := Nat.div_mul_cancel hdiv151a
+              have hc₀_mul : c₀ * 151 = 2 * p + 1 := Nat.div_mul_cancel hdiv151b
+              have hδ_int : (↑δ : ℤ) * 151 = ↑p + 76 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 151 = 2 * ↑p + 1 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp151_113 : p % 151 = 113
+            · -- p ≡ 113 (mod 151): (α=1, r=1, s=38), M = 4·1·38·1 - 1 = 151
+              -- offset = (p+5776)/151, b = 38, c = (p + 38)/151
+              have hdiv151a : 151 ∣ (p + 5776) := by omega
+              have hdiv151b : 151 ∣ (p + 38) := by omega
+              refine ⟨(p + 5776) / 151, 38, (p + 38) / 151, ?_, by norm_num, ?_, ?_⟩
+              · have : p % 3624 = 1321 := by omega
+                have h151div : (p + 5776) / 151 * 151 = p + 5776 := Nat.div_mul_cancel hdiv151a
+                omega
+              · exact Nat.div_pos (by omega) (by norm_num)
+              · set δ := (p + 5776) / 151 with hδ_def
+                set c₀ := (p + 38) / 151 with hc₀_def
+                have hδ_mul : δ * 151 = p + 5776 := Nat.div_mul_cancel hdiv151a
+                have hc₀_mul : c₀ * 151 = p + 38 := Nat.div_mul_cancel hdiv151b
+                have hδ_int : (↑δ : ℤ) * 151 = ↑p + 5776 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 151 = ↑p + 38 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · by_cases hp151_132 : p % 151 = 132
+              · -- p ≡ 132 (mod 151): (α=2, r=1, s=19), M = 4·2·19·1 - 1 = 151
+                -- offset = (p+2888)/151, b = 38, c = 2·(p + 19)/151
+                have hdiv151a : 151 ∣ (p + 2888) := by omega
+                have hdiv151b : 151 ∣ (p + 19) := by omega
+                refine ⟨(p + 2888) / 151, 38, 2 * ((p + 19) / 151), ?_, by norm_num, ?_, ?_⟩
+                · have : p % 3624 = 3001 := by omega
+                  have h151div : (p + 2888) / 151 * 151 = p + 2888 := Nat.div_mul_cancel hdiv151a
+                  omega
+                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                · set δ := (p + 2888) / 151 with hδ_def
+                  set c₀ := (p + 19) / 151 with hc₀_def
+                  have hδ_mul : δ * 151 = p + 2888 := Nat.div_mul_cancel hdiv151a
+                  have hc₀_mul : c₀ * 151 = p + 19 := Nat.div_mul_cancel hdiv151b
+                  have hδ_int : (↑δ : ℤ) * 151 = ↑p + 2888 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 151 = ↑p + 19 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · by_cases hp151_135 : p % 151 = 135
+                · -- p ≡ 135 (mod 151): (α=1, r=19, s=2), M = 4·1·2·19 - 1 = 151
+                  -- offset = (p+16)/151, b = 38, c = 19·(19 * p + 2)/151
+                  have hdiv151a : 151 ∣ (p + 16) := by omega
+                  have hdiv151b : 151 ∣ (19 * p + 2) := by omega
+                  refine ⟨(p + 16) / 151, 38, 19 * ((19 * p + 2) / 151), ?_, by norm_num, ?_, ?_⟩
+                  · have : p % 3624 = 3457 := by omega
+                    have h151div : (p + 16) / 151 * 151 = p + 16 := Nat.div_mul_cancel hdiv151a
+                    omega
+                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                  · set δ := (p + 16) / 151 with hδ_def
+                    set c₀ := (19 * p + 2) / 151 with hc₀_def
+                    have hδ_mul : δ * 151 = p + 16 := Nat.div_mul_cancel hdiv151a
+                    have hc₀_mul : c₀ * 151 = 19 * p + 2 := Nat.div_mul_cancel hdiv151b
+                    have hδ_int : (↑δ : ℤ) * 151 = ↑p + 16 := by exact_mod_cast hδ_mul
+                    have hc₀_int : (↑c₀ : ℤ) * 151 = 19 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                    push_cast
+                    nlinarith [hδ_int, hc₀_int]
+                · by_cases hp151_143 : p % 151 = 143
+                  · -- p ≡ 143 (mod 151): (α=2, r=19, s=1), M = 4·2·1·19 - 1 = 151
+                    -- offset = (p+8)/151, b = 38, c = 38·(19 * p + 1)/151
+                    have hdiv151a : 151 ∣ (p + 8) := by omega
+                    have hdiv151b : 151 ∣ (19 * p + 1) := by omega
+                    refine ⟨(p + 8) / 151, 38, 38 * ((19 * p + 1) / 151), ?_, by norm_num, ?_, ?_⟩
+                    · have : p % 3624 = 2257 := by omega
+                      have h151div : (p + 8) / 151 * 151 = p + 8 := Nat.div_mul_cancel hdiv151a
+                      omega
+                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                    · set δ := (p + 8) / 151 with hδ_def
+                      set c₀ := (19 * p + 1) / 151 with hc₀_def
+                      have hδ_mul : δ * 151 = p + 8 := Nat.div_mul_cancel hdiv151a
+                      have hc₀_mul : c₀ * 151 = 19 * p + 1 := Nat.div_mul_cancel hdiv151b
+                      have hδ_int : (↑δ : ℤ) * 151 = ↑p + 8 := by exact_mod_cast hδ_mul
+                      have hc₀_int : (↑c₀ : ℤ) * 151 = 19 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                      push_cast
+                      nlinarith [hδ_int, hc₀_int]
+                  · by_cases hp151_147 : p % 151 = 147
+                    · -- p ≡ 147 (mod 151): (α=1, r=38, s=1), M = 4·1·1·38 - 1 = 151
+                      -- offset = (p+4)/151, b = 38, c = 38·(38 * p + 1)/151
+                      have hdiv151a : 151 ∣ (p + 4) := by omega
+                      have hdiv151b : 151 ∣ (38 * p + 1) := by omega
+                      refine ⟨(p + 4) / 151, 38, 38 * ((38 * p + 1) / 151), ?_, by norm_num, ?_, ?_⟩
+                      · have : p % 3624 = 1657 := by omega
+                        have h151div : (p + 4) / 151 * 151 = p + 4 := Nat.div_mul_cancel hdiv151a
+                        omega
+                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                      · set δ := (p + 4) / 151 with hδ_def
+                        set c₀ := (38 * p + 1) / 151 with hc₀_def
+                        have hδ_mul : δ * 151 = p + 4 := Nat.div_mul_cancel hdiv151a
+                        have hc₀_mul : c₀ * 151 = 38 * p + 1 := Nat.div_mul_cancel hdiv151b
+                        have hδ_int : (↑δ : ℤ) * 151 = ↑p + 4 := by exact_mod_cast hδ_mul
+                        have hc₀_int : (↑c₀ : ℤ) * 151 = 38 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                        push_cast
+                        nlinarith [hδ_int, hc₀_int]
+                    · by_cases hp151_149 : p % 151 = 149
+                      · -- p ≡ 149 (mod 151): (α=19, r=1, s=2), M = 4·19·2·1 - 1 = 151
+                        -- offset = (p+304)/151, b = 38, c = 19·(p + 2)/151
+                        have hdiv151a : 151 ∣ (p + 304) := by omega
+                        have hdiv151b : 151 ∣ (p + 2) := by omega
+                        refine ⟨(p + 304) / 151, 38, 19 * ((p + 2) / 151), ?_, by norm_num, ?_, ?_⟩
+                        · have : p % 3624 = 3169 := by omega
+                          have h151div : (p + 304) / 151 * 151 = p + 304 := Nat.div_mul_cancel hdiv151a
+                          omega
+                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                        · set δ := (p + 304) / 151 with hδ_def
+                          set c₀ := (p + 2) / 151 with hc₀_def
+                          have hδ_mul : δ * 151 = p + 304 := Nat.div_mul_cancel hdiv151a
+                          have hc₀_mul : c₀ * 151 = p + 2 := Nat.div_mul_cancel hdiv151b
+                          have hδ_int : (↑δ : ℤ) * 151 = ↑p + 304 := by exact_mod_cast hδ_mul
+                          have hc₀_int : (↑c₀ : ℤ) * 151 = ↑p + 2 := by exact_mod_cast hc₀_mul
+                          push_cast
+                          nlinarith [hδ_int, hc₀_int]
+                      · by_cases hp151_150 : p % 151 = 150
+                        · -- p ≡ 150 (mod 151): (α=38, r=1, s=1), M = 4·38·1·1 - 1 = 151
+                          -- offset = (p+152)/151, b = 38, c = 38·(p + 1)/151
+                          have hdiv151a : 151 ∣ (p + 152) := by omega
+                          have hdiv151b : 151 ∣ (p + 1) := by omega
+                          refine ⟨(p + 152) / 151, 38, 38 * ((p + 1) / 151), ?_, by norm_num, ?_, ?_⟩
+                          · have : p % 3624 = 2113 := by omega
+                            have h151div : (p + 152) / 151 * 151 = p + 152 := Nat.div_mul_cancel hdiv151a
+                            omega
+                          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                          · set δ := (p + 152) / 151 with hδ_def
+                            set c₀ := (p + 1) / 151 with hc₀_def
+                            have hδ_mul : δ * 151 = p + 152 := Nat.div_mul_cancel hdiv151a
+                            have hc₀_mul : c₀ * 151 = p + 1 := Nat.div_mul_cancel hdiv151b
+                            have hδ_int : (↑δ : ℤ) * 151 = ↑p + 152 := by exact_mod_cast hδ_mul
+                            have hc₀_int : (↑c₀ : ℤ) * 151 = ↑p + 1 := by exact_mod_cast hc₀_mul
+                            push_cast
+                            nlinarith [hδ_int, hc₀_int]
+                        · sorry

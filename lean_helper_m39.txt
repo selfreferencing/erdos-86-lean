@@ -1,0 +1,70 @@
+set_option maxHeartbeats 400000 in
+private theorem ed2_via_m39 (p : ℕ) (hp24 : p % 24 = 1)
+    (h : p % 39 = 19 ∨ p % 39 = 31 ∨ p % 39 = 34 ∨ p % 39 = 37) :
+    ∃ offset b c : ℕ, offset % 4 = 3 ∧ b > 0 ∧ c > 0 ∧
+      (↑p + ↑offset : ℤ) * (↑b + ↑c) = 4 * ↑offset * ↑b * ↑c := by
+  rcases h with h | h | h | h
+  · -- p ≡ 19 (mod 39): (α=5, r=2, s=1)
+    have hdiv39a : 39 ∣ (p + 20) := by omega
+    have hdiv39b : 39 ∣ (2 * p + 1) := by omega
+    refine ⟨(p + 20) / 39, 10, 10 * ((2 * p + 1) / 39), ?_, by norm_num, ?_, ?_⟩
+    · have : p % 312 = 97 := by omega
+      have : (p + 20) / 39 * 39 = p + 20 := Nat.div_mul_cancel hdiv39a
+      omega
+    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+    · set δ := (p + 20) / 39
+      set c₀ := (2 * p + 1) / 39
+      have hδ_mul : δ * 39 = p + 20 := Nat.div_mul_cancel hdiv39a
+      have hc₀_mul : c₀ * 39 = 2 * p + 1 := Nat.div_mul_cancel hdiv39b
+      have hδ_int : (↑δ : ℤ) * 39 = ↑p + 20 := by exact_mod_cast hδ_mul
+      have hc₀_int : (↑c₀ : ℤ) * 39 = 2 * ↑p + 1 := by exact_mod_cast hc₀_mul
+      push_cast
+      nlinarith [hδ_int, hc₀_int]
+  · -- p ≡ 31 (mod 39): (α=2, r=5, s=1)
+    have hdiv39a : 39 ∣ (p + 8) := by omega
+    have hdiv39b : 39 ∣ (5 * p + 1) := by omega
+    refine ⟨(p + 8) / 39, 10, 10 * ((5 * p + 1) / 39), ?_, by norm_num, ?_, ?_⟩
+    · have : p % 312 = 265 := by omega
+      have : (p + 8) / 39 * 39 = p + 8 := Nat.div_mul_cancel hdiv39a
+      omega
+    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+    · set δ := (p + 8) / 39
+      set c₀ := (5 * p + 1) / 39
+      have hδ_mul : δ * 39 = p + 8 := Nat.div_mul_cancel hdiv39a
+      have hc₀_mul : c₀ * 39 = 5 * p + 1 := Nat.div_mul_cancel hdiv39b
+      have hδ_int : (↑δ : ℤ) * 39 = ↑p + 8 := by exact_mod_cast hδ_mul
+      have hc₀_int : (↑c₀ : ℤ) * 39 = 5 * ↑p + 1 := by exact_mod_cast hc₀_mul
+      push_cast
+      nlinarith [hδ_int, hc₀_int]
+  · -- p ≡ 34 (mod 39): (α=2, r=1, s=5)
+    have hdiv39a : 39 ∣ (p + 200) := by omega
+    have hdiv39b : 39 ∣ (p + 5) := by omega
+    refine ⟨(p + 200) / 39, 10, 2 * ((p + 5) / 39), ?_, by norm_num, ?_, ?_⟩
+    · have : p % 312 = 73 := by omega
+      have : (p + 200) / 39 * 39 = p + 200 := Nat.div_mul_cancel hdiv39a
+      omega
+    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+    · set δ := (p + 200) / 39
+      set c₀ := (p + 5) / 39
+      have hδ_mul : δ * 39 = p + 200 := Nat.div_mul_cancel hdiv39a
+      have hc₀_mul : c₀ * 39 = p + 5 := Nat.div_mul_cancel hdiv39b
+      have hδ_int : (↑δ : ℤ) * 39 = ↑p + 200 := by exact_mod_cast hδ_mul
+      have hc₀_int : (↑c₀ : ℤ) * 39 = ↑p + 5 := by exact_mod_cast hc₀_mul
+      push_cast
+      nlinarith [hδ_int, hc₀_int]
+  · -- p ≡ 37 (mod 39): (α=5, r=1, s=2)
+    have hdiv39a : 39 ∣ (p + 80) := by omega
+    have hdiv39b : 39 ∣ (p + 2) := by omega
+    refine ⟨(p + 80) / 39, 10, 5 * ((p + 2) / 39), ?_, by norm_num, ?_, ?_⟩
+    · have : p % 312 = 193 := by omega
+      have : (p + 80) / 39 * 39 = p + 80 := Nat.div_mul_cancel hdiv39a
+      omega
+    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+    · set δ := (p + 80) / 39
+      set c₀ := (p + 2) / 39
+      have hδ_mul : δ * 39 = p + 80 := Nat.div_mul_cancel hdiv39a
+      have hc₀_mul : c₀ * 39 = p + 2 := Nat.div_mul_cancel hdiv39b
+      have hδ_int : (↑δ : ℤ) * 39 = ↑p + 80 := by exact_mod_cast hδ_mul
+      have hc₀_int : (↑c₀ : ℤ) * 39 = ↑p + 2 := by exact_mod_cast hc₀_mul
+      push_cast
+      nlinarith [hδ_int, hc₀_int]

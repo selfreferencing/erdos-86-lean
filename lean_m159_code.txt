@@ -1,0 +1,146 @@
+        -- M = 159 subcases via Lemma D.6
+        by_cases hp159_31 : p % 159 = 31
+        · -- p ≡ 31 (mod 159): (α=2, r=5, s=4), M = 4·2·4·5 - 1 = 159
+          -- offset = (p+128)/159, b = 40, c = 10·(5 * p + 4)/159
+          have hdiv159a : 159 ∣ (p + 128) := by omega
+          have hdiv159b : 159 ∣ (5 * p + 4) := by omega
+          refine ⟨(p + 128) / 159, 40, 10 * ((5 * p + 4) / 159), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 1272 = 985 := by omega
+            have h159div : (p + 128) / 159 * 159 = p + 128 := Nat.div_mul_cancel hdiv159a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 128) / 159 with hδ_def
+            set c₀ := (5 * p + 4) / 159 with hc₀_def
+            have hδ_mul : δ * 159 = p + 128 := Nat.div_mul_cancel hdiv159a
+            have hc₀_mul : c₀ * 159 = 5 * p + 4 := Nat.div_mul_cancel hdiv159b
+            have hδ_int : (↑δ : ℤ) * 159 = ↑p + 128 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 159 = 5 * ↑p + 4 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp159_79 : p % 159 = 79
+          · -- p ≡ 79 (mod 159): (α=5, r=4, s=2), M = 4·5·2·4 - 1 = 159
+            -- offset = (p+80)/159, b = 40, c = 20·(4 * p + 2)/159
+            have hdiv159a : 159 ∣ (p + 80) := by omega
+            have hdiv159b : 159 ∣ (4 * p + 2) := by omega
+            refine ⟨(p + 80) / 159, 40, 20 * ((4 * p + 2) / 159), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 1272 = 1033 := by omega
+              have h159div : (p + 80) / 159 * 159 = p + 80 := Nat.div_mul_cancel hdiv159a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 80) / 159 with hδ_def
+              set c₀ := (4 * p + 2) / 159 with hc₀_def
+              have hδ_mul : δ * 159 = p + 80 := Nat.div_mul_cancel hdiv159a
+              have hc₀_mul : c₀ * 159 = 4 * p + 2 := Nat.div_mul_cancel hdiv159b
+              have hδ_int : (↑δ : ℤ) * 159 = ↑p + 80 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 159 = 4 * ↑p + 2 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp159_118 : p % 159 = 118
+            · -- p ≡ 118 (mod 159): (α=2, r=4, s=5), M = 4·2·5·4 - 1 = 159
+              -- offset = (p+200)/159, b = 40, c = 8·(4 * p + 5)/159
+              have hdiv159a : 159 ∣ (p + 200) := by omega
+              have hdiv159b : 159 ∣ (4 * p + 5) := by omega
+              refine ⟨(p + 200) / 159, 40, 8 * ((4 * p + 5) / 159), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 1272 = 913 := by omega
+                have h159div : (p + 200) / 159 * 159 = p + 200 := Nat.div_mul_cancel hdiv159a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 200) / 159 with hδ_def
+                set c₀ := (4 * p + 5) / 159 with hc₀_def
+                have hδ_mul : δ * 159 = p + 200 := Nat.div_mul_cancel hdiv159a
+                have hc₀_mul : c₀ * 159 = 4 * p + 5 := Nat.div_mul_cancel hdiv159b
+                have hδ_int : (↑δ : ℤ) * 159 = ↑p + 200 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 159 = 4 * ↑p + 5 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · by_cases hp159_127 : p % 159 = 127
+              · -- p ≡ 127 (mod 159): (α=2, r=10, s=2), M = 4·2·2·10 - 1 = 159
+                -- offset = (p+32)/159, b = 40, c = 20·(10 * p + 2)/159
+                have hdiv159a : 159 ∣ (p + 32) := by omega
+                have hdiv159b : 159 ∣ (10 * p + 2) := by omega
+                refine ⟨(p + 32) / 159, 40, 20 * ((10 * p + 2) / 159), ?_, by norm_num, ?_, ?_⟩
+                · have : p % 1272 = 1081 := by omega
+                  have h159div : (p + 32) / 159 * 159 = p + 32 := Nat.div_mul_cancel hdiv159a
+                  omega
+                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                · set δ := (p + 32) / 159 with hδ_def
+                  set c₀ := (10 * p + 2) / 159 with hc₀_def
+                  have hδ_mul : δ * 159 = p + 32 := Nat.div_mul_cancel hdiv159a
+                  have hc₀_mul : c₀ * 159 = 10 * p + 2 := Nat.div_mul_cancel hdiv159b
+                  have hδ_int : (↑δ : ℤ) * 159 = ↑p + 32 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 159 = 10 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · by_cases hp159_139 : p % 159 = 139
+                · -- p ≡ 139 (mod 159): (α=5, r=8, s=1), M = 4·5·1·8 - 1 = 159
+                  -- offset = (p+20)/159, b = 40, c = 40·(8 * p + 1)/159
+                  have hdiv159a : 159 ∣ (p + 20) := by omega
+                  have hdiv159b : 159 ∣ (8 * p + 1) := by omega
+                  refine ⟨(p + 20) / 159, 40, 40 * ((8 * p + 1) / 159), ?_, by norm_num, ?_, ?_⟩
+                  · have : p % 1272 = 457 := by omega
+                    have h159div : (p + 20) / 159 * 159 = p + 20 := Nat.div_mul_cancel hdiv159a
+                    omega
+                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                  · set δ := (p + 20) / 159 with hδ_def
+                    set c₀ := (8 * p + 1) / 159 with hc₀_def
+                    have hδ_mul : δ * 159 = p + 20 := Nat.div_mul_cancel hdiv159a
+                    have hc₀_mul : c₀ * 159 = 8 * p + 1 := Nat.div_mul_cancel hdiv159b
+                    have hδ_int : (↑δ : ℤ) * 159 = ↑p + 20 := by exact_mod_cast hδ_mul
+                    have hc₀_int : (↑c₀ : ℤ) * 159 = 8 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                    push_cast
+                    nlinarith [hδ_int, hc₀_int]
+                · by_cases hp159_151 : p % 159 = 151
+                  · -- p ≡ 151 (mod 159): (α=2, r=20, s=1), M = 4·2·1·20 - 1 = 159
+                    -- offset = (p+8)/159, b = 40, c = 40·(20 * p + 1)/159
+                    have hdiv159a : 159 ∣ (p + 8) := by omega
+                    have hdiv159b : 159 ∣ (20 * p + 1) := by omega
+                    refine ⟨(p + 8) / 159, 40, 40 * ((20 * p + 1) / 159), ?_, by norm_num, ?_, ?_⟩
+                    · have : p % 1272 = 1105 := by omega
+                      have h159div : (p + 8) / 159 * 159 = p + 8 := Nat.div_mul_cancel hdiv159a
+                      omega
+                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                    · set δ := (p + 8) / 159 with hδ_def
+                      set c₀ := (20 * p + 1) / 159 with hc₀_def
+                      have hδ_mul : δ * 159 = p + 8 := Nat.div_mul_cancel hdiv159a
+                      have hc₀_mul : c₀ * 159 = 20 * p + 1 := Nat.div_mul_cancel hdiv159b
+                      have hδ_int : (↑δ : ℤ) * 159 = ↑p + 8 := by exact_mod_cast hδ_mul
+                      have hc₀_int : (↑c₀ : ℤ) * 159 = 20 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                      push_cast
+                      nlinarith [hδ_int, hc₀_int]
+                  · by_cases hp159_154 : p % 159 = 154
+                    · -- p ≡ 154 (mod 159): (α=2, r=2, s=10), M = 4·2·10·2 - 1 = 159
+                      -- offset = (p+800)/159, b = 40, c = 4·(2 * p + 10)/159
+                      have hdiv159a : 159 ∣ (p + 800) := by omega
+                      have hdiv159b : 159 ∣ (2 * p + 10) := by omega
+                      refine ⟨(p + 800) / 159, 40, 4 * ((2 * p + 10) / 159), ?_, by norm_num, ?_, ?_⟩
+                      · have : p % 1272 = 313 := by omega
+                        have h159div : (p + 800) / 159 * 159 = p + 800 := Nat.div_mul_cancel hdiv159a
+                        omega
+                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                      · set δ := (p + 800) / 159 with hδ_def
+                        set c₀ := (2 * p + 10) / 159 with hc₀_def
+                        have hδ_mul : δ * 159 = p + 800 := Nat.div_mul_cancel hdiv159a
+                        have hc₀_mul : c₀ * 159 = 2 * p + 10 := Nat.div_mul_cancel hdiv159b
+                        have hδ_int : (↑δ : ℤ) * 159 = ↑p + 800 := by exact_mod_cast hδ_mul
+                        have hc₀_int : (↑c₀ : ℤ) * 159 = 2 * ↑p + 10 := by exact_mod_cast hc₀_mul
+                        push_cast
+                        nlinarith [hδ_int, hc₀_int]
+                    · by_cases hp159_157 : p % 159 = 157
+                      · -- p ≡ 157 (mod 159): (α=5, r=2, s=4), M = 4·5·4·2 - 1 = 159
+                        -- offset = (p+320)/159, b = 40, c = 10·(2 * p + 4)/159
+                        have hdiv159a : 159 ∣ (p + 320) := by omega
+                        have hdiv159b : 159 ∣ (2 * p + 4) := by omega
+                        refine ⟨(p + 320) / 159, 40, 10 * ((2 * p + 4) / 159), ?_, by norm_num, ?_, ?_⟩
+                        · have : p % 1272 = 793 := by omega
+                          have h159div : (p + 320) / 159 * 159 = p + 320 := Nat.div_mul_cancel hdiv159a
+                          omega
+                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                        · set δ := (p + 320) / 159 with hδ_def
+                          set c₀ := (2 * p + 4) / 159 with hc₀_def
+                          have hδ_mul : δ * 159 = p + 320 := Nat.div_mul_cancel hdiv159a
+                          have hc₀_mul : c₀ * 159 = 2 * p + 4 := Nat.div_mul_cancel hdiv159b
+                          have hδ_int : (↑δ : ℤ) * 159 = ↑p + 320 := by exact_mod_cast hδ_mul
+                          have hc₀_int : (↑c₀ : ℤ) * 159 = 2 * ↑p + 4 := by exact_mod_cast hc₀_mul
+                          push_cast
+                          nlinarith [hδ_int, hc₀_int]
+                      · sorry

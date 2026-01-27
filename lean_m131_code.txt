@@ -1,0 +1,164 @@
+        -- M = 131 subcases via Lemma D.6
+        by_cases hp131_40 : p % 131 = 40
+        · -- p ≡ 40 (mod 131): (α=1, r=3, s=11), M = 4·1·11·3 - 1 = 131
+          -- offset = (p+484)/131, b = 33, c = 3·(3 * p + 11)/131
+          have hdiv131a : 131 ∣ (p + 484) := by omega
+          have hdiv131b : 131 ∣ (3 * p + 11) := by omega
+          refine ⟨(p + 484) / 131, 33, 3 * ((3 * p + 11) / 131), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 3144 = 433 := by omega
+            have h131div : (p + 484) / 131 * 131 = p + 484 := Nat.div_mul_cancel hdiv131a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 484) / 131 with hδ_def
+            set c₀ := (3 * p + 11) / 131 with hc₀_def
+            have hδ_mul : δ * 131 = p + 484 := Nat.div_mul_cancel hdiv131a
+            have hc₀_mul : c₀ * 131 = 3 * p + 11 := Nat.div_mul_cancel hdiv131b
+            have hδ_int : (↑δ : ℤ) * 131 = ↑p + 484 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 131 = 3 * ↑p + 11 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp131_87 : p % 131 = 87
+          · -- p ≡ 87 (mod 131): (α=11, r=3, s=1), M = 4·11·1·3 - 1 = 131
+            -- offset = (p+44)/131, b = 33, c = 33·(3 * p + 1)/131
+            have hdiv131a : 131 ∣ (p + 44) := by omega
+            have hdiv131b : 131 ∣ (3 * p + 1) := by omega
+            refine ⟨(p + 44) / 131, 33, 33 * ((3 * p + 1) / 131), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 3144 = 1921 := by omega
+              have h131div : (p + 44) / 131 * 131 = p + 44 := Nat.div_mul_cancel hdiv131a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 44) / 131 with hδ_def
+              set c₀ := (3 * p + 1) / 131 with hc₀_def
+              have hδ_mul : δ * 131 = p + 44 := Nat.div_mul_cancel hdiv131a
+              have hc₀_mul : c₀ * 131 = 3 * p + 1 := Nat.div_mul_cancel hdiv131b
+              have hδ_int : (↑δ : ℤ) * 131 = ↑p + 44 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 131 = 3 * ↑p + 1 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp131_95 : p % 131 = 95
+            · -- p ≡ 95 (mod 131): (α=1, r=11, s=3), M = 4·1·3·11 - 1 = 131
+              -- offset = (p+36)/131, b = 33, c = 11·(11 * p + 3)/131
+              have hdiv131a : 131 ∣ (p + 36) := by omega
+              have hdiv131b : 131 ∣ (11 * p + 3) := by omega
+              refine ⟨(p + 36) / 131, 33, 11 * ((11 * p + 3) / 131), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 3144 = 2977 := by omega
+                have h131div : (p + 36) / 131 * 131 = p + 36 := Nat.div_mul_cancel hdiv131a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 36) / 131 with hδ_def
+                set c₀ := (11 * p + 3) / 131 with hc₀_def
+                have hδ_mul : δ * 131 = p + 36 := Nat.div_mul_cancel hdiv131a
+                have hc₀_mul : c₀ * 131 = 11 * p + 3 := Nat.div_mul_cancel hdiv131b
+                have hδ_int : (↑δ : ℤ) * 131 = ↑p + 36 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 131 = 11 * ↑p + 3 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · by_cases hp131_98 : p % 131 = 98
+              · -- p ≡ 98 (mod 131): (α=1, r=1, s=33), M = 4·1·33·1 - 1 = 131
+                -- offset = (p+4356)/131, b = 33, c = (p + 33)/131
+                have hdiv131a : 131 ∣ (p + 4356) := by omega
+                have hdiv131b : 131 ∣ (p + 33) := by omega
+                refine ⟨(p + 4356) / 131, 33, (p + 33) / 131, ?_, by norm_num, ?_, ?_⟩
+                · have : p % 3144 = 1801 := by omega
+                  have h131div : (p + 4356) / 131 * 131 = p + 4356 := Nat.div_mul_cancel hdiv131a
+                  omega
+                · exact Nat.div_pos (by omega) (by norm_num)
+                · set δ := (p + 4356) / 131 with hδ_def
+                  set c₀ := (p + 33) / 131 with hc₀_def
+                  have hδ_mul : δ * 131 = p + 4356 := Nat.div_mul_cancel hdiv131a
+                  have hc₀_mul : c₀ * 131 = p + 33 := Nat.div_mul_cancel hdiv131b
+                  have hδ_int : (↑δ : ℤ) * 131 = ↑p + 4356 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 131 = ↑p + 33 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · by_cases hp131_119 : p % 131 = 119
+                · -- p ≡ 119 (mod 131): (α=3, r=11, s=1), M = 4·3·1·11 - 1 = 131
+                  -- offset = (p+12)/131, b = 33, c = 33·(11 * p + 1)/131
+                  have hdiv131a : 131 ∣ (p + 12) := by omega
+                  have hdiv131b : 131 ∣ (11 * p + 1) := by omega
+                  refine ⟨(p + 12) / 131, 33, 33 * ((11 * p + 1) / 131), ?_, by norm_num, ?_, ?_⟩
+                  · have : p % 3144 = 3001 := by omega
+                    have h131div : (p + 12) / 131 * 131 = p + 12 := Nat.div_mul_cancel hdiv131a
+                    omega
+                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                  · set δ := (p + 12) / 131 with hδ_def
+                    set c₀ := (11 * p + 1) / 131 with hc₀_def
+                    have hδ_mul : δ * 131 = p + 12 := Nat.div_mul_cancel hdiv131a
+                    have hc₀_mul : c₀ * 131 = 11 * p + 1 := Nat.div_mul_cancel hdiv131b
+                    have hδ_int : (↑δ : ℤ) * 131 = ↑p + 12 := by exact_mod_cast hδ_mul
+                    have hc₀_int : (↑c₀ : ℤ) * 131 = 11 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                    push_cast
+                    nlinarith [hδ_int, hc₀_int]
+                · by_cases hp131_120 : p % 131 = 120
+                  · -- p ≡ 120 (mod 131): (α=3, r=1, s=11), M = 4·3·11·1 - 1 = 131
+                    -- offset = (p+1452)/131, b = 33, c = 3·(p + 11)/131
+                    have hdiv131a : 131 ∣ (p + 1452) := by omega
+                    have hdiv131b : 131 ∣ (p + 11) := by omega
+                    refine ⟨(p + 1452) / 131, 33, 3 * ((p + 11) / 131), ?_, by norm_num, ?_, ?_⟩
+                    · have : p % 3144 = 1561 := by omega
+                      have h131div : (p + 1452) / 131 * 131 = p + 1452 := Nat.div_mul_cancel hdiv131a
+                      omega
+                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                    · set δ := (p + 1452) / 131 with hδ_def
+                      set c₀ := (p + 11) / 131 with hc₀_def
+                      have hδ_mul : δ * 131 = p + 1452 := Nat.div_mul_cancel hdiv131a
+                      have hc₀_mul : c₀ * 131 = p + 11 := Nat.div_mul_cancel hdiv131b
+                      have hδ_int : (↑δ : ℤ) * 131 = ↑p + 1452 := by exact_mod_cast hδ_mul
+                      have hc₀_int : (↑c₀ : ℤ) * 131 = ↑p + 11 := by exact_mod_cast hc₀_mul
+                      push_cast
+                      nlinarith [hδ_int, hc₀_int]
+                  · by_cases hp131_127 : p % 131 = 127
+                    · -- p ≡ 127 (mod 131): (α=1, r=33, s=1), M = 4·1·1·33 - 1 = 131
+                      -- offset = (p+4)/131, b = 33, c = 33·(33 * p + 1)/131
+                      have hdiv131a : 131 ∣ (p + 4) := by omega
+                      have hdiv131b : 131 ∣ (33 * p + 1) := by omega
+                      refine ⟨(p + 4) / 131, 33, 33 * ((33 * p + 1) / 131), ?_, by norm_num, ?_, ?_⟩
+                      · have : p % 3144 = 913 := by omega
+                        have h131div : (p + 4) / 131 * 131 = p + 4 := Nat.div_mul_cancel hdiv131a
+                        omega
+                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                      · set δ := (p + 4) / 131 with hδ_def
+                        set c₀ := (33 * p + 1) / 131 with hc₀_def
+                        have hδ_mul : δ * 131 = p + 4 := Nat.div_mul_cancel hdiv131a
+                        have hc₀_mul : c₀ * 131 = 33 * p + 1 := Nat.div_mul_cancel hdiv131b
+                        have hδ_int : (↑δ : ℤ) * 131 = ↑p + 4 := by exact_mod_cast hδ_mul
+                        have hc₀_int : (↑c₀ : ℤ) * 131 = 33 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                        push_cast
+                        nlinarith [hδ_int, hc₀_int]
+                    · by_cases hp131_128 : p % 131 = 128
+                      · -- p ≡ 128 (mod 131): (α=11, r=1, s=3), M = 4·11·3·1 - 1 = 131
+                        -- offset = (p+396)/131, b = 33, c = 11·(p + 3)/131
+                        have hdiv131a : 131 ∣ (p + 396) := by omega
+                        have hdiv131b : 131 ∣ (p + 3) := by omega
+                        refine ⟨(p + 396) / 131, 33, 11 * ((p + 3) / 131), ?_, by norm_num, ?_, ?_⟩
+                        · have : p % 3144 = 2617 := by omega
+                          have h131div : (p + 396) / 131 * 131 = p + 396 := Nat.div_mul_cancel hdiv131a
+                          omega
+                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                        · set δ := (p + 396) / 131 with hδ_def
+                          set c₀ := (p + 3) / 131 with hc₀_def
+                          have hδ_mul : δ * 131 = p + 396 := Nat.div_mul_cancel hdiv131a
+                          have hc₀_mul : c₀ * 131 = p + 3 := Nat.div_mul_cancel hdiv131b
+                          have hδ_int : (↑δ : ℤ) * 131 = ↑p + 396 := by exact_mod_cast hδ_mul
+                          have hc₀_int : (↑c₀ : ℤ) * 131 = ↑p + 3 := by exact_mod_cast hc₀_mul
+                          push_cast
+                          nlinarith [hδ_int, hc₀_int]
+                      · by_cases hp131_130 : p % 131 = 130
+                        · -- p ≡ 130 (mod 131): (α=33, r=1, s=1), M = 4·33·1·1 - 1 = 131
+                          -- offset = (p+132)/131, b = 33, c = 33·(p + 1)/131
+                          have hdiv131a : 131 ∣ (p + 132) := by omega
+                          have hdiv131b : 131 ∣ (p + 1) := by omega
+                          refine ⟨(p + 132) / 131, 33, 33 * ((p + 1) / 131), ?_, by norm_num, ?_, ?_⟩
+                          · have : p % 3144 = 2881 := by omega
+                            have h131div : (p + 132) / 131 * 131 = p + 132 := Nat.div_mul_cancel hdiv131a
+                            omega
+                          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                          · set δ := (p + 132) / 131 with hδ_def
+                            set c₀ := (p + 1) / 131 with hc₀_def
+                            have hδ_mul : δ * 131 = p + 132 := Nat.div_mul_cancel hdiv131a
+                            have hc₀_mul : c₀ * 131 = p + 1 := Nat.div_mul_cancel hdiv131b
+                            have hδ_int : (↑δ : ℤ) * 131 = ↑p + 132 := by exact_mod_cast hδ_mul
+                            have hc₀_int : (↑c₀ : ℤ) * 131 = ↑p + 1 := by exact_mod_cast hc₀_mul
+                            push_cast
+                            nlinarith [hδ_int, hc₀_int]
+                        · sorry

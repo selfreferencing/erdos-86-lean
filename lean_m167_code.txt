@@ -1,0 +1,488 @@
+        -- M = 167 subcases via Lemma D.6
+        by_cases hp167_23 : p % 167 = 23
+        · -- p ≡ 23 (mod 167): (α=1, r=7, s=6), M = 4·1·6·7 - 1 = 167
+          -- offset = (p+144)/167, b = 42, c = 7·(7 * p + 6)/167
+          have hdiv167a : 167 ∣ (p + 144) := by omega
+          have hdiv167b : 167 ∣ (7 * p + 6) := by omega
+          refine ⟨(p + 144) / 167, 42, 7 * ((7 * p + 6) / 167), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 4008 = 3697 := by omega
+            have h167div : (p + 144) / 167 * 167 = p + 144 := Nat.div_mul_cancel hdiv167a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 144) / 167 with hδ_def
+            set c₀ := (7 * p + 6) / 167 with hc₀_def
+            have hδ_mul : δ * 167 = p + 144 := Nat.div_mul_cancel hdiv167a
+            have hc₀_mul : c₀ * 167 = 7 * p + 6 := Nat.div_mul_cancel hdiv167b
+            have hδ_int : (↑δ : ℤ) * 167 = ↑p + 144 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 167 = 7 * ↑p + 6 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp167_51 : p % 167 = 51
+          · -- p ≡ 51 (mod 167): (α=1, r=3, s=14), M = 4·1·14·3 - 1 = 167
+            -- offset = (p+784)/167, b = 42, c = 3·(3 * p + 14)/167
+            have hdiv167a : 167 ∣ (p + 784) := by omega
+            have hdiv167b : 167 ∣ (3 * p + 14) := by omega
+            refine ⟨(p + 784) / 167, 42, 3 * ((3 * p + 14) / 167), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 4008 = 385 := by omega
+              have h167div : (p + 784) / 167 * 167 = p + 784 := Nat.div_mul_cancel hdiv167a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 784) / 167 with hδ_def
+              set c₀ := (3 * p + 14) / 167 with hc₀_def
+              have hδ_mul : δ * 167 = p + 784 := Nat.div_mul_cancel hdiv167a
+              have hc₀_mul : c₀ * 167 = 3 * p + 14 := Nat.div_mul_cancel hdiv167b
+              have hδ_int : (↑δ : ℤ) * 167 = ↑p + 784 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 167 = 3 * ↑p + 14 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp167_55 : p % 167 = 55
+            · -- p ≡ 55 (mod 167): (α=7, r=3, s=2), M = 4·7·2·3 - 1 = 167
+              -- offset = (p+112)/167, b = 42, c = 21·(3 * p + 2)/167
+              have hdiv167a : 167 ∣ (p + 112) := by omega
+              have hdiv167b : 167 ∣ (3 * p + 2) := by omega
+              refine ⟨(p + 112) / 167, 42, 21 * ((3 * p + 2) / 167), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 4008 = 1057 := by omega
+                have h167div : (p + 112) / 167 * 167 = p + 112 := Nat.div_mul_cancel hdiv167a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 112) / 167 with hδ_def
+                set c₀ := (3 * p + 2) / 167 with hc₀_def
+                have hδ_mul : δ * 167 = p + 112 := Nat.div_mul_cancel hdiv167a
+                have hc₀_mul : c₀ * 167 = 3 * p + 2 := Nat.div_mul_cancel hdiv167b
+                have hδ_int : (↑δ : ℤ) * 167 = ↑p + 112 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 167 = 3 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · by_cases hp167_73 : p % 167 = 73
+              · -- p ≡ 73 (mod 167): (α=1, r=2, s=21), M = 4·1·21·2 - 1 = 167
+                -- offset = (p+1764)/167, b = 42, c = 2·(2 * p + 21)/167
+                have hdiv167a : 167 ∣ (p + 1764) := by omega
+                have hdiv167b : 167 ∣ (2 * p + 21) := by omega
+                refine ⟨(p + 1764) / 167, 42, 2 * ((2 * p + 21) / 167), ?_, by norm_num, ?_, ?_⟩
+                · have : p % 4008 = 73 := by omega
+                  have h167div : (p + 1764) / 167 * 167 = p + 1764 := Nat.div_mul_cancel hdiv167a
+                  omega
+                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                · set δ := (p + 1764) / 167 with hδ_def
+                  set c₀ := (2 * p + 21) / 167 with hc₀_def
+                  have hδ_mul : δ * 167 = p + 1764 := Nat.div_mul_cancel hdiv167a
+                  have hc₀_mul : c₀ * 167 = 2 * p + 21 := Nat.div_mul_cancel hdiv167b
+                  have hδ_int : (↑δ : ℤ) * 167 = ↑p + 1764 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 167 = 2 * ↑p + 21 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · by_cases hp167_80 : p % 167 = 80
+                · -- p ≡ 80 (mod 167): (α=3, r=2, s=7), M = 4·3·7·2 - 1 = 167
+                  -- offset = (p+588)/167, b = 42, c = 6·(2 * p + 7)/167
+                  have hdiv167a : 167 ∣ (p + 588) := by omega
+                  have hdiv167b : 167 ∣ (2 * p + 7) := by omega
+                  refine ⟨(p + 588) / 167, 42, 6 * ((2 * p + 7) / 167), ?_, by norm_num, ?_, ?_⟩
+                  · have : p % 4008 = 1249 := by omega
+                    have h167div : (p + 588) / 167 * 167 = p + 588 := Nat.div_mul_cancel hdiv167a
+                    omega
+                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                  · set δ := (p + 588) / 167 with hδ_def
+                    set c₀ := (2 * p + 7) / 167 with hc₀_def
+                    have hδ_mul : δ * 167 = p + 588 := Nat.div_mul_cancel hdiv167a
+                    have hc₀_mul : c₀ * 167 = 2 * p + 7 := Nat.div_mul_cancel hdiv167b
+                    have hδ_int : (↑δ : ℤ) * 167 = ↑p + 588 := by exact_mod_cast hδ_mul
+                    have hc₀_int : (↑c₀ : ℤ) * 167 = 2 * ↑p + 7 := by exact_mod_cast hc₀_mul
+                    push_cast
+                    nlinarith [hδ_int, hc₀_int]
+                · by_cases hp167_82 : p % 167 = 82
+                  · -- p ≡ 82 (mod 167): (α=7, r=2, s=3), M = 4·7·3·2 - 1 = 167
+                    -- offset = (p+252)/167, b = 42, c = 14·(2 * p + 3)/167
+                    have hdiv167a : 167 ∣ (p + 252) := by omega
+                    have hdiv167b : 167 ∣ (2 * p + 3) := by omega
+                    refine ⟨(p + 252) / 167, 42, 14 * ((2 * p + 3) / 167), ?_, by norm_num, ?_, ?_⟩
+                    · have : p % 4008 = 1585 := by omega
+                      have h167div : (p + 252) / 167 * 167 = p + 252 := Nat.div_mul_cancel hdiv167a
+                      omega
+                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                    · set δ := (p + 252) / 167 with hδ_def
+                      set c₀ := (2 * p + 3) / 167 with hc₀_def
+                      have hδ_mul : δ * 167 = p + 252 := Nat.div_mul_cancel hdiv167a
+                      have hc₀_mul : c₀ * 167 = 2 * p + 3 := Nat.div_mul_cancel hdiv167b
+                      have hδ_int : (↑δ : ℤ) * 167 = ↑p + 252 := by exact_mod_cast hδ_mul
+                      have hc₀_int : (↑c₀ : ℤ) * 167 = 2 * ↑p + 3 := by exact_mod_cast hc₀_mul
+                      push_cast
+                      nlinarith [hδ_int, hc₀_int]
+                  · by_cases hp167_83 : p % 167 = 83
+                    · -- p ≡ 83 (mod 167): (α=21, r=2, s=1), M = 4·21·1·2 - 1 = 167
+                      -- offset = (p+84)/167, b = 42, c = 42·(2 * p + 1)/167
+                      have hdiv167a : 167 ∣ (p + 84) := by omega
+                      have hdiv167b : 167 ∣ (2 * p + 1) := by omega
+                      refine ⟨(p + 84) / 167, 42, 42 * ((2 * p + 1) / 167), ?_, by norm_num, ?_, ?_⟩
+                      · have : p % 4008 = 1753 := by omega
+                        have h167div : (p + 84) / 167 * 167 = p + 84 := Nat.div_mul_cancel hdiv167a
+                        omega
+                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                      · set δ := (p + 84) / 167 with hδ_def
+                        set c₀ := (2 * p + 1) / 167 with hc₀_def
+                        have hδ_mul : δ * 167 = p + 84 := Nat.div_mul_cancel hdiv167a
+                        have hc₀_mul : c₀ * 167 = 2 * p + 1 := Nat.div_mul_cancel hdiv167b
+                        have hδ_int : (↑δ : ℤ) * 167 = ↑p + 84 := by exact_mod_cast hδ_mul
+                        have hc₀_int : (↑c₀ : ℤ) * 167 = 2 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                        push_cast
+                        nlinarith [hδ_int, hc₀_int]
+                    · by_cases hp167_95 : p % 167 = 95
+                      · -- p ≡ 95 (mod 167): (α=2, r=7, s=3), M = 4·2·3·7 - 1 = 167
+                        -- offset = (p+72)/167, b = 42, c = 14·(7 * p + 3)/167
+                        have hdiv167a : 167 ∣ (p + 72) := by omega
+                        have hdiv167b : 167 ∣ (7 * p + 3) := by omega
+                        refine ⟨(p + 72) / 167, 42, 14 * ((7 * p + 3) / 167), ?_, by norm_num, ?_, ?_⟩
+                        · have : p % 4008 = 3769 := by omega
+                          have h167div : (p + 72) / 167 * 167 = p + 72 := Nat.div_mul_cancel hdiv167a
+                          omega
+                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                        · set δ := (p + 72) / 167 with hδ_def
+                          set c₀ := (7 * p + 3) / 167 with hc₀_def
+                          have hδ_mul : δ * 167 = p + 72 := Nat.div_mul_cancel hdiv167a
+                          have hc₀_mul : c₀ * 167 = 7 * p + 3 := Nat.div_mul_cancel hdiv167b
+                          have hδ_int : (↑δ : ℤ) * 167 = ↑p + 72 := by exact_mod_cast hδ_mul
+                          have hc₀_int : (↑c₀ : ℤ) * 167 = 7 * ↑p + 3 := by exact_mod_cast hc₀_mul
+                          push_cast
+                          nlinarith [hδ_int, hc₀_int]
+                      · by_cases hp167_109 : p % 167 = 109
+                        · -- p ≡ 109 (mod 167): (α=2, r=3, s=7), M = 4·2·7·3 - 1 = 167
+                          -- offset = (p+392)/167, b = 42, c = 6·(3 * p + 7)/167
+                          have hdiv167a : 167 ∣ (p + 392) := by omega
+                          have hdiv167b : 167 ∣ (3 * p + 7) := by omega
+                          refine ⟨(p + 392) / 167, 42, 6 * ((3 * p + 7) / 167), ?_, by norm_num, ?_, ?_⟩
+                          · have : p % 4008 = 2113 := by omega
+                            have h167div : (p + 392) / 167 * 167 = p + 392 := Nat.div_mul_cancel hdiv167a
+                            omega
+                          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                          · set δ := (p + 392) / 167 with hδ_def
+                            set c₀ := (3 * p + 7) / 167 with hc₀_def
+                            have hδ_mul : δ * 167 = p + 392 := Nat.div_mul_cancel hdiv167a
+                            have hc₀_mul : c₀ * 167 = 3 * p + 7 := Nat.div_mul_cancel hdiv167b
+                            have hδ_int : (↑δ : ℤ) * 167 = ↑p + 392 := by exact_mod_cast hδ_mul
+                            have hc₀_int : (↑c₀ : ℤ) * 167 = 3 * ↑p + 7 := by exact_mod_cast hc₀_mul
+                            push_cast
+                            nlinarith [hδ_int, hc₀_int]
+                        · by_cases hp167_111 : p % 167 = 111
+                          · -- p ≡ 111 (mod 167): (α=14, r=3, s=1), M = 4·14·1·3 - 1 = 167
+                            -- offset = (p+56)/167, b = 42, c = 42·(3 * p + 1)/167
+                            have hdiv167a : 167 ∣ (p + 56) := by omega
+                            have hdiv167b : 167 ∣ (3 * p + 1) := by omega
+                            refine ⟨(p + 56) / 167, 42, 42 * ((3 * p + 1) / 167), ?_, by norm_num, ?_, ?_⟩
+                            · have : p % 4008 = 2449 := by omega
+                              have h167div : (p + 56) / 167 * 167 = p + 56 := Nat.div_mul_cancel hdiv167a
+                              omega
+                            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                            · set δ := (p + 56) / 167 with hδ_def
+                              set c₀ := (3 * p + 1) / 167 with hc₀_def
+                              have hδ_mul : δ * 167 = p + 56 := Nat.div_mul_cancel hdiv167a
+                              have hc₀_mul : c₀ * 167 = 3 * p + 1 := Nat.div_mul_cancel hdiv167b
+                              have hδ_int : (↑δ : ℤ) * 167 = ↑p + 56 := by exact_mod_cast hδ_mul
+                              have hc₀_int : (↑c₀ : ℤ) * 167 = 3 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                              push_cast
+                              nlinarith [hδ_int, hc₀_int]
+                          · by_cases hp167_119 : p % 167 = 119
+                            · -- p ≡ 119 (mod 167): (α=3, r=7, s=2), M = 4·3·2·7 - 1 = 167
+                              -- offset = (p+48)/167, b = 42, c = 21·(7 * p + 2)/167
+                              have hdiv167a : 167 ∣ (p + 48) := by omega
+                              have hdiv167b : 167 ∣ (7 * p + 2) := by omega
+                              refine ⟨(p + 48) / 167, 42, 21 * ((7 * p + 2) / 167), ?_, by norm_num, ?_, ?_⟩
+                              · have : p % 4008 = 3793 := by omega
+                                have h167div : (p + 48) / 167 * 167 = p + 48 := Nat.div_mul_cancel hdiv167a
+                                omega
+                              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                              · set δ := (p + 48) / 167 with hδ_def
+                                set c₀ := (7 * p + 2) / 167 with hc₀_def
+                                have hδ_mul : δ * 167 = p + 48 := Nat.div_mul_cancel hdiv167a
+                                have hc₀_mul : c₀ * 167 = 7 * p + 2 := Nat.div_mul_cancel hdiv167b
+                                have hδ_int : (↑δ : ℤ) * 167 = ↑p + 48 := by exact_mod_cast hδ_mul
+                                have hc₀_int : (↑c₀ : ℤ) * 167 = 7 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                                push_cast
+                                nlinarith [hδ_int, hc₀_int]
+                            · by_cases hp167_125 : p % 167 = 125
+                              · -- p ≡ 125 (mod 167): (α=1, r=1, s=42), M = 4·1·42·1 - 1 = 167
+                                -- offset = (p+7056)/167, b = 42, c = (p + 42)/167
+                                have hdiv167a : 167 ∣ (p + 7056) := by omega
+                                have hdiv167b : 167 ∣ (p + 42) := by omega
+                                refine ⟨(p + 7056) / 167, 42, (p + 42) / 167, ?_, by norm_num, ?_, ?_⟩
+                                · have : p % 4008 = 793 := by omega
+                                  have h167div : (p + 7056) / 167 * 167 = p + 7056 := Nat.div_mul_cancel hdiv167a
+                                  omega
+                                · exact Nat.div_pos (by omega) (by norm_num)
+                                · set δ := (p + 7056) / 167 with hδ_def
+                                  set c₀ := (p + 42) / 167 with hc₀_def
+                                  have hδ_mul : δ * 167 = p + 7056 := Nat.div_mul_cancel hdiv167a
+                                  have hc₀_mul : c₀ * 167 = p + 42 := Nat.div_mul_cancel hdiv167b
+                                  have hδ_int : (↑δ : ℤ) * 167 = ↑p + 7056 := by exact_mod_cast hδ_mul
+                                  have hc₀_int : (↑c₀ : ℤ) * 167 = ↑p + 42 := by exact_mod_cast hc₀_mul
+                                  push_cast
+                                  nlinarith [hδ_int, hc₀_int]
+                              · by_cases hp167_131 : p % 167 = 131
+                                · -- p ≡ 131 (mod 167): (α=1, r=14, s=3), M = 4·1·3·14 - 1 = 167
+                                  -- offset = (p+36)/167, b = 42, c = 14·(14 * p + 3)/167
+                                  have hdiv167a : 167 ∣ (p + 36) := by omega
+                                  have hdiv167b : 167 ∣ (14 * p + 3) := by omega
+                                  refine ⟨(p + 36) / 167, 42, 14 * ((14 * p + 3) / 167), ?_, by norm_num, ?_, ?_⟩
+                                  · have : p % 4008 = 1801 := by omega
+                                    have h167div : (p + 36) / 167 * 167 = p + 36 := Nat.div_mul_cancel hdiv167a
+                                    omega
+                                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                  · set δ := (p + 36) / 167 with hδ_def
+                                    set c₀ := (14 * p + 3) / 167 with hc₀_def
+                                    have hδ_mul : δ * 167 = p + 36 := Nat.div_mul_cancel hdiv167a
+                                    have hc₀_mul : c₀ * 167 = 14 * p + 3 := Nat.div_mul_cancel hdiv167b
+                                    have hδ_int : (↑δ : ℤ) * 167 = ↑p + 36 := by exact_mod_cast hδ_mul
+                                    have hc₀_int : (↑c₀ : ℤ) * 167 = 14 * ↑p + 3 := by exact_mod_cast hc₀_mul
+                                    push_cast
+                                    nlinarith [hδ_int, hc₀_int]
+                                · by_cases hp167_138 : p % 167 = 138
+                                  · -- p ≡ 138 (mod 167): (α=1, r=6, s=7), M = 4·1·7·6 - 1 = 167
+                                    -- offset = (p+196)/167, b = 42, c = 6·(6 * p + 7)/167
+                                    have hdiv167a : 167 ∣ (p + 196) := by omega
+                                    have hdiv167b : 167 ∣ (6 * p + 7) := by omega
+                                    refine ⟨(p + 196) / 167, 42, 6 * ((6 * p + 7) / 167), ?_, by norm_num, ?_, ?_⟩
+                                    · have : p % 4008 = 2977 := by omega
+                                      have h167div : (p + 196) / 167 * 167 = p + 196 := Nat.div_mul_cancel hdiv167a
+                                      omega
+                                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                    · set δ := (p + 196) / 167 with hδ_def
+                                      set c₀ := (6 * p + 7) / 167 with hc₀_def
+                                      have hδ_mul : δ * 167 = p + 196 := Nat.div_mul_cancel hdiv167a
+                                      have hc₀_mul : c₀ * 167 = 6 * p + 7 := Nat.div_mul_cancel hdiv167b
+                                      have hδ_int : (↑δ : ℤ) * 167 = ↑p + 196 := by exact_mod_cast hδ_mul
+                                      have hc₀_int : (↑c₀ : ℤ) * 167 = 6 * ↑p + 7 := by exact_mod_cast hc₀_mul
+                                      push_cast
+                                      nlinarith [hδ_int, hc₀_int]
+                                  · by_cases hp167_139 : p % 167 = 139
+                                    · -- p ≡ 139 (mod 167): (α=7, r=6, s=1), M = 4·7·1·6 - 1 = 167
+                                      -- offset = (p+28)/167, b = 42, c = 42·(6 * p + 1)/167
+                                      have hdiv167a : 167 ∣ (p + 28) := by omega
+                                      have hdiv167b : 167 ∣ (6 * p + 1) := by omega
+                                      refine ⟨(p + 28) / 167, 42, 42 * ((6 * p + 1) / 167), ?_, by norm_num, ?_, ?_⟩
+                                      · have : p % 4008 = 3145 := by omega
+                                        have h167div : (p + 28) / 167 * 167 = p + 28 := Nat.div_mul_cancel hdiv167a
+                                        omega
+                                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                      · set δ := (p + 28) / 167 with hδ_def
+                                        set c₀ := (6 * p + 1) / 167 with hc₀_def
+                                        have hδ_mul : δ * 167 = p + 28 := Nat.div_mul_cancel hdiv167a
+                                        have hc₀_mul : c₀ * 167 = 6 * p + 1 := Nat.div_mul_cancel hdiv167b
+                                        have hδ_int : (↑δ : ℤ) * 167 = ↑p + 28 := by exact_mod_cast hδ_mul
+                                        have hc₀_int : (↑c₀ : ℤ) * 167 = 6 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                        push_cast
+                                        nlinarith [hδ_int, hc₀_int]
+                                    · by_cases hp167_143 : p % 167 = 143
+                                      · -- p ≡ 143 (mod 167): (α=6, r=7, s=1), M = 4·6·1·7 - 1 = 167
+                                        -- offset = (p+24)/167, b = 42, c = 42·(7 * p + 1)/167
+                                        have hdiv167a : 167 ∣ (p + 24) := by omega
+                                        have hdiv167b : 167 ∣ (7 * p + 1) := by omega
+                                        refine ⟨(p + 24) / 167, 42, 42 * ((7 * p + 1) / 167), ?_, by norm_num, ?_, ?_⟩
+                                        · have : p % 4008 = 3817 := by omega
+                                          have h167div : (p + 24) / 167 * 167 = p + 24 := Nat.div_mul_cancel hdiv167a
+                                          omega
+                                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                        · set δ := (p + 24) / 167 with hδ_def
+                                          set c₀ := (7 * p + 1) / 167 with hc₀_def
+                                          have hδ_mul : δ * 167 = p + 24 := Nat.div_mul_cancel hdiv167a
+                                          have hc₀_mul : c₀ * 167 = 7 * p + 1 := Nat.div_mul_cancel hdiv167b
+                                          have hδ_int : (↑δ : ℤ) * 167 = ↑p + 24 := by exact_mod_cast hδ_mul
+                                          have hc₀_int : (↑c₀ : ℤ) * 167 = 7 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                          push_cast
+                                          nlinarith [hδ_int, hc₀_int]
+                                      · by_cases hp167_146 : p % 167 = 146
+                                        · -- p ≡ 146 (mod 167): (α=2, r=1, s=21), M = 4·2·21·1 - 1 = 167
+                                          -- offset = (p+3528)/167, b = 42, c = 2·(p + 21)/167
+                                          have hdiv167a : 167 ∣ (p + 3528) := by omega
+                                          have hdiv167b : 167 ∣ (p + 21) := by omega
+                                          refine ⟨(p + 3528) / 167, 42, 2 * ((p + 21) / 167), ?_, by norm_num, ?_, ?_⟩
+                                          · have : p % 4008 = 313 := by omega
+                                            have h167div : (p + 3528) / 167 * 167 = p + 3528 := Nat.div_mul_cancel hdiv167a
+                                            omega
+                                          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                          · set δ := (p + 3528) / 167 with hδ_def
+                                            set c₀ := (p + 21) / 167 with hc₀_def
+                                            have hδ_mul : δ * 167 = p + 3528 := Nat.div_mul_cancel hdiv167a
+                                            have hc₀_mul : c₀ * 167 = p + 21 := Nat.div_mul_cancel hdiv167b
+                                            have hδ_int : (↑δ : ℤ) * 167 = ↑p + 3528 := by exact_mod_cast hδ_mul
+                                            have hc₀_int : (↑c₀ : ℤ) * 167 = ↑p + 21 := by exact_mod_cast hc₀_mul
+                                            push_cast
+                                            nlinarith [hδ_int, hc₀_int]
+                                        · by_cases hp167_151 : p % 167 = 151
+                                          · -- p ≡ 151 (mod 167): (α=1, r=21, s=2), M = 4·1·2·21 - 1 = 167
+                                            -- offset = (p+16)/167, b = 42, c = 21·(21 * p + 2)/167
+                                            have hdiv167a : 167 ∣ (p + 16) := by omega
+                                            have hdiv167b : 167 ∣ (21 * p + 2) := by omega
+                                            refine ⟨(p + 16) / 167, 42, 21 * ((21 * p + 2) / 167), ?_, by norm_num, ?_, ?_⟩
+                                            · have : p % 4008 = 1153 := by omega
+                                              have h167div : (p + 16) / 167 * 167 = p + 16 := Nat.div_mul_cancel hdiv167a
+                                              omega
+                                            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                            · set δ := (p + 16) / 167 with hδ_def
+                                              set c₀ := (21 * p + 2) / 167 with hc₀_def
+                                              have hδ_mul : δ * 167 = p + 16 := Nat.div_mul_cancel hdiv167a
+                                              have hc₀_mul : c₀ * 167 = 21 * p + 2 := Nat.div_mul_cancel hdiv167b
+                                              have hδ_int : (↑δ : ℤ) * 167 = ↑p + 16 := by exact_mod_cast hδ_mul
+                                              have hc₀_int : (↑c₀ : ℤ) * 167 = 21 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                                              push_cast
+                                              nlinarith [hδ_int, hc₀_int]
+                                          · by_cases hp167_153 : p % 167 = 153
+                                            · -- p ≡ 153 (mod 167): (α=3, r=1, s=14), M = 4·3·14·1 - 1 = 167
+                                              -- offset = (p+2352)/167, b = 42, c = 3·(p + 14)/167
+                                              have hdiv167a : 167 ∣ (p + 2352) := by omega
+                                              have hdiv167b : 167 ∣ (p + 14) := by omega
+                                              refine ⟨(p + 2352) / 167, 42, 3 * ((p + 14) / 167), ?_, by norm_num, ?_, ?_⟩
+                                              · have : p % 4008 = 1489 := by omega
+                                                have h167div : (p + 2352) / 167 * 167 = p + 2352 := Nat.div_mul_cancel hdiv167a
+                                                omega
+                                              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                              · set δ := (p + 2352) / 167 with hδ_def
+                                                set c₀ := (p + 14) / 167 with hc₀_def
+                                                have hδ_mul : δ * 167 = p + 2352 := Nat.div_mul_cancel hdiv167a
+                                                have hc₀_mul : c₀ * 167 = p + 14 := Nat.div_mul_cancel hdiv167b
+                                                have hδ_int : (↑δ : ℤ) * 167 = ↑p + 2352 := by exact_mod_cast hδ_mul
+                                                have hc₀_int : (↑c₀ : ℤ) * 167 = ↑p + 14 := by exact_mod_cast hc₀_mul
+                                                push_cast
+                                                nlinarith [hδ_int, hc₀_int]
+                                            · by_cases hp167_155 : p % 167 = 155
+                                              · -- p ≡ 155 (mod 167): (α=3, r=14, s=1), M = 4·3·1·14 - 1 = 167
+                                                -- offset = (p+12)/167, b = 42, c = 42·(14 * p + 1)/167
+                                                have hdiv167a : 167 ∣ (p + 12) := by omega
+                                                have hdiv167b : 167 ∣ (14 * p + 1) := by omega
+                                                refine ⟨(p + 12) / 167, 42, 42 * ((14 * p + 1) / 167), ?_, by norm_num, ?_, ?_⟩
+                                                · have : p % 4008 = 1825 := by omega
+                                                  have h167div : (p + 12) / 167 * 167 = p + 12 := Nat.div_mul_cancel hdiv167a
+                                                  omega
+                                                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                                · set δ := (p + 12) / 167 with hδ_def
+                                                  set c₀ := (14 * p + 1) / 167 with hc₀_def
+                                                  have hδ_mul : δ * 167 = p + 12 := Nat.div_mul_cancel hdiv167a
+                                                  have hc₀_mul : c₀ * 167 = 14 * p + 1 := Nat.div_mul_cancel hdiv167b
+                                                  have hδ_int : (↑δ : ℤ) * 167 = ↑p + 12 := by exact_mod_cast hδ_mul
+                                                  have hc₀_int : (↑c₀ : ℤ) * 167 = 14 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                                  push_cast
+                                                  nlinarith [hδ_int, hc₀_int]
+                                              · by_cases hp167_159 : p % 167 = 159
+                                                · -- p ≡ 159 (mod 167): (α=2, r=21, s=1), M = 4·2·1·21 - 1 = 167
+                                                  -- offset = (p+8)/167, b = 42, c = 42·(21 * p + 1)/167
+                                                  have hdiv167a : 167 ∣ (p + 8) := by omega
+                                                  have hdiv167b : 167 ∣ (21 * p + 1) := by omega
+                                                  refine ⟨(p + 8) / 167, 42, 42 * ((21 * p + 1) / 167), ?_, by norm_num, ?_, ?_⟩
+                                                  · have : p % 4008 = 2497 := by omega
+                                                    have h167div : (p + 8) / 167 * 167 = p + 8 := Nat.div_mul_cancel hdiv167a
+                                                    omega
+                                                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                                  · set δ := (p + 8) / 167 with hδ_def
+                                                    set c₀ := (21 * p + 1) / 167 with hc₀_def
+                                                    have hδ_mul : δ * 167 = p + 8 := Nat.div_mul_cancel hdiv167a
+                                                    have hc₀_mul : c₀ * 167 = 21 * p + 1 := Nat.div_mul_cancel hdiv167b
+                                                    have hδ_int : (↑δ : ℤ) * 167 = ↑p + 8 := by exact_mod_cast hδ_mul
+                                                    have hc₀_int : (↑c₀ : ℤ) * 167 = 21 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                                    push_cast
+                                                    nlinarith [hδ_int, hc₀_int]
+                                                · by_cases hp167_160 : p % 167 = 160
+                                                  · -- p ≡ 160 (mod 167): (α=6, r=1, s=7), M = 4·6·7·1 - 1 = 167
+                                                    -- offset = (p+1176)/167, b = 42, c = 6·(p + 7)/167
+                                                    have hdiv167a : 167 ∣ (p + 1176) := by omega
+                                                    have hdiv167b : 167 ∣ (p + 7) := by omega
+                                                    refine ⟨(p + 1176) / 167, 42, 6 * ((p + 7) / 167), ?_, by norm_num, ?_, ?_⟩
+                                                    · have : p % 4008 = 2665 := by omega
+                                                      have h167div : (p + 1176) / 167 * 167 = p + 1176 := Nat.div_mul_cancel hdiv167a
+                                                      omega
+                                                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                                    · set δ := (p + 1176) / 167 with hδ_def
+                                                      set c₀ := (p + 7) / 167 with hc₀_def
+                                                      have hδ_mul : δ * 167 = p + 1176 := Nat.div_mul_cancel hdiv167a
+                                                      have hc₀_mul : c₀ * 167 = p + 7 := Nat.div_mul_cancel hdiv167b
+                                                      have hδ_int : (↑δ : ℤ) * 167 = ↑p + 1176 := by exact_mod_cast hδ_mul
+                                                      have hc₀_int : (↑c₀ : ℤ) * 167 = ↑p + 7 := by exact_mod_cast hc₀_mul
+                                                      push_cast
+                                                      nlinarith [hδ_int, hc₀_int]
+                                                  · by_cases hp167_161 : p % 167 = 161
+                                                    · -- p ≡ 161 (mod 167): (α=7, r=1, s=6), M = 4·7·6·1 - 1 = 167
+                                                      -- offset = (p+1008)/167, b = 42, c = 7·(p + 6)/167
+                                                      have hdiv167a : 167 ∣ (p + 1008) := by omega
+                                                      have hdiv167b : 167 ∣ (p + 6) := by omega
+                                                      refine ⟨(p + 1008) / 167, 42, 7 * ((p + 6) / 167), ?_, by norm_num, ?_, ?_⟩
+                                                      · have : p % 4008 = 2833 := by omega
+                                                        have h167div : (p + 1008) / 167 * 167 = p + 1008 := Nat.div_mul_cancel hdiv167a
+                                                        omega
+                                                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                                      · set δ := (p + 1008) / 167 with hδ_def
+                                                        set c₀ := (p + 6) / 167 with hc₀_def
+                                                        have hδ_mul : δ * 167 = p + 1008 := Nat.div_mul_cancel hdiv167a
+                                                        have hc₀_mul : c₀ * 167 = p + 6 := Nat.div_mul_cancel hdiv167b
+                                                        have hδ_int : (↑δ : ℤ) * 167 = ↑p + 1008 := by exact_mod_cast hδ_mul
+                                                        have hc₀_int : (↑c₀ : ℤ) * 167 = ↑p + 6 := by exact_mod_cast hc₀_mul
+                                                        push_cast
+                                                        nlinarith [hδ_int, hc₀_int]
+                                                    · by_cases hp167_163 : p % 167 = 163
+                                                      · -- p ≡ 163 (mod 167): (α=1, r=42, s=1), M = 4·1·1·42 - 1 = 167
+                                                        -- offset = (p+4)/167, b = 42, c = 42·(42 * p + 1)/167
+                                                        have hdiv167a : 167 ∣ (p + 4) := by omega
+                                                        have hdiv167b : 167 ∣ (42 * p + 1) := by omega
+                                                        refine ⟨(p + 4) / 167, 42, 42 * ((42 * p + 1) / 167), ?_, by norm_num, ?_, ?_⟩
+                                                        · have : p % 4008 = 3169 := by omega
+                                                          have h167div : (p + 4) / 167 * 167 = p + 4 := Nat.div_mul_cancel hdiv167a
+                                                          omega
+                                                        · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                                        · set δ := (p + 4) / 167 with hδ_def
+                                                          set c₀ := (42 * p + 1) / 167 with hc₀_def
+                                                          have hδ_mul : δ * 167 = p + 4 := Nat.div_mul_cancel hdiv167a
+                                                          have hc₀_mul : c₀ * 167 = 42 * p + 1 := Nat.div_mul_cancel hdiv167b
+                                                          have hδ_int : (↑δ : ℤ) * 167 = ↑p + 4 := by exact_mod_cast hδ_mul
+                                                          have hc₀_int : (↑c₀ : ℤ) * 167 = 42 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                                                          push_cast
+                                                          nlinarith [hδ_int, hc₀_int]
+                                                      · by_cases hp167_164 : p % 167 = 164
+                                                        · -- p ≡ 164 (mod 167): (α=14, r=1, s=3), M = 4·14·3·1 - 1 = 167
+                                                          -- offset = (p+504)/167, b = 42, c = 14·(p + 3)/167
+                                                          have hdiv167a : 167 ∣ (p + 504) := by omega
+                                                          have hdiv167b : 167 ∣ (p + 3) := by omega
+                                                          refine ⟨(p + 504) / 167, 42, 14 * ((p + 3) / 167), ?_, by norm_num, ?_, ?_⟩
+                                                          · have : p % 4008 = 3337 := by omega
+                                                            have h167div : (p + 504) / 167 * 167 = p + 504 := Nat.div_mul_cancel hdiv167a
+                                                            omega
+                                                          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                                          · set δ := (p + 504) / 167 with hδ_def
+                                                            set c₀ := (p + 3) / 167 with hc₀_def
+                                                            have hδ_mul : δ * 167 = p + 504 := Nat.div_mul_cancel hdiv167a
+                                                            have hc₀_mul : c₀ * 167 = p + 3 := Nat.div_mul_cancel hdiv167b
+                                                            have hδ_int : (↑δ : ℤ) * 167 = ↑p + 504 := by exact_mod_cast hδ_mul
+                                                            have hc₀_int : (↑c₀ : ℤ) * 167 = ↑p + 3 := by exact_mod_cast hc₀_mul
+                                                            push_cast
+                                                            nlinarith [hδ_int, hc₀_int]
+                                                        · by_cases hp167_165 : p % 167 = 165
+                                                          · -- p ≡ 165 (mod 167): (α=21, r=1, s=2), M = 4·21·2·1 - 1 = 167
+                                                            -- offset = (p+336)/167, b = 42, c = 21·(p + 2)/167
+                                                            have hdiv167a : 167 ∣ (p + 336) := by omega
+                                                            have hdiv167b : 167 ∣ (p + 2) := by omega
+                                                            refine ⟨(p + 336) / 167, 42, 21 * ((p + 2) / 167), ?_, by norm_num, ?_, ?_⟩
+                                                            · have : p % 4008 = 3505 := by omega
+                                                              have h167div : (p + 336) / 167 * 167 = p + 336 := Nat.div_mul_cancel hdiv167a
+                                                              omega
+                                                            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                                            · set δ := (p + 336) / 167 with hδ_def
+                                                              set c₀ := (p + 2) / 167 with hc₀_def
+                                                              have hδ_mul : δ * 167 = p + 336 := Nat.div_mul_cancel hdiv167a
+                                                              have hc₀_mul : c₀ * 167 = p + 2 := Nat.div_mul_cancel hdiv167b
+                                                              have hδ_int : (↑δ : ℤ) * 167 = ↑p + 336 := by exact_mod_cast hδ_mul
+                                                              have hc₀_int : (↑c₀ : ℤ) * 167 = ↑p + 2 := by exact_mod_cast hc₀_mul
+                                                              push_cast
+                                                              nlinarith [hδ_int, hc₀_int]
+                                                          · by_cases hp167_166 : p % 167 = 166
+                                                            · -- p ≡ 166 (mod 167): (α=42, r=1, s=1), M = 4·42·1·1 - 1 = 167
+                                                              -- offset = (p+168)/167, b = 42, c = 42·(p + 1)/167
+                                                              have hdiv167a : 167 ∣ (p + 168) := by omega
+                                                              have hdiv167b : 167 ∣ (p + 1) := by omega
+                                                              refine ⟨(p + 168) / 167, 42, 42 * ((p + 1) / 167), ?_, by norm_num, ?_, ?_⟩
+                                                              · have : p % 4008 = 3673 := by omega
+                                                                have h167div : (p + 168) / 167 * 167 = p + 168 := Nat.div_mul_cancel hdiv167a
+                                                                omega
+                                                              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                                                              · set δ := (p + 168) / 167 with hδ_def
+                                                                set c₀ := (p + 1) / 167 with hc₀_def
+                                                                have hδ_mul : δ * 167 = p + 168 := Nat.div_mul_cancel hdiv167a
+                                                                have hc₀_mul : c₀ * 167 = p + 1 := Nat.div_mul_cancel hdiv167b
+                                                                have hδ_int : (↑δ : ℤ) * 167 = ↑p + 168 := by exact_mod_cast hδ_mul
+                                                                have hc₀_int : (↑c₀ : ℤ) * 167 = ↑p + 1 := by exact_mod_cast hc₀_mul
+                                                                push_cast
+                                                                nlinarith [hδ_int, hc₀_int]
+                                                            · sorry

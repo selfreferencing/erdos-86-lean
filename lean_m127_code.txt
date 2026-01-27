@@ -1,0 +1,128 @@
+        -- M = 127 subcases via Lemma D.6
+        by_cases hp127_63 : p % 127 = 63
+        · -- p ≡ 63 (mod 127): (α=1, r=8, s=4), M = 4·1·4·8 - 1 = 127
+          -- offset = (p+64)/127, b = 32, c = 8·(8 * p + 4)/127
+          have hdiv127a : 127 ∣ (p + 64) := by omega
+          have hdiv127b : 127 ∣ (8 * p + 4) := by omega
+          refine ⟨(p + 64) / 127, 32, 8 * ((8 * p + 4) / 127), ?_, by norm_num, ?_, ?_⟩
+          · have : p % 3048 = 2857 := by omega
+            have h127div : (p + 64) / 127 * 127 = p + 64 := Nat.div_mul_cancel hdiv127a
+            omega
+          · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+          · set δ := (p + 64) / 127 with hδ_def
+            set c₀ := (8 * p + 4) / 127 with hc₀_def
+            have hδ_mul : δ * 127 = p + 64 := Nat.div_mul_cancel hdiv127a
+            have hc₀_mul : c₀ * 127 = 8 * p + 4 := Nat.div_mul_cancel hdiv127b
+            have hδ_int : (↑δ : ℤ) * 127 = ↑p + 64 := by exact_mod_cast hδ_mul
+            have hc₀_int : (↑c₀ : ℤ) * 127 = 8 * ↑p + 4 := by exact_mod_cast hc₀_mul
+            push_cast
+            nlinarith [hδ_int, hc₀_int]
+        · by_cases hp127_95 : p % 127 = 95
+          · -- p ≡ 95 (mod 127): (α=2, r=8, s=2), M = 4·2·2·8 - 1 = 127
+            -- offset = (p+32)/127, b = 32, c = 16·(8 * p + 2)/127
+            have hdiv127a : 127 ∣ (p + 32) := by omega
+            have hdiv127b : 127 ∣ (8 * p + 2) := by omega
+            refine ⟨(p + 32) / 127, 32, 16 * ((8 * p + 2) / 127), ?_, by norm_num, ?_, ?_⟩
+            · have : p % 3048 = 1873 := by omega
+              have h127div : (p + 32) / 127 * 127 = p + 32 := Nat.div_mul_cancel hdiv127a
+              omega
+            · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+            · set δ := (p + 32) / 127 with hδ_def
+              set c₀ := (8 * p + 2) / 127 with hc₀_def
+              have hδ_mul : δ * 127 = p + 32 := Nat.div_mul_cancel hdiv127a
+              have hc₀_mul : c₀ * 127 = 8 * p + 2 := Nat.div_mul_cancel hdiv127b
+              have hδ_int : (↑δ : ℤ) * 127 = ↑p + 32 := by exact_mod_cast hδ_mul
+              have hc₀_int : (↑c₀ : ℤ) * 127 = 8 * ↑p + 2 := by exact_mod_cast hc₀_mul
+              push_cast
+              nlinarith [hδ_int, hc₀_int]
+          · by_cases hp127_111 : p % 127 = 111
+            · -- p ≡ 111 (mod 127): (α=1, r=16, s=2), M = 4·1·2·16 - 1 = 127
+              -- offset = (p+16)/127, b = 32, c = 16·(16 * p + 2)/127
+              have hdiv127a : 127 ∣ (p + 16) := by omega
+              have hdiv127b : 127 ∣ (16 * p + 2) := by omega
+              refine ⟨(p + 16) / 127, 32, 16 * ((16 * p + 2) / 127), ?_, by norm_num, ?_, ?_⟩
+              · have : p % 3048 = 2905 := by omega
+                have h127div : (p + 16) / 127 * 127 = p + 16 := Nat.div_mul_cancel hdiv127a
+                omega
+              · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+              · set δ := (p + 16) / 127 with hδ_def
+                set c₀ := (16 * p + 2) / 127 with hc₀_def
+                have hδ_mul : δ * 127 = p + 16 := Nat.div_mul_cancel hdiv127a
+                have hc₀_mul : c₀ * 127 = 16 * p + 2 := Nat.div_mul_cancel hdiv127b
+                have hδ_int : (↑δ : ℤ) * 127 = ↑p + 16 := by exact_mod_cast hδ_mul
+                have hc₀_int : (↑c₀ : ℤ) * 127 = 16 * ↑p + 2 := by exact_mod_cast hc₀_mul
+                push_cast
+                nlinarith [hδ_int, hc₀_int]
+            · by_cases hp127_119 : p % 127 = 119
+              · -- p ≡ 119 (mod 127): (α=2, r=16, s=1), M = 4·2·1·16 - 1 = 127
+                -- offset = (p+8)/127, b = 32, c = 32·(16 * p + 1)/127
+                have hdiv127a : 127 ∣ (p + 8) := by omega
+                have hdiv127b : 127 ∣ (16 * p + 1) := by omega
+                refine ⟨(p + 8) / 127, 32, 32 * ((16 * p + 1) / 127), ?_, by norm_num, ?_, ?_⟩
+                · have : p % 3048 = 1897 := by omega
+                  have h127div : (p + 8) / 127 * 127 = p + 8 := Nat.div_mul_cancel hdiv127a
+                  omega
+                · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                · set δ := (p + 8) / 127 with hδ_def
+                  set c₀ := (16 * p + 1) / 127 with hc₀_def
+                  have hδ_mul : δ * 127 = p + 8 := Nat.div_mul_cancel hdiv127a
+                  have hc₀_mul : c₀ * 127 = 16 * p + 1 := Nat.div_mul_cancel hdiv127b
+                  have hδ_int : (↑δ : ℤ) * 127 = ↑p + 8 := by exact_mod_cast hδ_mul
+                  have hc₀_int : (↑c₀ : ℤ) * 127 = 16 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                  push_cast
+                  nlinarith [hδ_int, hc₀_int]
+              · by_cases hp127_123 : p % 127 = 123
+                · -- p ≡ 123 (mod 127): (α=1, r=32, s=1), M = 4·1·1·32 - 1 = 127
+                  -- offset = (p+4)/127, b = 32, c = 32·(32 * p + 1)/127
+                  have hdiv127a : 127 ∣ (p + 4) := by omega
+                  have hdiv127b : 127 ∣ (32 * p + 1) := by omega
+                  refine ⟨(p + 4) / 127, 32, 32 * ((32 * p + 1) / 127), ?_, by norm_num, ?_, ?_⟩
+                  · have : p % 3048 = 1393 := by omega
+                    have h127div : (p + 4) / 127 * 127 = p + 4 := Nat.div_mul_cancel hdiv127a
+                    omega
+                  · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                  · set δ := (p + 4) / 127 with hδ_def
+                    set c₀ := (32 * p + 1) / 127 with hc₀_def
+                    have hδ_mul : δ * 127 = p + 4 := Nat.div_mul_cancel hdiv127a
+                    have hc₀_mul : c₀ * 127 = 32 * p + 1 := Nat.div_mul_cancel hdiv127b
+                    have hδ_int : (↑δ : ℤ) * 127 = ↑p + 4 := by exact_mod_cast hδ_mul
+                    have hc₀_int : (↑c₀ : ℤ) * 127 = 32 * ↑p + 1 := by exact_mod_cast hc₀_mul
+                    push_cast
+                    nlinarith [hδ_int, hc₀_int]
+                · by_cases hp127_125 : p % 127 = 125
+                  · -- p ≡ 125 (mod 127): (α=1, r=4, s=8), M = 4·1·8·4 - 1 = 127
+                    -- offset = (p+256)/127, b = 32, c = 4·(4 * p + 8)/127
+                    have hdiv127a : 127 ∣ (p + 256) := by omega
+                    have hdiv127b : 127 ∣ (4 * p + 8) := by omega
+                    refine ⟨(p + 256) / 127, 32, 4 * ((4 * p + 8) / 127), ?_, by norm_num, ?_, ?_⟩
+                    · have : p % 3048 = 2665 := by omega
+                      have h127div : (p + 256) / 127 * 127 = p + 256 := Nat.div_mul_cancel hdiv127a
+                      omega
+                    · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                    · set δ := (p + 256) / 127 with hδ_def
+                      set c₀ := (4 * p + 8) / 127 with hc₀_def
+                      have hδ_mul : δ * 127 = p + 256 := Nat.div_mul_cancel hdiv127a
+                      have hc₀_mul : c₀ * 127 = 4 * p + 8 := Nat.div_mul_cancel hdiv127b
+                      have hδ_int : (↑δ : ℤ) * 127 = ↑p + 256 := by exact_mod_cast hδ_mul
+                      have hc₀_int : (↑c₀ : ℤ) * 127 = 4 * ↑p + 8 := by exact_mod_cast hc₀_mul
+                      push_cast
+                      nlinarith [hδ_int, hc₀_int]
+                  · by_cases hp127_126 : p % 127 = 126
+                    · -- p ≡ 126 (mod 127): (α=2, r=4, s=4), M = 4·2·4·4 - 1 = 127
+                      -- offset = (p+128)/127, b = 32, c = 8·(4 * p + 4)/127
+                      have hdiv127a : 127 ∣ (p + 128) := by omega
+                      have hdiv127b : 127 ∣ (4 * p + 4) := by omega
+                      refine ⟨(p + 128) / 127, 32, 8 * ((4 * p + 4) / 127), ?_, by norm_num, ?_, ?_⟩
+                      · have : p % 3048 = 1777 := by omega
+                        have h127div : (p + 128) / 127 * 127 = p + 128 := Nat.div_mul_cancel hdiv127a
+                        omega
+                      · exact Nat.mul_pos (by norm_num) (Nat.div_pos (by omega) (by norm_num))
+                      · set δ := (p + 128) / 127 with hδ_def
+                        set c₀ := (4 * p + 4) / 127 with hc₀_def
+                        have hδ_mul : δ * 127 = p + 128 := Nat.div_mul_cancel hdiv127a
+                        have hc₀_mul : c₀ * 127 = 4 * p + 4 := Nat.div_mul_cancel hdiv127b
+                        have hδ_int : (↑δ : ℤ) * 127 = ↑p + 128 := by exact_mod_cast hδ_mul
+                        have hc₀_int : (↑c₀ : ℤ) * 127 = 4 * ↑p + 4 := by exact_mod_cast hc₀_mul
+                        push_cast
+                        nlinarith [hδ_int, hc₀_int]
+                    · sorry
