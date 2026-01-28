@@ -6,7 +6,7 @@
   [(p+3)/4, (3p-3)/4] and a divisor d of A² such that (4A-p) | (d+A).
 
   This file provides:
-  1. `exists_good_A_and_divisor` — the core existence claim (sorry, for GPT)
+  1. `exists_good_A_and_divisor` — the core existence claim
   2. `coprime_A_delta` — gcd(A, 4A-p) = 1 when A < p and p prime
   3. `complementary_divisor_cong` — δ | (d+A) implies δ | (e+A) for e = A²/d
   4. `divisor_gives_type2` — bridge from (A,d) to ed2_of_good_divisor
@@ -23,13 +23,41 @@
 
   Then ed2_of_good_divisor (Phase3.lean) produces the Type II solution.
 
+  ## Proof structure for exists_good_A_and_divisor
+
+  We split p ≡ 1 (mod 4) into three cases:
+
+  **Case 1 (p ≡ 5 mod 8)**: PROVEN.
+    A = (p+3)/4, δ = 3. Since p ≡ 5 (mod 8), A is even.
+    - If A ≡ 1 (mod 3): d = 2 works (2 | A² since A even, 3 | 2+A)
+    - If A ≡ 2 (mod 3): d = 1 works (1 | A², 3 | 1+A)
+    (A ≢ 0 mod 3 by coprimality: gcd(A, δ) = gcd(A, 3) = 1)
+
+  **Case 2 (p ≡ 17 mod 24)**: PROVEN.
+    A = (p+3)/4, δ = 3. Since p ≡ 2 (mod 3), A ≡ 2 (mod 3).
+    d = 1 works: 1 | A², 3 | 1+A.
+
+  **Case 3 (p ≡ 1 mod 24)**: SORRY.
+    A = (p+3)/4 gives δ = 3 and A ≡ 1 (mod 3). We need d | A² with
+    d ≡ 2 (mod 3), but A may be an odd prime power with all factors ≡ 1 (mod 3)
+    (e.g., p = 73, A = 19), making this impossible for fixed A and δ = 3.
+
+    The Dyachenko paper handles this via a lattice density argument showing
+    that SOME A in the window [(p+3)/4, (3p-3)/4] must work with some δ.
+    Completing this case requires one of:
+    (a) Formalizing Lemma 9.22 (lattice = solution set) + window lemma
+    (b) Thue's lemma + a bridge from small congruence solutions to divisors
+    (c) Fermat two-squares (Nat.Prime.sq_add_sq in Mathlib) + a custom bridge
+
   ## Sorry status
 
-  - `exists_good_A_and_divisor`: THE core sorry (needs Thue/Fermat argument)
+  - `exists_good_A_and_divisor`: ONE sorry remains (Case 3: p ≡ 1 mod 24)
   - `coprime_A_delta`: PROVEN (by Aristotle/Harmonic)
   - `complementary_divisor_cong`: PROVEN (by Aristotle/Harmonic)
+  - `divisor_gives_type2`: PROVEN
+  - `ed2_from_good_divisor`: PROVEN (modulo exists_good_A_and_divisor)
 
-  Source: GPT Parts 6+7 (January 2026), adapted to Phase3.lean signatures
+  Source: GPT Parts 6+7 (January 2026), adapted by Claude Opus
 -/
 
 import Mathlib.Tactic
@@ -42,9 +70,10 @@ namespace ED2
 /-- For every prime p ≡ 1 (mod 4), there exists A in the window and d | A²
     with (4A-p) | (d+A).
 
-    This is the core existence claim that requires Thue's lemma or
-    Fermat's two-square theorem to prove. See the GPT prompt for the
-    mathematical argument.
+    This is the core existence claim. We split into three cases:
+    - Case 1: p ≡ 5 (mod 8) — choose A = (p+3)/4, giving δ = 3
+    - Case 2: p ≡ 17 (mod 24) — direct construction
+    - Case 3: p ≡ 1 (mod 24) — requires lattice argument (Dyachenko)
 
     Equivalent to: setting δ = 4A - p, we need d | A² with d ≡ -A (mod δ). -/
 theorem exists_good_A_and_divisor (p : ℕ) (hp : Nat.Prime p) (hp4 : p % 4 = 1) :
@@ -54,7 +83,99 @@ theorem exists_good_A_and_divisor (p : ℕ) (hp : Nat.Prime p) (hp4 : p % 4 = 1)
       0 < d ∧
       d ∣ A ^ 2 ∧
       (4 * A - p) ∣ (d + A) := by
-  sorry
+  -- p ≡ 1 (mod 4) and p prime implies p ≥ 5
+  have hp5 : p ≥ 5 := by
+    have hp2' : p ≠ 2 := by intro heq; rw [heq] at hp4; omega
+    have hp3' : p ≠ 3 := by intro heq; rw [heq] at hp4; omega
+    have hp2le := hp.two_le
+    omega
+  -- Case split on p mod 8
+  by_cases hp8_5 : p % 8 = 5
+  · -- Case 1: p ≡ 5 (mod 8)
+    -- Choose A = (p+3)/4, which gives δ = 4A - p = 3
+    use (p + 3) / 4
+    have hA_even : 2 ∣ (p + 3) / 4 := by
+      -- p ≡ 5 (mod 8) implies p + 3 ≡ 0 (mod 8), so (p+3)/4 is even
+      have h8 : (p + 3) % 8 = 0 := by omega
+      exact ⟨(p + 3) / 8, by omega⟩
+    have hδ_eq_3 : 4 * ((p + 3) / 4) - p = 3 := by omega
+    -- Split on A mod 3 to choose d
+    by_cases hA_mod3_1 : (p + 3) / 4 % 3 = 1
+    · -- A ≡ 1 (mod 3): choose d = 2
+      use 2
+      refine ⟨le_refl _, ?_, by omega, ?_, ?_⟩
+      · -- A ≤ (3p-3)/4
+        omega
+      · -- 2 | A² (since A is even)
+        have h2A : 2 ∣ ((p + 3) / 4) ^ 2 := by
+          rw [sq]; exact dvd_mul_of_dvd_left hA_even _
+        exact h2A
+      · -- 3 | (2 + A), i.e., 3 | (2 + A) where A ≡ 1 (mod 3)
+        rw [hδ_eq_3]
+        have : (2 + (p + 3) / 4) % 3 = 0 := by omega
+        exact Nat.dvd_of_mod_eq_zero this
+    · -- A ≢ 1 (mod 3)
+      -- First show A ≢ 0 (mod 3): if 3 | A, then 3 | (p+3), so 3 | p, contradiction
+      have hA_not_div3 : (p + 3) / 4 % 3 ≠ 0 := by
+        intro h3A
+        -- 3 | A and 4 | (p+3), so need to show 3 | (p+3)
+        -- A = (p+3)/4, so p+3 = 4A, so if 3 | A then 3 | (p+3)
+        have hdiv : 3 ∣ (p + 3) := by
+          have h4div : 4 ∣ (p + 3) := by omega
+          have hA_eq : (p + 3) = 4 * ((p + 3) / 4) := by omega
+          rw [hA_eq]
+          exact dvd_mul_of_dvd_right (Nat.dvd_of_mod_eq_zero h3A) 4
+        -- If 3 | (p+3) then 3 | p (since 3 | 3)
+        have hp3_div : 3 ∣ p := by omega
+        -- But p is prime and p ≥ 5, so p ≠ 3, contradiction
+        have hp_eq_3 : p = 3 := (hp.eq_one_or_self_of_dvd 3 hp3_div).resolve_left (by omega) |>.symm
+        omega
+      -- So A ≡ 2 (mod 3). Choose d = 1.
+      use 1
+      refine ⟨le_refl _, ?_, by omega, ?_, ?_⟩
+      · omega
+      · exact one_dvd _
+      · rw [hδ_eq_3]
+        -- A ≢ 0 and A ≢ 1, so A ≡ 2 (mod 3), hence 1 + A ≡ 0 (mod 3)
+        have hA_mod3_2 : (p + 3) / 4 % 3 = 2 := by omega
+        have : (1 + (p + 3) / 4) % 3 = 0 := by omega
+        exact Nat.dvd_of_mod_eq_zero this
+  · -- p ≢ 5 (mod 8), so p ≡ 1 (mod 8) (since p ≡ 1 mod 4)
+    have hp8_1 : p % 8 = 1 := by omega
+    -- Further split on p mod 24
+    by_cases hp24_17 : p % 24 = 17
+    · -- Case 2: p ≡ 17 (mod 24)
+      -- Use A = (p+3)/4, giving δ = 3 (same as Case 1)
+      -- Key: p ≡ 17 (mod 24) implies p ≡ 2 (mod 3), so A ≡ 2 (mod 3), and d = 1 works
+      use (p + 3) / 4
+      have hδ_eq_3 : 4 * ((p + 3) / 4) - p = 3 := by omega
+      -- Show A ≡ 2 (mod 3): since p ≡ 2 (mod 3), (p+3) ≡ 2 (mod 3), and 4 ≡ 1 (mod 3)
+      have hA_mod3_2 : (p + 3) / 4 % 3 = 2 := by omega
+      use 1
+      refine ⟨le_refl _, ?_, by omega, ?_, ?_⟩
+      · omega
+      · exact one_dvd _
+      · rw [hδ_eq_3]
+        have : (1 + (p + 3) / 4) % 3 = 0 := by omega
+        exact Nat.dvd_of_mod_eq_zero this
+    · -- Case 3: p ≡ 1 (mod 24)
+      -- (p ≡ 9 mod 24 is impossible for primes p > 3 since 9 ≡ 0 mod 3)
+      --
+      -- This is the hard case. With A = (p+3)/4 and δ = 3, we have A ≡ 1 (mod 3)
+      -- and need d | A² with d ≡ 2 (mod 3). This fails when all prime factors of
+      -- A are ≡ 1 (mod 3) (e.g., p = 73, A = 19).
+      --
+      -- Using δ = 7 (A = (p+7)/4) also fails for some p because the divisors of
+      -- A² may only generate the QR subgroup {1,2,4} ⊂ (ℤ/7ℤ)*.
+      --
+      -- The correct approach requires either:
+      -- (a) Dyachenko's lattice density argument (Lemma 9.22 + window lemma)
+      -- (b) Thue's lemma applied to varying δ values
+      -- (c) Fermat two-squares + a bridge showing some A in the window works
+      --
+      -- Mathlib provides `Nat.Prime.sq_add_sq` (Fermat's Christmas theorem) and
+      -- the pigeonhole principle, which together could close this gap.
+      sorry
 
 /-! ## Coprimality lemma
 
