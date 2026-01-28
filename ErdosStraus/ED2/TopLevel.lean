@@ -38,7 +38,8 @@ theorem ed2_large_params (p : ℕ) (hp : Nat.Prime p) (hp4 : p % 4 = 1)
   -- To fill THIS signature, either:
   -- (a) Prove exists_good_A_and_divisor and convert (A,d) → (α,d',b',c'), or
   -- (b) Fill ed2_dyachenko_params_exist in Phase3.lean directly.
-  exact ed2_dyachenko_params_exist p hp hp4 (by omega)
+  exact ed2_dyachenko_params_exist p hp hp4 (by
+    simp only [ed2LargeBound]; have := hp_large; simp only [ed2TopLevelBound] at this; omega)
 
 /-- For small primes p ≡ 1 (mod 4) below the bound, ED2 parameters exist.
     Proved by the certificate-based native_decide computation in Certificate.lean. -/

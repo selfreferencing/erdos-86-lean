@@ -16,6 +16,7 @@
   Source: GPT skeleton (January 2026), proofs by Aristotle (Harmonic)
 -/
 
+import Mathlib.Tactic
 import Mathlib.Data.ZMod.Basic
 import Mathlib.Data.Nat.Sqrt
 import Mathlib.Data.Fintype.Pigeonhole
@@ -45,9 +46,9 @@ theorem thue_lemma
     have h_p_le_m2_plus_2m : p ≤ m ^ 2 + 2 * m := by
       have h_p_le_m2_plus_2m_plus_1 : p ≤ m ^ 2 + 2 * m + 1 := by
         linarith [Nat.sub_add_cancel hp.pos, Nat.lt_succ_sqrt (p - 1)]
-      cases h_p_le_m2_plus_2m_plus_1.eq_or_lt <;> simp_all +decide [Nat.pow_succ']
-      · exact hp.not_isSquare <| ⟨m + 1, by linarith⟩
-      · linarith [Nat.sub_add_cancel hp.pos]
+      rcases h_p_le_m2_plus_2m_plus_1.eq_or_lt with h | h
+      · exact absurd ⟨m + 1, by linarith⟩ hp.not_isSquare
+      · omega
     have h_p_lt_m_plus_1_sq : p < (m + 1) ^ 2 := by linarith
     convert h_p_lt_m_plus_1_sq using 1
     · exact ZMod.card p

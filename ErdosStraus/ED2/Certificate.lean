@@ -14,10 +14,11 @@
   and b' + c' = mr = δ·d', so the sum condition is automatic.
 
   Architecture:
-  - `HasED2Params p` is the proposition (existence of α, d', b', c')
-  - `decideED2 p` is a Decidable instance for bounded search
-  - The certificate theorem uses native_decide on this Decidable instance
-  - Soundness is built into the Decidable instance itself
+  - `findED2` is a Bool search function (three cases)
+  - `findED2_sound` extracts the witness from the Bool result
+  - `checkAllED2` iterates over all p < bound
+  - `ed2_certificate_check` uses native_decide to verify checkAllED2
+  - `ed2_params_below_certBound` is the final theorem
 
   ## Sorry status
   None (all proofs are by native_decide or structural).
@@ -39,100 +40,57 @@ def HasED2Params (p : ℕ) : Prop :=
     p < 4 * α * b' * c' ∧
     b' + c' = (4 * α * b' * c' - p) * d'
 
-/-- Bounded version: restrict search to α ≤ αB, d' ≤ dB, b' ≤ bB, c' ≤ cB. -/
-def HasED2ParamsBounded (p αB dB bB cB : ℕ) : Prop :=
-  ∃ α ≤ αB, ∃ d' ≤ dB, ∃ b' ≤ bB, ∃ c' ≤ cB,
-    0 < α ∧ 0 < d' ∧ 0 < b' ∧ 0 < c' ∧
-    p < 4 * α * b' * c' ∧
-    b' + c' = (4 * α * b' * c' - p) * d'
-
-instance (p αB dB bB cB : ℕ) : Decidable (HasED2ParamsBounded p αB dB bB cB) :=
-  inferInstance
-
-theorem HasED2ParamsBounded.to_unbounded {p αB dB bB cB : ℕ}
-    (h : HasED2ParamsBounded p αB dB bB cB) : HasED2Params p := by
-  obtain ⟨α, _, d', _, b', _, c', _, hα, hd', hb', hc', hbound, hsum⟩ := h
-  exact ⟨α, d', b', c', hα, hd', hb', hc', hbound, hsum⟩
-
-/-- The full check: for all p in [5, bound) with p prime and p ≡ 1 (mod 4),
-    ED2 parameters exist within search bounds.
-
-    Search strategy:
-    - p ≡ 5 (mod 8): check α = (p+3)/8, d' = 1, b' = 1, c' = 2
-    - p ≡ 2 (mod 3): check α = 1, d' = 1, b' = (p+1)/3, c' = 1
-    - p ≡ 1 (mod 24): search α ≤ 5, d'(=r) ≤ 50, b'(=s) ≤ 50, c' ≤ p
-
-    For native_decide, we encode this as a single Bool computation
-    rather than using the Decidable instance on HasED2ParamsBounded
-    (which would enumerate all 4-tuples and be too slow). -/
+/-- The search function for ED2 parameters. Cases 1 and 2 use Prop-level
+    if/else (for split_ifs). Case 3 puts all conditions into a single
+    decide call to avoid split_ifs issues with nested let/if. -/
 def findED2 (p : ℕ) : Bool :=
   -- Case 1: p ≡ 5 (mod 8)
-  if p % 8 == 5 then
+  if p % 8 = 5 then
     let α := (p + 3) / 8
-    0 < α && p < 4 * α * 1 * 2 && 1 + 2 == (4 * α * 1 * 2 - p) * 1
+    decide (0 < α ∧ p < 4 * α * 1 * 2 ∧ 1 + 2 = (4 * α * 1 * 2 - p) * 1)
   -- Case 2: p ≡ 1 (mod 8), p ≡ 2 (mod 3)
-  else if p % 3 == 2 then
+  else if p % 3 = 2 then
     let b' := (p + 1) / 3
-    0 < b' && p < 4 * 1 * b' * 1 && b' + 1 == (4 * 1 * b' * 1 - p) * 1
+    decide (0 < b' ∧ p < 4 * 1 * b' * 1 ∧ b' + 1 = (4 * 1 * b' * 1 - p) * 1)
   -- Case 3: p ≡ 1 (mod 24), parametric search
   else
     (List.range 5).any fun ai =>
-      let α := ai + 1
       (List.range 50).any fun si =>
-        let s := si + 1
-        let val := p + 4 * α * s * s
         (List.range 50).any fun ri =>
+          let α := ai + 1
+          let s := si + 1
           let r := ri + 1
-          if 4 * α * s * r ≤ 1 then false
-          else
-            let M := 4 * α * s * r - 1
-            if val % M != 0 then false
-            else
-              let m := val / M
-              if m * r ≤ s then false
-              else
-                let c := m * r - s
-                0 < α && 0 < r && 0 < s && 0 < c &&
-                p < 4 * α * s * c && s + c == (4 * α * s * c - p) * r
+          let M := 4 * α * s * r - 1
+          let val := p + 4 * α * s * s
+          let m := val / M
+          let c := m * r - s
+          decide (val % M = 0 ∧ 0 < c ∧ p < 4 * α * s * c ∧
+                  s + c = (4 * α * s * c - p) * r)
 
-/-- Soundness of findED2: if it returns true, ED2 parameters exist.
-
-    The proof extracts the witness from whichever case succeeded. -/
+/-- Soundness of findED2: if it returns true, ED2 parameters exist. -/
 theorem findED2_sound {p : ℕ} (h : findED2 p = true) : HasED2Params p := by
-  simp only [findED2, beq_iff_eq, bne_iff_ne, Bool.and_eq_true,
-    decide_eq_true_eq] at h
-  split at h
+  simp only [findED2] at h
+  split_ifs at h with h8 h3
   · -- Case 1: p ≡ 5 (mod 8)
-    obtain ⟨⟨hα, hbound⟩, hsum⟩ := h
-    exact ⟨(p + 3) / 8, 1, 1, 2, hα, Nat.one_pos, Nat.one_pos,
-      by omega, hbound, hsum⟩
-  · split at h
-    · -- Case 2: p ≡ 2 (mod 3)
-      obtain ⟨⟨hb, hbound⟩, hsum⟩ := h
-      exact ⟨1, 1, (p + 1) / 3, 1, Nat.one_pos, Nat.one_pos, hb,
-        Nat.one_pos, hbound, hsum⟩
-    · -- Case 3: parametric search
-      simp only [List.any_eq_true, List.mem_range] at h
-      obtain ⟨ai, _, h⟩ := h
-      simp only [List.any_eq_true, List.mem_range] at h
-      obtain ⟨si, _, h⟩ := h
-      simp only [List.any_eq_true, List.mem_range] at h
-      obtain ⟨ri, _, h⟩ := h
-      -- Unfold the conditionals
-      split at h
-      · exact absurd h Bool.false_ne_true
-      · split at h
-        · exact absurd h Bool.false_ne_true
-        · split at h
-          · exact absurd h Bool.false_ne_true
-          · simp only [Bool.and_eq_true, decide_eq_true_eq] at h
-            obtain ⟨⟨⟨⟨⟨hα, hr⟩, hs⟩, hc⟩, hbound⟩, hsum⟩ := h
-            exact ⟨ai + 1, ri + 1, si + 1, _, hα, hr, hs, hc, hbound, hsum⟩
+    rw [decide_eq_true_eq] at h
+    exact ⟨(p + 3) / 8, 1, 1, 2, h.1, Nat.one_pos, Nat.one_pos, by omega, h.2.1, h.2.2⟩
+  · -- Case 2: p ≡ 2 (mod 3)
+    rw [decide_eq_true_eq] at h
+    exact ⟨1, 1, (p + 1) / 3, 1, Nat.one_pos, Nat.one_pos, h.1, Nat.one_pos, h.2.1, h.2.2⟩
+  · -- Case 3: parametric search (all conditions in one decide)
+    simp only [List.any_eq_true, List.mem_range] at h
+    obtain ⟨ai, _, si, _, ri, _, h⟩ := h
+    rw [decide_eq_true_eq] at h
+    exact ⟨ai + 1, ri + 1, si + 1, _, by omega, by omega, by omega,
+           h.2.1, h.2.2.1, h.2.2.2⟩
 
 /-- Verify that all primes p ≡ 1 (mod 4) below the bound pass findED2. -/
 def checkAllED2 (bound : ℕ) : Bool :=
   (List.range bound).all fun p =>
-    p < 5 || p % 4 != 1 || !(decide (Nat.Prime p)) || findED2 p
+    if p < 5 then true
+    else if p % 4 ≠ 1 then true
+    else if ¬Nat.Prime p then true
+    else findED2 p
 
 /-- All primes p ≡ 1 (mod 4) below certBound have ED2 parameters.
     The computational core: native_decide evaluates findED2 for each
@@ -147,14 +105,12 @@ theorem checkAllED2_sound {bound : ℕ} (h : checkAllED2 bound = true)
     HasED2Params p := by
   have hfind : findED2 p = true := by
     simp only [checkAllED2, List.all_eq_true, List.mem_range] at h
-    have := h p hlt
-    simp only [Bool.or_eq_true, bne_iff_ne, Bool.not_eq_true',
-      decide_eq_false_iff_not, decide_eq_true_eq] at this
-    rcases this with h5 | h4 | hnp | hfind
-    · exact absurd h5 (by omega)
-    · exact absurd h4 (by omega)
-    · exact absurd hp hnp
-    · exact hfind
+    have h1 := h p hlt
+    have h_ge5 : ¬(p < 5) := by have := hp.two_le; omega
+    have h_mod4 : ¬(p % 4 ≠ 1) := by push_neg; exact hp4
+    have h_prime : ¬¬Nat.Prime p := not_not.mpr hp
+    rw [if_neg h_ge5, if_neg h_mod4, if_neg h_prime] at h1
+    exact h1
   exact findED2_sound hfind
 
 /-- Main certificate theorem: for all primes p ≡ 1 (mod 4) below certBound,

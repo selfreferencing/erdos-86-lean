@@ -72,8 +72,8 @@ theorem coprime_A_delta (p A : ℕ) (hp : Nat.Prime p)
   have h_div_p : ∀ d, d ∣ A → d ∣ (4 * A - p) → d ∣ p := by
     intros d hdA hd4A_minus_p
     have hd4A : d ∣ 4 * A := hdA.mul_left _
-    convert Nat.dvd_sub' hd4A hd4A_minus_p using 1
-    rw [Nat.sub_sub_self (by linarith)]
+    have := Nat.dvd_sub hd4A hd4A_minus_p
+    rwa [Nat.sub_sub_self (by linarith)] at this
   refine' Nat.coprime_of_dvd' _
   exact fun k hk hkA hk' => h_coprime ▸ Nat.dvd_gcd hkA (h_div_p k hkA hk') |>
     fun h => by have := Nat.le_of_dvd (by linarith) h; interval_cases k <;> trivial
@@ -144,22 +144,23 @@ theorem divisor_gives_type2
   have hδ_mod : δ % 4 = 3 := by omega
 
   -- d | A * A (from d | A²)
-  have hd_dvdAA : d ∣ A * A := by rwa [← sq] at hd_dvd
+  have hd_dvdAA : d ∣ A * A := by rwa [sq] at hd_dvd
 
   -- Define e = A * A / d (well-defined since d | A * A)
   obtain ⟨e, he_def⟩ := hd_dvdAA -- he_def : A * A = d * e
 
   -- e > 0 (since A > 0 and d > 0 imply A * A > 0 = d * 0)
   have he_pos : 0 < e := by
-    by_contra h; push_neg at h
-    interval_cases e <;> omega
+    rcases Nat.eq_zero_or_pos e with rfl | h
+    · simp at he_def; omega
+    · exact h
 
   -- Coprimality: gcd(A, δ) = 1
   have hcop : Nat.Coprime A δ := coprime_A_delta p A hp hA_pos hA_lt_p (by omega)
 
   -- Complementary divisor congruence: δ | (e + A)
   have hmod_e : δ ∣ (e + A) :=
-    complementary_divisor_cong A d e δ he_def hmod hcop
+    complementary_divisor_cong A d e δ he_def.symm hmod hcop
 
   -- Define b_val = (d + A) / δ and c_val = (e + A) / δ
   obtain ⟨b_val, hb_eq⟩ := hmod     -- hb_eq : d + A = δ * b_val
@@ -169,11 +170,11 @@ theorem divisor_gives_type2
   -- Need to cast everything from ℕ to ℤ
   have h_sum_int : (↑p : ℤ) + ↑δ = 4 * (↑A : ℤ) := by exact_mod_cast h_sum
   have hde_int : (↑d : ℤ) * (↑e : ℤ) = (↑A : ℤ) ^ 2 := by
-    push_cast; rw [sq]; exact_mod_cast he_def
+    rw [sq]; exact_mod_cast he_def.symm
   have hb_int : (↑δ : ℤ) * (↑b_val : ℤ) = (↑d : ℤ) + (↑A : ℤ) := by
-    exact_mod_cast hb_eq
+    exact_mod_cast hb_eq.symm
   have hc_int : (↑δ : ℤ) * (↑c_val : ℤ) = (↑e : ℤ) + (↑A : ℤ) := by
-    exact_mod_cast hc_eq
+    exact_mod_cast hc_eq.symm
 
   obtain ⟨b, c, hb_pos, hc_pos, hEq⟩ :=
     ed2_of_good_divisor p δ hδ_pos
