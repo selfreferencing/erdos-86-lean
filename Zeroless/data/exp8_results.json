@@ -1,0 +1,571 @@
+{
+  "verify": [
+    {
+      "n": 849227,
+      "k": 10,
+      "type": "triple",
+      "confirmed": true,
+      "x": "1111113728",
+      "y": "2222227456",
+      "z": "4444454912"
+    },
+    {
+      "n": 38811471,
+      "k": 11,
+      "type": "triple",
+      "confirmed": true,
+      "x": "11111118848",
+      "y": "22222237696",
+      "z": "44444475392"
+    },
+    {
+      "n": 610351888025,
+      "k": 20,
+      "type": "pair",
+      "confirmed": true,
+      "x": "84311412392624914432",
+      "y": "68622824785249828864"
+    }
+  ],
+  "lifting": [
+    {
+      "k": 1,
+      "T_k": 4,
+      "pair_survivors": 4,
+      "triple_survivors": 4,
+      "pair_density": 1.0,
+      "triple_density": 1.0
+    },
+    {
+      "k": 2,
+      "T_k": 20,
+      "pair_survivors": 17,
+      "triple_survivors": 16,
+      "pair_density": 0.85,
+      "triple_density": 0.8,
+      "pair_lift_dist": {
+        "4": 3,
+        "5": 1
+      },
+      "pair_avg_lifts": 4.25,
+      "pair_branching": 4.25,
+      "triple_lift_dist": {
+        "4": 4
+      },
+      "triple_avg_lifts": 4.0,
+      "triple_branching": 4.0
+    },
+    {
+      "k": 3,
+      "T_k": 100,
+      "pair_survivors": 72,
+      "triple_survivors": 63,
+      "pair_density": 0.72,
+      "triple_density": 0.63,
+      "pair_lift_dist": {
+        "0": 1,
+        "4": 12,
+        "5": 4
+      },
+      "pair_avg_lifts": 4.0,
+      "pair_branching": 4.235294117647059,
+      "triple_lift_dist": {
+        "0": 1,
+        "3": 3,
+        "4": 10,
+        "5": 2
+      },
+      "triple_avg_lifts": 3.6875,
+      "triple_branching": 3.9375
+    },
+    {
+      "k": 4,
+      "T_k": 500,
+      "pair_survivors": 307,
+      "triple_survivors": 254,
+      "pair_density": 0.614,
+      "triple_density": 0.508,
+      "pair_lift_dist": {
+        "0": 9,
+        "4": 45,
+        "5": 18
+      },
+      "pair_avg_lifts": 3.75,
+      "pair_branching": 4.263888888888889,
+      "triple_lift_dist": {
+        "0": 8,
+        "3": 6,
+        "4": 41,
+        "5": 8
+      },
+      "triple_avg_lifts": 3.5238095238095237,
+      "triple_branching": 4.031746031746032
+    },
+    {
+      "k": 5,
+      "T_k": 2500,
+      "pair_survivors": 1309,
+      "triple_survivors": 1019,
+      "pair_density": 0.5236,
+      "triple_density": 0.4076,
+      "pair_lift_dist": {
+        "0": 53,
+        "4": 183,
+        "5": 71
+      },
+      "pair_avg_lifts": 3.54071661237785,
+      "pair_branching": 4.263843648208469,
+      "triple_lift_dist": {
+        "0": 47,
+        "3": 32,
+        "4": 141,
+        "5": 34
+      },
+      "triple_avg_lifts": 3.267716535433071,
+      "triple_branching": 4.011811023622047
+    },
+    {
+      "k": 6,
+      "T_k": 12500,
+      "pair_survivors": 5584,
+      "triple_survivors": 4097,
+      "pair_density": 0.44672,
+      "triple_density": 0.32776,
+      "pair_lift_dist": {
+        "0": 290,
+        "4": 727,
+        "5": 292
+      },
+      "pair_avg_lifts": 3.336898395721925,
+      "pair_branching": 4.26585179526356,
+      "triple_lift_dist": {
+        "0": 243,
+        "3": 99,
+        "4": 556,
+        "5": 121
+      },
+      "triple_avg_lifts": 3.0677134445534837,
+      "triple_branching": 4.020608439646712
+    },
+    {
+      "k": 7,
+      "T_k": 62500,
+      "pair_survivors": 23821,
+      "triple_survivors": 16461,
+      "pair_density": 0.381136,
+      "triple_density": 0.263376,
+      "pair_lift_dist": {
+        "0": 1487,
+        "4": 2931,
+        "5": 1166
+      },
+      "pair_avg_lifts": 3.143624641833811,
+      "pair_branching": 4.265938395415473,
+      "triple_lift_dist": {
+        "0": 1178,
+        "3": 393,
+        "4": 2076,
+        "5": 450
+      },
+      "triple_avg_lifts": 2.863802782523798,
+      "triple_branching": 4.017817915547962
+    },
+    {
+      "k": 8,
+      "T_k": 312500,
+      "pair_survivors": 101612,
+      "triple_survivors": 66146,
+      "pair_density": 0.3251584,
+      "triple_density": 0.2116672,
+      "pair_lift_dist": {
+        "0": 7360,
+        "4": 11780,
+        "5": 4681
+      },
+      "pair_avg_lifts": 2.960622979723773,
+      "pair_branching": 4.265647957684396,
+      "triple_lift_dist": {
+        "0": 5506,
+        "3": 1441,
+        "4": 7839,
+        "5": 1675
+      },
+      "triple_avg_lifts": 2.676265111475609,
+      "triple_branching": 4.018346394508232
+    }
+  ],
+  "orbit": [
+    {
+      "k": 1,
+      "T_k": 4,
+      "singles": 4,
+      "pairs": 4,
+      "triples": 4,
+      "s_frac": 1.0,
+      "p_frac": 1.0,
+      "t_frac": 1.0,
+      "time": 5.0067901611328125e-06
+    },
+    {
+      "k": 2,
+      "T_k": 20,
+      "singles": 18,
+      "pairs": 17,
+      "triples": 16,
+      "s_frac": 0.9,
+      "p_frac": 0.85,
+      "t_frac": 0.8,
+      "time": 9.059906005859375e-06
+    },
+    {
+      "k": 3,
+      "T_k": 100,
+      "singles": 81,
+      "pairs": 72,
+      "triples": 63,
+      "s_frac": 0.81,
+      "p_frac": 0.72,
+      "t_frac": 0.63,
+      "time": 4.38690185546875e-05
+    },
+    {
+      "k": 4,
+      "T_k": 500,
+      "singles": 364,
+      "pairs": 307,
+      "triples": 254,
+      "s_frac": 0.728,
+      "p_frac": 0.614,
+      "t_frac": 0.508,
+      "time": 0.00023508071899414062
+    },
+    {
+      "k": 5,
+      "T_k": 2500,
+      "singles": 1638,
+      "pairs": 1309,
+      "triples": 1019,
+      "s_frac": 0.6552,
+      "p_frac": 0.5236,
+      "t_frac": 0.4076,
+      "time": 0.0012791156768798828
+    },
+    {
+      "k": 6,
+      "T_k": 12500,
+      "singles": 7371,
+      "pairs": 5584,
+      "triples": 4097,
+      "s_frac": 0.58968,
+      "p_frac": 0.44672,
+      "t_frac": 0.32776,
+      "time": 0.006506919860839844
+    },
+    {
+      "k": 7,
+      "T_k": 62500,
+      "singles": 33170,
+      "pairs": 23821,
+      "triples": 16461,
+      "s_frac": 0.53072,
+      "p_frac": 0.381136,
+      "t_frac": 0.263376,
+      "time": 0.03392219543457031
+    },
+    {
+      "k": 8,
+      "T_k": 312500,
+      "singles": 149268,
+      "pairs": 101612,
+      "triples": 66146,
+      "s_frac": 0.4776576,
+      "p_frac": 0.3251584,
+      "t_frac": 0.2116672,
+      "time": 0.2854881286621094
+    },
+    {
+      "k": 9,
+      "T_k": 1562500,
+      "singles": 671701,
+      "pairs": 433431,
+      "triples": 265738,
+      "s_frac": 0.42988864,
+      "p_frac": 0.27739584,
+      "t_frac": 0.17007232,
+      "time": 1.004809856414795
+    },
+    {
+      "k": 10,
+      "T_k": 7812500,
+      "singles": 3022653,
+      "pairs": 1848821,
+      "triples": 1067631,
+      "s_frac": 0.386899584,
+      "p_frac": 0.236649088,
+      "t_frac": 0.136656768,
+      "time": 5.329473972320557
+    }
+  ],
+  "fourier": [
+    {
+      "k": 1,
+      "T_k": 4,
+      "density": 1.0,
+      "expected_density": 0.9,
+      "top_coefficients": [
+        {
+          "j": 3,
+          "v5": 0,
+          "magnitude": 0.0,
+          "relative": 0.0
+        },
+        {
+          "j": 2,
+          "v5": 0,
+          "magnitude": 0.0,
+          "relative": 0.0
+        },
+        {
+          "j": 1,
+          "v5": 0,
+          "magnitude": 0.0,
+          "relative": 0.0
+        },
+        {
+          "j": 0,
+          "v5": 0,
+          "magnitude": 1.0,
+          "relative": 1.0
+        }
+      ]
+    },
+    {
+      "k": 2,
+      "T_k": 20,
+      "density": 0.9,
+      "expected_density": 0.81,
+      "top_coefficients": [
+        {
+          "j": 19,
+          "v5": 0,
+          "magnitude": 0.09876883405951377,
+          "relative": 0.1097431489550153
+        },
+        {
+          "j": 1,
+          "v5": 0,
+          "magnitude": 0.09876883405951377,
+          "relative": 0.1097431489550153
+        },
+        {
+          "j": 2,
+          "v5": 0,
+          "magnitude": 0.09510565162951537,
+          "relative": 0.10567294625501708
+        },
+        {
+          "j": 18,
+          "v5": 0,
+          "magnitude": 0.09510565162951537,
+          "relative": 0.10567294625501708
+        },
+        {
+          "j": 3,
+          "v5": 0,
+          "magnitude": 0.08910065241883679,
+          "relative": 0.09900072490981865
+        }
+      ]
+    },
+    {
+      "k": 3,
+      "T_k": 100,
+      "density": 0.81,
+      "expected_density": 0.7290000000000001,
+      "top_coefficients": [
+        {
+          "j": 5,
+          "v5": 1,
+          "magnitude": 0.0980284059236484,
+          "relative": 0.1210227233625289
+        },
+        {
+          "j": 95,
+          "v5": 1,
+          "magnitude": 0.0980284059236484,
+          "relative": 0.1210227233625289
+        },
+        {
+          "j": 90,
+          "v5": 1,
+          "magnitude": 0.08565084925148023,
+          "relative": 0.1057417891993583
+        },
+        {
+          "j": 10,
+          "v5": 1,
+          "magnitude": 0.08565084925148023,
+          "relative": 0.1057417891993583
+        },
+        {
+          "j": 85,
+          "v5": 1,
+          "magnitude": 0.07943471023183575,
+          "relative": 0.0980675434960935
+        }
+      ]
+    },
+    {
+      "k": 4,
+      "T_k": 500,
+      "density": 0.728,
+      "expected_density": 0.6561,
+      "top_coefficients": [
+        {
+          "j": 475,
+          "v5": 2,
+          "magnitude": 0.08961015079695812,
+          "relative": 0.12309086647933809
+        },
+        {
+          "j": 25,
+          "v5": 2,
+          "magnitude": 0.08961015079695811,
+          "relative": 0.12309086647933806
+        },
+        {
+          "j": 495,
+          "v5": 1,
+          "magnitude": 0.07808850104603347,
+          "relative": 0.10726442451378225
+        },
+        {
+          "j": 5,
+          "v5": 1,
+          "magnitude": 0.07808850104603347,
+          "relative": 0.10726442451378225
+        },
+        {
+          "j": 50,
+          "v5": 2,
+          "magnitude": 0.07515611139325167,
+          "relative": 0.10323641674897208
+        }
+      ]
+    },
+    {
+      "k": 5,
+      "T_k": 2500,
+      "density": 0.6552,
+      "expected_density": 0.5904900000000001,
+      "top_coefficients": [
+        {
+          "j": 125,
+          "v5": 3,
+          "magnitude": 0.08091054574707597,
+          "relative": 0.12348984393631864
+        },
+        {
+          "j": 2375,
+          "v5": 3,
+          "magnitude": 0.08091054574707596,
+          "relative": 0.12348984393631862
+        },
+        {
+          "j": 2475,
+          "v5": 2,
+          "magnitude": 0.071480526087226,
+          "relative": 0.10909726203789073
+        },
+        {
+          "j": 25,
+          "v5": 2,
+          "magnitude": 0.07148052608722599,
+          "relative": 0.1090972620378907
+        },
+        {
+          "j": 2250,
+          "v5": 3,
+          "magnitude": 0.0680221402151055,
+          "relative": 0.10381889532220008
+        }
+      ]
+    },
+    {
+      "k": 6,
+      "T_k": 12500,
+      "density": 0.5896800000000001,
+      "expected_density": 0.531441,
+      "top_coefficients": [
+        {
+          "j": 11875,
+          "v5": 4,
+          "magnitude": 0.07273913745486515,
+          "relative": 0.12335357728745276
+        },
+        {
+          "j": 625,
+          "v5": 4,
+          "magnitude": 0.07273913745486515,
+          "relative": 0.12335357728745276
+        },
+        {
+          "j": 12375,
+          "v5": 3,
+          "magnitude": 0.06447469397967673,
+          "relative": 0.10933844454564631
+        },
+        {
+          "j": 125,
+          "v5": 3,
+          "magnitude": 0.06447469397967673,
+          "relative": 0.10933844454564631
+        },
+        {
+          "j": 11250,
+          "v5": 4,
+          "magnitude": 0.061195036210467964,
+          "relative": 0.10377668601693792
+        }
+      ]
+    },
+    {
+      "k": 7,
+      "T_k": 62500,
+      "density": 0.53072,
+      "expected_density": 0.4782969000000001,
+      "top_coefficients": [
+        {
+          "j": 3125,
+          "v5": 5,
+          "magnitude": 0.06549220340819537,
+          "relative": 0.12340255390449836
+        },
+        {
+          "j": 59375,
+          "v5": 5,
+          "magnitude": 0.06549220340819537,
+          "relative": 0.12340255390449836
+        },
+        {
+          "j": 625,
+          "v5": 4,
+          "magnitude": 0.058111352180665835,
+          "relative": 0.1094953123693583
+        },
+        {
+          "j": 61875,
+          "v5": 4,
+          "magnitude": 0.058111352180665835,
+          "relative": 0.1094953123693583
+        },
+        {
+          "j": 56250,
+          "v5": 5,
+          "magnitude": 0.055024840410900173,
+          "relative": 0.10367960583904917
+        }
+      ]
+    }
+  ]
+}
