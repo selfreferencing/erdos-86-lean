@@ -25,9 +25,9 @@
 
   ## Sorry status
 
-  - `exists_good_A_and_divisor`: THE core sorry (for GPT to fill via Thue/Fermat)
-  - `coprime_A_delta`: straightforward from A < p and p prime (2 sub-sorrys)
-  - `complementary_divisor_cong`: follows from coprimality (1 sorry)
+  - `exists_good_A_and_divisor`: THE core sorry (needs Thue/Fermat argument)
+  - `coprime_A_delta`: PROVEN (by Aristotle/Harmonic)
+  - `complementary_divisor_cong`: PROVEN (by Aristotle/Harmonic)
 
   Source: GPT Parts 6+7 (January 2026), adapted to Phase3.lean signatures
 -/
@@ -60,17 +60,23 @@ theorem exists_good_A_and_divisor (p : ℕ) (hp : Nat.Prime p) (hp4 : p % 4 = 1)
 
 gcd(A, 4A - p) = gcd(A, p) = 1 when 0 < A < p and p is prime. -/
 
-/-- A and δ = 4A - p are coprime when A < p and p is prime. -/
+/-- A and δ = 4A - p are coprime when A < p, p is prime, and p < 4A.
+    Proof by Aristotle (Harmonic). -/
 theorem coprime_A_delta (p A : ℕ) (hp : Nat.Prime p)
-    (hA_pos : 0 < A) (hA_lt : A < p) :
+    (hA_pos : 0 < A) (hA_lt : A < p) (hA_win : p < 4 * A) :
     Nat.Coprime A (4 * A - p) := by
-  -- gcd(A, 4A - p) = gcd(A, p) since 4A ≡ 0 (mod A)
-  -- Then gcd(A, p) = 1 since 0 < A < p and p is prime
-  rw [Nat.Coprime, Nat.coprime_comm]
-  -- Need: gcd(4*A - p, A) = 1
-  -- Since 4*A - p ≡ -p (mod A), gcd(4*A - p, A) = gcd(p, A)
-  -- And gcd(p, A) = 1 since p prime and 0 < A < p means p ∤ A
-  sorry
+  -- Since gcd(A, p) = 1 and p is prime, gcd(A, 4A - p) = 1.
+  have h_coprime : Nat.gcd A p = 1 := by
+    apply Nat.Coprime.symm
+    exact hp.coprime_iff_not_dvd.mpr (Nat.not_dvd_of_pos_of_lt hA_pos hA_lt)
+  have h_div_p : ∀ d, d ∣ A → d ∣ (4 * A - p) → d ∣ p := by
+    intros d hdA hd4A_minus_p
+    have hd4A : d ∣ 4 * A := hdA.mul_left _
+    convert Nat.dvd_sub' hd4A hd4A_minus_p using 1
+    rw [Nat.sub_sub_self (by linarith)]
+  refine' Nat.coprime_of_dvd' _
+  exact fun k hk hkA hk' => h_coprime ▸ Nat.dvd_gcd hkA (h_div_p k hkA hk') |>
+    fun h => by have := Nat.le_of_dvd (by linarith) h; interval_cases k <;> trivial
 
 /-! ## Complementary divisor congruence
 
@@ -80,16 +86,21 @@ where e = A²/d.
 Proof: From d·e = A² and d ≡ -A (mod δ), we get -A·e ≡ A² (mod δ),
 so A·(e + A) ≡ 0 (mod δ). Since gcd(A, δ) = 1, we get δ | (e + A). -/
 
-/-- The complementary divisor e = A²/d also satisfies δ | (e + A). -/
+/-- The complementary divisor e = A²/d also satisfies δ | (e + A).
+    Proof by Aristotle (Harmonic). -/
 theorem complementary_divisor_cong (A d e δ : ℕ)
     (hde : d * e = A * A)
     (hmod : δ ∣ (d + A))
     (hcop : Nat.Coprime A δ) :
     δ ∣ (e + A) := by
-  -- d ≡ -A (mod δ), so d*e ≡ -A*e (mod δ)
-  -- d*e = A*A, so A*A ≡ -A*e (mod δ), i.e., A*(A + e) ≡ 0 (mod δ)
-  -- gcd(A, δ) = 1 implies δ | (A + e)
-  sorry
+  have h_cong : A * (e + A) ≡ 0 [MOD δ] := by
+    have h_cong : (-A : ℤ) * e ≡ A * A [ZMOD δ] := by
+      rw [Int.modEq_iff_dvd]
+      obtain ⟨k, hk⟩ := hmod; use k * e; nlinarith
+    have h_rearrange : A * (e + A) ≡ 0 [ZMOD δ] := by
+      convert h_cong.neg.add_right (A * A) using 1 <;> ring
+    exact Int.natCast_modEq_iff.mp h_rearrange
+  exact hcop.symm.dvd_of_dvd_mul_left <| Nat.dvd_of_mod_eq_zero h_cong
 
 /-! ## Bridge: (A, d) existence data → Type II solution
 
@@ -144,7 +155,7 @@ theorem divisor_gives_type2
     interval_cases e <;> omega
 
   -- Coprimality: gcd(A, δ) = 1
-  have hcop : Nat.Coprime A δ := coprime_A_delta p A hp hA_pos hA_lt_p
+  have hcop : Nat.Coprime A δ := coprime_A_delta p A hp hA_pos hA_lt_p (by omega)
 
   -- Complementary divisor congruence: δ | (e + A)
   have hmod_e : δ ∣ (e + A) :=
