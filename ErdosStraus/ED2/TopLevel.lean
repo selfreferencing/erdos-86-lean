@@ -2,25 +2,24 @@
   ErdosStraus/ED2/TopLevel.lean
 
   Top-level case split for the ED2 Dyachenko formalization:
-  - Small primes (p < 10,000,001): closed by certificates + native_decide
-  - Large primes (p ≥ 10,000,001): closed by exists_good_A_and_divisor
+  - Small primes (p < 1,000,001): closed by Certificate.lean (native_decide)
+  - Large primes (p ≥ 1,000,001): closed by ed2_dyachenko_params_exist (Phase3)
 
   ## Sorry status
-  - `ed2_params_small`: needs certificate integration (Python Parts 1-3)
-  - `ed2_dyachenko_params_exist`: needs exists_good_A_and_divisor to be proved (GPT)
-
-  Both depend on `ed2_from_good_divisor` from ExistsGoodDivisor.lean.
+  - `ed2_dyachenko_params_exist`: needs full lattice argument (Phase3.lean)
 
   Source: GPT Part 4 (January 2026), adapted to project structure
 -/
 
 import Mathlib.Tactic
 import ErdosStraus.ED2.ExistsGoodDivisor
+import ErdosStraus.ED2.Certificate
 
 namespace ED2
 
-/-- Explicit bound separating certificate-based and theoretical arguments. -/
-def ed2TopLevelBound : ℕ := 10000001
+/-- Explicit bound separating certificate-based and theoretical arguments.
+    Must equal certBound from Certificate.lean (both = 1000001). -/
+def ed2TopLevelBound : ℕ := 1000001
 
 /-- For large primes p ≡ 1 (mod 4), ED2 parameters exist.
     Uses the theoretical argument from ExistsGoodDivisor.lean.
@@ -42,19 +41,14 @@ theorem ed2_large_params (p : ℕ) (hp : Nat.Prime p) (hp4 : p % 4 = 1)
   exact ed2_dyachenko_params_exist p hp hp4 (by omega)
 
 /-- For small primes p ≡ 1 (mod 4) below the bound, ED2 parameters exist.
-    To be closed by integrating Type2 certificates via native_decide.
-    Use the Python scripts (Parts 1-3) to generate the certificate data. -/
+    Proved by the certificate-based native_decide computation in Certificate.lean. -/
 theorem ed2_small_params (p : ℕ) (hp : Nat.Prime p) (hp4 : p % 4 = 1)
     (hp_small : p < ed2TopLevelBound) :
     ∃ α d' b' c' : ℕ,
       0 < α ∧ 0 < d' ∧ 0 < b' ∧ 0 < c' ∧
       p < 4 * α * b' * c' ∧
-      b' + c' = (4 * α * b' * c' - p) * d' := by
-  -- To be closed by:
-  -- 1. Generate certificates using python/ed2_witness_to_lean.py (Part 3)
-  -- 2. Store in Type2CertData.lean / Type2CertDataExtended.lean
-  -- 3. Verify with native_decide (strategy from Part 3)
-  sorry
+      b' + c' = (4 * α * b' * c' - p) * d' :=
+  ed2_params_below_certBound hp hp4 hp_small
 
 /-- Main theorem: for ALL primes p ≡ 1 (mod 4), ED2 parameters exist.
     Splits into small (certificates) and large (theoretical) cases. -/
