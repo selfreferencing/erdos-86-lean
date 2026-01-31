@@ -1,3 +1,29 @@
 .lake/
 esc_stage7/
 esc_stage7 2/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data files (large)
+*.json
+*.csv
+
+# Temporary
+*.tmp
+*.log
+*.swp
+*~
