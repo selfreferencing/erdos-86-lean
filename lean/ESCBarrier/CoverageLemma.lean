@@ -1,0 +1,116 @@
+/-
+# Coverage Lemma: The "Only If" Direction
+
+**Written proof reference**: Coverage_Lemma_Proof.md
+
+## Main Result
+For any m with 4 ∤ m, there exists an odd square n = k² and a Type I
+certificate such that m/n has a solution.
+
+## Proof Structure (must match written proof exactly)
+Part 1: QR Framework - reduce to k² ≡ -e⁻¹ (mod mab)
+Part 2: Portfolio - six constructions cover different patterns
+Part 3: Periodicity - finite verification extends to all m
+-/
+
+import ESCBarrier.Periodicity
+
+/-! ## Part 1: Quadratic Reciprocity Framework
+
+**Written proof reference**: Coverage_Lemma_Proof.md, "Step 1: Reduction to QR Conditions"
+-/
+
+/-- The Type I condition at odd squares reduces to QR solvability
+**Written proof**: "For d to be a positive integer, we need mab | (k²e + 1)"
+-/
+lemma typeI_reduces_to_qr (m a b e : ℕ) (ha : 0 < a) (hb : 0 < b) (he : e = a + b) :
+    (∃ k d : ℕ, Odd k ∧ 0 < d ∧ m * a * b * d = k^2 * e + 1) ↔
+    constructionWorks a b e m := by
+  unfold constructionWorks
+  constructor
+  · -- Forward: if ∃ k d with m*a*b*d = k²*e + 1, then (k²*e + 1) ≡ 0 (mod mab)
+    intro ⟨k, d, hk_odd, hd_pos, h_eq⟩
+    use k, hk_odd
+    -- From h_eq: m * a * b * d = k^2 * e + 1
+    -- So (k^2 * e + 1) % (m * a * b) = 0
+    omega
+  · -- Backward: if (k²*e + 1) ≡ 0 (mod mab), then ∃ d
+    intro ⟨k, hk_odd, h_div⟩
+    -- Since (k^2 * e + 1) % (m * a * b) = 0, we have m*a*b | (k²*e + 1)
+    -- Let d = (k^2 * e + 1) / (m * a * b)
+    have h_mab_pos : 0 < m * a * b := by omega
+    have h_sum_pos : 0 < k^2 * e + 1 := by omega
+    use k, ((k^2 * e + 1) / (m * a * b)), hk_odd
+    constructor
+    · -- Show d > 0
+      omega
+    · -- Show m * a * b * d = k^2 * e + 1
+      have : m * a * b ∣ k^2 * e + 1 := Nat.dvd_of_mod_eq_zero h_div
+      exact Nat.eq_mul_of_div_eq_right this rfl
+
+/-! ## Part 2: Portfolio Constructions
+
+**Written proof reference**: Coverage_Lemma_Proof.md, "Portfolio Theorem"
+
+The six constructions cover different obstruction patterns:
+- (1,1,2): m odd, prime factors ≡ 1, 3 (mod 8)
+- (1,2,3): m odd, gcd(m,3) = 1, specific residue classes
+- (2,3,5): Many m with gcd(m,5) = 1
+- (1,10,11): m ≡ 2 (mod 4), gcd(m,11) = 1
+- (1,34,35): Edge cases with factors 5 and 7
+- (1,58,59): Remaining cases (e.g., m = 42)
+-/
+
+/-- Each portfolio element satisfies the basic constraint e = a + b -/
+lemma portfolio_valid : ∀ t ∈ portfolio,
+    let (a, b, e) := t; e = a + b := by
+  intro t ht
+  simp only [portfolio, List.mem_cons, List.not_mem_nil, or_false] at ht
+  rcases ht with rfl | rfl | rfl | rfl | rfl | rfl <;> rfl
+
+/-! ## Part 3: Computational Verification
+
+**Written proof reference**: Coverage_Lemma_Proof.md, "Verification of Sufficiency"
+
+For m ≤ 100 with 4 ∤ m (75 values), at least one construction works.
+-/
+
+/-- The 75 values of m ≤ 100 with 4 ∤ m -/
+def m_values : List ℕ := (List.range 100).filter (fun m => m > 0 ∧ ¬ 4 ∣ m)
+
+/-- For each m ≤ 100 with 4 ∤ m, some construction works
+**Written proof**: "Verified for M₀ = 100, covering all 75 values"
+-/
+theorem portfolio_covers_small (m : ℕ) (hm_pos : 0 < m) (hm_le : m ≤ 100) (hm : ¬ 4 ∣ m) :
+    ∃ t ∈ portfolio, let (a, b, e) := t; constructionWorks a b e m := by
+  -- This could be done by `decide` or `native_decide` with appropriate instances
+  sorry
+
+/-! ## Main Coverage Lemma
+
+**Written proof reference**: Coverage_Lemma_Proof.md, Conclusion
+-/
+
+/-- The Coverage Lemma: 4 ∤ m implies Type I solutions exist at some odd square
+**Written proof**: "For every m with 4∤m, at least one portfolio construction
+produces a Type I solution at some odd square n = k²"
+-/
+theorem coverage_lemma (m : ℕ) (hm_pos : 0 < m) (hm : ¬ 4 ∣ m) :
+    ∃ k : ℕ, Odd k ∧ ∃ cert : TypeICert, typeI_holds m (k^2) cert := by
+  -- Proof sketch:
+  -- Step 1: Reduce to portfolio coverage via Periodicity
+  -- Step 2: Use verification_extends to reduce to m ≤ 100
+  -- Step 3: Apply portfolio_covers_small
+  -- Step 4: Transfer back to original m
+  -- Step 5: Extract the TypeICert from constructionWorks
+  sorry
+
+/-! ## The 4|m Characterization: "Only If" Direction
+
+**Written proof reference**: Coverage_Lemma_Proof.md, final theorem
+-/
+
+/-- If 4 ∤ m, then Type I/II solutions do NOT vanish at all odd squares -/
+theorem not_four_divides_implies_solutions (m : ℕ) (hm_pos : 0 < m) (hm : ¬ 4 ∣ m) :
+    ∃ k : ℕ, Odd k ∧ (∃ cert : TypeICert, typeI_holds m (k^2) cert) := by
+  exact coverage_lemma m hm_pos hm
