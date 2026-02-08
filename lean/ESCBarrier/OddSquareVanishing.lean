@@ -16,6 +16,7 @@ when 4 | m.
 -/
 
 import ESCBarrier.Basic
+import Mathlib.Tactic.Ring
 
 /-! ## The Vanishing Theorem for m = 4 (Classical ESC)
 
@@ -34,10 +35,10 @@ lemma odd_square_mod_eight (k : ℕ) (hk : Odd k) : k^2 % 8 = 1 := by
   obtain ⟨j, rfl | rfl⟩ : ∃ j, m = 2 * j ∨ m = 2 * j + 1 := ⟨m / 2, by omega⟩
   · -- m = 2j: k = 4j+1, k² = 16j²+8j+1 = 8(2j²+j)+1
     have : (2 * (2 * j) + 1) ^ 2 = 8 * (2 * j ^ 2 + j) + 1 := by ring
-    omega
+    rw [this]; set X := 2 * j ^ 2 + j; omega
   · -- m = 2j+1: k = 4j+3, k² = 16j²+24j+9 = 8(2j²+3j+1)+1
     have : (2 * (2 * j + 1) + 1) ^ 2 = 8 * (2 * j ^ 2 + 3 * j + 1) + 1 := by ring
-    omega
+    rw [this]; set X := 2 * j ^ 2 + 3 * j + 1; omega
 
 /-- Step 2: From 4abd = ne + 1 with n ≡ 1 (mod 8), derive e ≡ 3 (mod 4)
 **Written proof**: "4abd ≡ 0 (mod 4), so ne + 1 ≡ 0 (mod 4), thus e ≡ 3 (mod 4)"
@@ -57,7 +58,14 @@ lemma typeI_forces_e_mod_four (cert : TypeICert) (k : ℕ) (hk : Odd k)
            = 4 * ((m * m + m) * (cert.e : ℕ)) + ((cert.e : ℕ) + 1) := by ring
   rw [key] at h
   -- h : 4 * a * b * d = 4 * ((m*m+m) * e) + (e + 1)
-  -- omega sees: 4*X = 4*Y + (e+1), so 4 | (e+1), so e % 4 = 3
+  -- Normalize LHS associativity so set can find the product
+  have h_assoc : 4 * (cert.a : ℕ) * (cert.b : ℕ) * (cert.d : ℕ) =
+    4 * ((cert.a : ℕ) * (cert.b : ℕ) * (cert.d : ℕ)) := by ring
+  rw [h_assoc] at h
+  -- Hide nonlinear products behind fresh variables
+  set P := (cert.a : ℕ) * (cert.b : ℕ) * (cert.d : ℕ)
+  set Q := (m * m + m) * (cert.e : ℕ)
+  -- h : 4 * P = 4 * Q + (↑e + 1), purely linear
   omega
 
 /-! ## Elsholtz-Tao Proposition 1.6 (Axiomatized)

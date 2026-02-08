@@ -45,7 +45,7 @@ lemma cert_class_no_odd_squares (C : CertificateClass) :
     ∀ k : ℕ, Odd k → (k^2 : ZMod C.q) ≠ C.r := by
   intro k hk hcontra
   -- If k² ∈ class, then 4/k² has solution
-  have h_sol := C.h_cert (k^2) hcontra
+  have h_sol := C.h_cert (k^2) (by simpa using hcontra)
   -- By the certificate witness axiom, this gives a Type I or Type II cert
   have hk_pos : 0 < k := by obtain ⟨m, rfl⟩ := hk; omega
   have hk2_pos : 0 < k ^ 2 := pow_pos hk_pos 2
