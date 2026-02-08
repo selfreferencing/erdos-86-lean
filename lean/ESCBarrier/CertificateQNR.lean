@@ -47,7 +47,8 @@ lemma cert_class_no_odd_squares (C : CertificateClass) :
   -- If k² ∈ class, then 4/k² has solution
   have h_sol := C.h_cert (k^2) hcontra
   -- By the certificate witness axiom, this gives a Type I or Type II cert
-  have hk2_pos : 0 < k^2 := by obtain ⟨m, rfl⟩ := hk; omega
+  have hk_pos : 0 < k := by obtain ⟨m, rfl⟩ := hk; omega
+  have hk2_pos : 0 < k ^ 2 := pow_pos hk_pos 2
   have h_cert := egyptian_rep_implies_certificate (k^2) hk2_pos h_sol
   -- But Elsholtz-Tao says neither can exist at odd squares when 4 | 4
   rcases h_cert with ⟨cert, h_holds⟩ | ⟨cert, h_holds⟩

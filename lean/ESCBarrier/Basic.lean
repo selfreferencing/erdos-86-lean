@@ -12,11 +12,10 @@ Each definition corresponds to a section in the written proof.
 | egyptianFraction | META_THEOREM_PROOF.md §Statement |
 -/
 
-import Mathlib.NumberTheory.LegendreSymbol.QuadraticReciprocity
-import Mathlib.NumberTheory.LegendreSymbol.Basic
 import Mathlib.Data.ZMod.Basic
 import Mathlib.Data.Nat.Prime.Basic
 import Mathlib.Algebra.Order.Field.Basic
+import Mathlib.Data.PNat.Basic
 
 /-! ## Type I Certificate Structure
 

@@ -29,57 +29,35 @@ Proof: If k = 2m + 1, then k² = 4m² + 4m + 1 = 4m(m+1) + 1.
 Since m(m+1) is even, k² = 8j + 1 for some j.
 -/
 lemma odd_square_mod_eight (k : ℕ) (hk : Odd k) : k^2 % 8 = 1 := by
-  -- k is odd means k = 2m + 1 for some m
   obtain ⟨m, rfl⟩ := hk
-  -- k² = (2m+1)²
-  ring_nf
-  -- (2*m + 1)^2 = 4*m^2 + 4*m + 1 = 4*m*(m+1) + 1
-  -- Since m*(m+1) is even, we have 4*m*(m+1) ≡ 0 (mod 8)
-  -- Key insight: m and m+1 are consecutive, so one is even
-  have h_even : Even (m * (m + 1)) := by
-    cases' Nat.even_or_odd m with hm_even hm_odd
-    · -- m is even
-      exact Even.mul_of_left hm_even
-    · -- m is odd, so m+1 is even
-      have : Even (m + 1) := Nat.odd_iff_not_even.mp hm_odd ▸ Nat.even_add_one
-      exact Even.mul_of_right this
-  -- Since m*(m+1) is even, 4*m*(m+1) ≡ 0 (mod 8)
-  obtain ⟨j, hj⟩ := h_even
-  -- Compute the modulo
-  calc (2 * m + 1) ^ 2 % 8
-      = (4 * m * m + 4 * m + 1) % 8 := by ring_nf; rfl
-    _ = (4 * (m * (m + 1)) + 1) % 8 := by ring_nf
-    _ = (4 * (2 * j) + 1) % 8 := by rw [hj]
-    _ = (8 * j + 1) % 8 := by ring_nf
-    _ = 1 := by omega
+  -- Case split on m mod 2: either m = 2j or m = 2j+1
+  obtain ⟨j, rfl | rfl⟩ : ∃ j, m = 2 * j ∨ m = 2 * j + 1 := ⟨m / 2, by omega⟩
+  · -- m = 2j: k = 4j+1, k² = 16j²+8j+1 = 8(2j²+j)+1
+    have : (2 * (2 * j) + 1) ^ 2 = 8 * (2 * j ^ 2 + j) + 1 := by ring
+    omega
+  · -- m = 2j+1: k = 4j+3, k² = 16j²+24j+9 = 8(2j²+3j+1)+1
+    have : (2 * (2 * j + 1) + 1) ^ 2 = 8 * (2 * j ^ 2 + 3 * j + 1) + 1 := by ring
+    omega
 
 /-- Step 2: From 4abd = ne + 1 with n ≡ 1 (mod 8), derive e ≡ 3 (mod 4)
 **Written proof**: "4abd ≡ 0 (mod 4), so ne + 1 ≡ 0 (mod 4), thus e ≡ 3 (mod 4)"
 -/
 lemma typeI_forces_e_mod_four (cert : TypeICert) (k : ℕ) (hk : Odd k)
     (h : typeI_holds 4 (k^2) cert) : (cert.e : ℕ) % 4 = 3 := by
-  -- From typeI_holds: 4 * a * b * d = k^2 * e + 1
   unfold typeI_holds at h
-  -- k^2 ≡ 1 (mod 4) for odd k
-  have k2_mod : k^2 % 4 = 1 := by
-    obtain ⟨m, rfl⟩ := hk
-    calc (2 * m + 1) ^ 2 % 4
-        = (4 * m * m + 4 * m + 1) % 4 := by ring_nf; rfl
-      _ = 1 := by omega
-  -- From h: 4*a*b*d = k^2*e + 1, taking mod 4 on both sides
-  -- LHS ≡ 0 (mod 4), so k^2*e + 1 ≡ 0 (mod 4)
-  have h_mod : (k^2 * (cert.e : ℕ) + 1) % 4 = 0 := by
-    have : 4 * cert.a * cert.b * cert.d = k^2 * cert.e + 1 := h
-    calc (k^2 * (cert.e : ℕ) + 1) % 4
-        = (4 * cert.a * cert.b * cert.d) % 4 := by rw [← this]
-      _ = 0 := by omega
-  -- Since k^2 ≡ 1 (mod 4), we have e + 1 ≡ 0 (mod 4)
-  have : ((cert.e : ℕ) + 1) % 4 = 0 := by
-    have : (k^2 % 4 * (cert.e : ℕ) + 1) % 4 = (k^2 * (cert.e : ℕ) + 1) % 4 := by
-      rw [Nat.mul_mod, Nat.add_mod]
-    rw [k2_mod] at this
-    simpa using h_mod
-  -- Therefore e ≡ 3 (mod 4)
+  obtain ⟨m, rfl⟩ := hk
+  -- h : 4 * ↑cert.a * ↑cert.b * ↑cert.d = (2 * m + 1) ^ 2 * ↑cert.e + 1
+  -- Rewrite (2m+1)² = 4(m²+m) + 1 to make the mod 4 structure visible
+  have hsq : (2 * m + 1) ^ 2 = 4 * (m * m + m) + 1 := by ring
+  rw [hsq] at h
+  -- h : 4 * a * b * d = (4*(m*m+m) + 1) * e + 1
+  -- Expand RHS: 4*(m*m+m)*e + e + 1
+  -- So 4*a*b*d - 4*(m*m+m)*e = e + 1, hence 4 | (e + 1)
+  have key : (4 * (m * m + m) + 1) * (cert.e : ℕ) + 1
+           = 4 * ((m * m + m) * (cert.e : ℕ)) + ((cert.e : ℕ) + 1) := by ring
+  rw [key] at h
+  -- h : 4 * a * b * d = 4 * ((m*m+m) * e) + (e + 1)
+  -- omega sees: 4*X = 4*Y + (e+1), so 4 | (e+1), so e % 4 = 3
   omega
 
 /-! ## Elsholtz-Tao Proposition 1.6 (Axiomatized)

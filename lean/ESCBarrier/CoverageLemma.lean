@@ -28,25 +28,24 @@ lemma typeI_reduces_to_qr (m a b e : ℕ) (ha : 0 < a) (hb : 0 < b) (he : e = a 
     constructionWorks a b e m := by
   unfold constructionWorks
   constructor
-  · -- Forward: if ∃ k d with m*a*b*d = k²*e + 1, then (k²*e + 1) ≡ 0 (mod mab)
-    intro ⟨k, d, hk_odd, hd_pos, h_eq⟩
+  · -- Forward: if ∃ k d with m*a*b*d = k²*e + 1, then (k²*e + 1) % (m*a*b) = 0
+    intro ⟨k, d, hk_odd, _, h_eq⟩
     use k, hk_odd
-    -- From h_eq: m * a * b * d = k^2 * e + 1
-    -- So (k^2 * e + 1) % (m * a * b) = 0
-    omega
-  · -- Backward: if (k²*e + 1) ≡ 0 (mod mab), then ∃ d
-    intro ⟨k, hk_odd, h_div⟩
-    -- Since (k^2 * e + 1) % (m * a * b) = 0, we have m*a*b | (k²*e + 1)
-    -- Let d = (k^2 * e + 1) / (m * a * b)
-    have h_mab_pos : 0 < m * a * b := by omega
-    have h_sum_pos : 0 < k^2 * e + 1 := by omega
-    use k, ((k^2 * e + 1) / (m * a * b)), hk_odd
-    constructor
-    · -- Show d > 0
-      omega
-    · -- Show m * a * b * d = k^2 * e + 1
-      have : m * a * b ∣ k^2 * e + 1 := Nat.dvd_of_mod_eq_zero h_div
-      exact Nat.eq_mul_of_div_eq_right this rfl
+    -- Rewrite k²*e+1 as m*a*b*d, then apply Nat.mul_mod_right
+    have h : k ^ 2 * e + 1 = m * a * b * d := h_eq.symm
+    rw [h]
+    exact Nat.mul_mod_right (m * a * b) d
+  · -- Backward: if (k²*e + 1) % (m*a*b) = 0, then ∃ d
+    intro ⟨k, hk_odd, h_mod⟩
+    have h_dvd : m * a * b ∣ k ^ 2 * e + 1 := Nat.dvd_of_mod_eq_zero h_mod
+    obtain ⟨d, hd⟩ := h_dvd
+    -- hd : k ^ 2 * e + 1 = m * a * b * d
+    use k, d, hk_odd
+    refine ⟨?_, hd.symm⟩
+    -- 0 < d: if d = 0, then k²*e+1 = m*a*b*0 = 0, contradiction
+    rcases Nat.eq_zero_or_pos d with rfl | hd_pos
+    · exfalso; rw [mul_zero] at hd; exact absurd hd (Nat.succ_ne_zero _)
+    · exact hd_pos
 
 /-! ## Part 2: Portfolio Constructions
 
